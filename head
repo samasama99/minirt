@@ -1,0 +1,71 @@
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	new file:   3d
+	new file:   Makefile
+	new file:   "\\"
+	new file:   a.out
+	new file:   libft/Makefile
+	new file:   libft/ft_atoi.c
+	new file:   libft/ft_bzero.c
+	new file:   libft/ft_calloc.c
+	new file:   libft/ft_isalnum.c
+	new file:   libft/ft_isalpha.c
+	new file:   libft/ft_isascii.c
+	new file:   libft/ft_isdigit.c
+	new file:   libft/ft_isprint.c
+	new file:   libft/ft_itoa.c
+	new file:   libft/ft_lstadd_back.c
+	new file:   libft/ft_lstadd_front.c
+	new file:   libft/ft_lstclear.c
+	new file:   libft/ft_lstdelone.c
+	new file:   libft/ft_lstiter.c
+	new file:   libft/ft_lstlast.c
+	new file:   libft/ft_lstmap.c
+	new file:   libft/ft_lstnew.c
+	new file:   libft/ft_lstsize.c
+	new file:   libft/ft_memchr.c
+	new file:   libft/ft_memcmp.c
+	new file:   libft/ft_memcpy.c
+	new file:   libft/ft_memmove.c
+	new file:   libft/ft_memset.c
+	new file:   libft/ft_putchar_fd.c
+	new file:   libft/ft_putendl_fd.c
+	new file:   libft/ft_putnbr_fd.c
+	new file:   libft/ft_putstr_fd.c
+	new file:   libft/ft_split.c
+	new file:   libft/ft_strchr.c
+	new file:   libft/ft_strdup.c
+	new file:   libft/ft_striteri.c
+	new file:   libft/ft_strjoin.c
+	new file:   libft/ft_strlcat.c
+	new file:   libft/ft_strlcpy.c
+	new file:   libft/ft_strlen.c
+	new file:   libft/ft_strmapi.c
+	new file:   libft/ft_strncmp.c
+	new file:   libft/ft_strnstr.c
+	new file:   libft/ft_strrchr.c
+	new file:   libft/ft_strtrim.c
+	new file:   libft/ft_substr.c
+	new file:   libft/ft_tolower.c
+	new file:   libft/ft_toupper.c
+	new file:   libft/libft.h
+	new file:   src/handling_events.c
+	new file:   src/main.c
+	new file:   src/main.h
+	new file:   src/matrix.c
+	new file:   src/mlx.c
+	new file:   src/src/vector_2.h
+	new file:   src/utils.c
+	new file:   src/vector.c
+	new file:   src/vector.h
+	new file:   to_do
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	head
+
