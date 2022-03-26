@@ -33,10 +33,19 @@
 # include <sys/stat.h>
 
 # define ESC 53
-# define UP_KEY 13
-# define DOWN_KEY 1
-# define RIGHT_KEY 2
-# define LEFT_KEY 0
+
+# define MINUS_KEY 78
+# define PLUS_KEY 69
+
+# define W_KEY 13
+# define S_KEY 1
+# define D_KEY 2
+# define A_KEY 0
+
+# define UP_ARROW 126
+# define DOWN_ARROW 125
+# define LEFT_ARROW 123
+# define RIGHT_ARROW 124
 
 #define DEBUG(f_, ...) printf((f_), __VA_ARGS__)
 
@@ -92,6 +101,11 @@ typedef struct s_data {
 	t_assets		assets;
 
 }	t_data;
+
+typedef struct s_object {
+	size_t		size;
+	t_pos			points[1024];
+}	t_object;
 
 t_data *my_data(t_data *data);
 t_mlx	init_mlx(t_res resolution);

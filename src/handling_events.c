@@ -12,45 +12,45 @@
 
 #include "main.h"
 #include "vector.h"
-#include <stdbool.h>
 #define PI 3.141592654
-#define UP 126
-#define DOWN 125
-#define LEFT 123
-#define RIGHT 124
+#define MOVEMENT_SPEED 50
+#define ROTATION_ANGLE 10
+#define SCALE_UP 1.2
+#define SCALE_DOWN 0.8
 
-float min(float x, float y) { return (x < y ? x : y); }
+float minf(float x, float y) { return (x < y ? x : y); }
+float maxf(float x, float y) { return (x > y ? x : y); }
+int min(int x, int y) { return (x < y ? x : y); }
+int max(int x, int y) { return (x > y ? x : y); }
 
-float max(float x, float y) { return (x > y ? x : y); }
+// void drawline(t_vec v1, t_vec v2, t_mlx info)
+// {
+//   int_fast16_t x;
+//   int_fast16_t y;
+//   int_fast16_t dx;
+//   int_fast16_t dy;
+//   int_fast16_t p;
 
-void drawline(t_vec v1, t_vec v2, t_mlx info)
-{
-  int_fast16_t x;
-  int_fast16_t y;
-  int_fast16_t dx;
-  int_fast16_t dy;
-  int_fast16_t p;
+//   dx = v1.x - v2.x;
+//   dy = v1.y - v2.y;
 
-  dx = v1.x - v2.x;
-  dy = v1.y - v2.y;
+//   x = v1.x;
+//   y = v1.y;
 
-  x = v1.x;
-  y = v1.y;
+//   p = 2 * dy - dx;
 
-  p = 2 * dy - dx;
-
-  while (x < v2.x) {
-    if (p >= 0) {
-      mlx_pixel_put(info.win, info.win, x, y, 0x0000FFFF);
-      y = y + 1;
-      p = p + 2 * dy - 2 * dx;
-    } else {
-      mlx_pixel_put(info.win, info.win, x, y, 0x0000FF00);
-      p = p + 2 * dy;
-    }
-    x = x + 1;
-  }
-}
+//   while (x < v2.x) {
+//     if (p >= 0) {
+//       mlx_pixel_put(info.win, info.win, x, y, 0x0000FFFF);
+//       y = y + 1;
+//       p = p + 2 * dy - 2 * dx;
+//     } else {
+//       mlx_pixel_put(info.win, info.win, x, y, 0x0000FF00);
+//       p = p + 2 * dy;
+//     }
+//     x = x + 1;
+//   }
+// }
 
 void draw_line(t_vec v1, t_vec v2, t_mlx info) {
   float x;
@@ -83,81 +83,91 @@ void draw_line(t_vec v1, t_vec v2, t_mlx info) {
   }
 }
 
-t_pos cube_center(t_pos points[]) {
-  t_pos center =
-      (t_pos){{points[0].x + points[1].x + points[2].x + points[3].x +
-                   points[4].x + points[5].x + points[6].x + points[7].x
+// t_pos cube_center(t_pos points[]) {
+//   t_pos center =
+//       (t_pos){{points[0].x + points[1].x + points[2].x + points[3].x +
+//                    points[4].x + points[5].x + points[6].x + points[7].x
 
-               ,
-               points[0].y + points[1].y + points[2].y + points[3].y +
-                   points[4].y + points[5].y + points[6].y + points[7].y
+//                ,
+//                points[0].y + points[1].y + points[2].y + points[3].y +
+//                    points[4].y + points[5].y + points[6].y + points[7].y
 
-               ,
-               points[0].z + points[1].z + points[2].z + points[3].z +
-                   points[4].z + points[5].z + points[6].z + points[7].z}};
-  center = (t_pos){{center.x / 8, center.y / 8, center.z / 8
+//                ,
+//                points[0].z + points[1].z + points[2].z + points[3].z +
+//                    points[4].z + points[5].z + points[6].z + points[7].z}};
+//   center = (t_pos){{center.x / 8, center.y / 8, center.z / 8
 
-  }};
-  return (center);
+//   }};
+//   return (center);
+// }
+
+void draw_cube(t_object cube, t_mlx info) {
+  draw_line(cube.points[0], cube.points[1], info); // a -> b
+  draw_line(cube.points[1], cube.points[2], info); // b -> c
+  draw_line(cube.points[2], cube.points[3], info); // c -> d
+  draw_line(cube.points[3], cube.points[0], info); // d -> a
+
+  draw_line(cube.points[4], cube.points[5], info); // e -> f
+  draw_line(cube.points[5], cube.points[6], info); // f -> g
+  draw_line(cube.points[6], cube.points[7], info); // g -> h
+  draw_line(cube.points[7], cube.points[4], info); // h -> e
+
+  draw_line(cube.points[0], cube.points[4], info); // a -> e
+  draw_line(cube.points[1], cube.points[5], info); //
+
+  draw_line(cube.points[3], cube.points[7], info); // d -> h
+  draw_line(cube.points[2], cube.points[6], info); // c -> g
 }
 
-void draw_cube(t_vec points[], t_mlx info) {
-  draw_line(points[0], points[1], info); // a -> b
-  draw_line(points[1], points[2], info); // b -> c
-  draw_line(points[2], points[3], info); // c -> d
-  draw_line(points[3], points[0], info); // d -> a
+// void draw_circle(t_vec center, t_vec point, t_mlx info) {
+//   float radius = vec_distance(center, point, sqrtf);
+//   // int_fast16_t x = center.x - sqrtf(2) * (radius);
+//   // int_fast16_t y = center.y - sqrtf(2) * (radius);
+//   int_fast16_t x = center.x - (radius);
+//   int_fast16_t y = center.y - (radius);
 
-  draw_line(points[4], points[5], info); // e -> f
-  draw_line(points[5], points[6], info); // f -> g
-  draw_line(points[6], points[7], info); // g -> h
-  draw_line(points[7], points[4], info); // h -> e
+//   // vec_print("point", point);
+//   // vec_print("center", center);
+//   printf("%.2f\n", radius);
+//   printf("x == %d y == %d\n", x, y);
+//   printf("X == %.2f Y == %.2f\n", center.x + radius, center.y + radius);
+//   while (y < (center.y + (radius))) {
+//     while (x < (center.x + (radius))) {
+//       // float dis1 = vec_distance((t_vec){{x, 0, 0}}, (t_vec){{center.x, 0,
+//       // 0}}, sqrtf); float dis2 = vec_distance((t_vec){{y, 0, 0}},
+//       // (t_vec){{center.y, 0, 0}}, sqrtf);
+//       float dis1 = x - center.x;
+//       float dis2 = y - center.y;
+//       if (dis1 * dis1 + dis2 * dis2 <= radius * radius)
+//         mlx_pixel_put(info.win, info.win, x, y, 0x000000FF);
+//       x++;
+//     }
+//     x = center.x - (radius);
+//     y++;
+//   }
+// }
 
-  draw_line(points[0], points[4], info); // a -> e
-  draw_line(points[1], points[5], info); //
+t_vec get_direction_vector(t_key key)
+{
+  t_vec direction;
 
-  draw_line(points[3], points[7], info); // d -> h
-  draw_line(points[2], points[6], info); // c -> g
+  if (key == W_KEY)
+      direction = (t_vec){{0, -1, 0}};
+  if (key == S_KEY)
+      direction = (t_vec){{0, +1, 0}};
+  if (key == D_KEY)
+      direction = (t_vec){{1, 0, 0}};
+  if (key == A_KEY)
+      direction = (t_vec){{-1, 0, 0}};
+  return direction;
 }
 
-void draw_circle(t_vec center, t_vec point, t_mlx info) {
-  float radius = vec_distance(center, point, sqrtf);
-  // int_fast16_t x = center.x - sqrtf(2) * (radius);
-  // int_fast16_t y = center.y - sqrtf(2) * (radius);
-  int_fast16_t x = center.x - (radius);
-  int_fast16_t y = center.y - (radius);
-
-  // vec_print("point", point);
-  // vec_print("center", center);
-  printf("%.2f\n", radius);
-  printf("x == %d y == %d\n", x, y);
-  printf("X == %.2f Y == %.2f\n", center.x + radius, center.y + radius);
-  while (y < (center.y + (radius))) {
-    while (x < (center.x + (radius))) {
-      // float dis1 = vec_distance((t_vec){{x, 0, 0}}, (t_vec){{center.x, 0,
-      // 0}}, sqrtf); float dis2 = vec_distance((t_vec){{y, 0, 0}},
-      // (t_vec){{center.y, 0, 0}}, sqrtf);
-      float dis1 = x - center.x;
-      float dis2 = y - center.y;
-      if (dis1 * dis1 + dis2 * dis2 <= radius * radius)
-        mlx_pixel_put(info.win, info.win, x, y, 0x000000FF);
-      x++;
-    }
-    x = center.x - (radius);
-    y++;
-  }
-}
-
-t_pos move(t_pos pos, int keycode) {
+t_pos move(t_pos pos, int keycode, float speed) {
   t_pos new_pos;
+  t_vec direction;
 
-  if (keycode == UP_KEY)
-    new_pos = vec_sum(pos, (t_vec){{0, -80, 0}});
-  if (keycode == DOWN_KEY)
-    new_pos = vec_sum(pos, (t_vec){{0, 80, 0}});
-  if (keycode == LEFT_KEY)
-    new_pos = vec_sum(pos, (t_vec){{-80, 0, 0}});
-  if (keycode == RIGHT_KEY)
-    new_pos = vec_sum(pos, (t_vec){{80, 0, 0}});
+  direction = get_direction_vector(keycode);
+  new_pos = vec_sum(pos, vec_scalar(direction, speed));
   return (new_pos);
 }
 
@@ -201,58 +211,110 @@ t_pos rotate(t_pos pos, t_pos origin, int axis, float angle)
   return (new_pos);
 }
 
-t_pos scale(t_pos pos, int keycode, t_pos center)
+t_pos scale(t_pos pos, t_pos center, int keycode)
 {
-  float d;
-  float b;
   t_pos new_pos;
-  t_matrix3 scale_up;
-  t_matrix3 scale_down;
+  t_matrix3 scale_matrix;
 
-  d = 1.2;
-  b = 0.8;
   new_pos = vec_sub(pos, center);
-  scale_up = (t_matrix3){{d, 0, 0, 0, d, 0, 0, 0, d}};
-  scale_down = (t_matrix3){{b, 0, 0, 0, b, 0, 0, 0, b}};
-  if (keycode == UP)
-    new_pos = vec3_multi_mat3(new_pos, scale_up);
-  if (keycode == DOWN)
-    new_pos = vec3_multi_mat3(new_pos, scale_down);
+  if (keycode == PLUS_KEY)
+    scale_matrix = (t_matrix3){{
+      SCALE_UP, 0, 0,
+      0, SCALE_UP, 0,
+      0, 0, SCALE_UP
+    }};
+  if (keycode == MINUS_KEY)
+    scale_matrix = (t_matrix3){{
+      SCALE_DOWN, 0, 0,
+      0, SCALE_DOWN, 0,
+      0, 0, SCALE_DOWN
+    }};
+  new_pos = vec3_multi_mat3(new_pos, scale_matrix);
   new_pos = vec_sum(new_pos, center);
   return (new_pos);
 }
 
-t_vec get_direction_vector(t_key key)
+void  move_each(t_object *object, t_key key)
 {
-  t_vec direction;
+  size_t i;
 
-  if (key == UP_KEY)
-      direction = (t_vec){{0, -1, 0}};
-  if (key == DOWN_KEY)
-      direction = (t_vec){{0, +1, 0}};
-  if (key == RIGHT_KEY)
-      direction = (t_vec){{1, 0, 0}};
-  if (key == LEFT_KEY)
-      direction = (t_vec){{-1, 0, 0}};
-  return direction;
+  i = 0;
+  while (i < object->size) 
+  {
+      object->points[i] = move(object->points[i], key, MOVEMENT_SPEED);
+      i++;
+  }
 }
 
-void  move_each(t_pos positions[], size_t size,
-                  t_key key, t_pos (*action)(t_pos, t_key))
+void  scale_each(t_object *object, t_key key)
 {
-  panic(true, "to_do :: rotation", __func__);
+  size_t  i;
+  t_pos   origin;
+
+  i = 0;
+  origin = (t_pos) {{0, 0, 0}};
+  while (i < object->size)
+  {
+    origin.x += object->points[i].x;
+    origin.y += object->points[i].y;
+    origin.z += object->points[i].z;
+    i++;
+  }
+  i = 0;
+  origin = vec_scalar(origin, (float)(1 / (float)object->size));
+  while (i < object->size) 
+  {
+      object->points[i] = scale(object->points[i], origin, key);
+      i++;
+  }
 }
 
-static void key_management(int keycode, t_pos positions[], size_t size)
+void  rotate_each(t_object *object, t_key key, int axis, float angle)
 {
-  if (keycode == UP_KEY || keycode == DOWN_KEY || keycode == RIGHT_KEY ||
-      keycode == LEFT_KEY)
-      move_each(positions, size, keycode, &move);
-  if (keycode == RIGHT || keycode == LEFT)
-      panic(true, "to_do :: rotation", __func__);
-  if (keycode == UP || keycode == DOWN)
-      panic(true, "to_do :: rotation", __func__);
+  size_t  i;
+  t_pos   origin;
+
+  i = 0;
+  origin = (t_pos) {{0, 0, 0}};
+  while (i < object->size)
+  {
+    origin.x += object->points[i].x;
+    origin.y += object->points[i].y;
+    origin.z += object->points[i].z;
+    i++;
+  }
+  i = 0;
+  origin = vec_scalar(origin, (float)(1 / (float)object->size));
+  
+  while (i < object->size) 
+  {
+      object->points[i] = rotate(object->points[i], origin, axis
+                                , angle);
+      i++;
+  }
 }
+
+static void key_management(int keycode, t_object *object)
+{
+  if (keycode == W_KEY || keycode == S_KEY
+    || keycode == D_KEY || keycode == A_KEY)
+      move_each(object, keycode);
+  if (keycode == RIGHT_ARROW || keycode == LEFT_ARROW)
+      rotate_each(object, keycode, z_axis, (keycode == RIGHT_ARROW ? ROTATION_ANGLE : -ROTATION_ANGLE));
+  // if (keycode == UP_ARROW || keycode == DOWN_ARROW)
+  //     scale_each(object, keycode);
+  if (keycode == UP_ARROW || keycode == DOWN_ARROW)
+      rotate_each(object, keycode, x_axis, (keycode == UP_ARROW ? ROTATION_ANGLE : -ROTATION_ANGLE));
+  if (keycode == PLUS_KEY || keycode == MINUS_KEY)
+    scale_each(object, keycode);
+}
+
+// int routine(t_object *cube)
+// {
+//   t_data *data = my_data(NULL);
+//   draw_cube(*cube, data->mlx_info);
+//   return 0;
+// }
 
 static int key_hook(int keycode, t_data *data) 
 {
@@ -260,34 +322,37 @@ static int key_hook(int keycode, t_data *data)
   t_assets assets;
   t_mlx mlx_info;
   static t_pos pos[1024];
-  static t_pos center;
-
+  // static t_pos center;
+  my_data(data);
   mlx_info = data->mlx_info;
   assets = data->assets;
   mlx_clear_window(mlx_info.mlx, mlx_info.win);
   if (keycode == ESC)
     exit(1);
 
-  if (begin == false) {
-    pos[0] = vec_init(0, 0, 0);   // A
-    pos[1] = vec_init(100, 0, 0); // B
-    pos[2] = vec_init(100, 0, 0); // C
-    pos[3] = vec_init(0, 0, 0);   // D
+  static t_object cube = {.size = 8};
+  if (begin == false)
+  {
+    cube.points[0] = vec_init(0, 0, 0);   // A
+    cube.points[1] = vec_init(100, 0, 0); // B
+    cube.points[2] = vec_init(100, 0, 0); // C
+    cube.points[3] = vec_init(0, 0, 0);   // D
 
-    pos[4] = vec_init(0, 100, 0);   // E
-    pos[5] = vec_init(100, 100, 0); // F
-    pos[6] = vec_init(100, 100, 0); // G
-    pos[7] = vec_init(0, 100, 0);   // H
+    cube.points[4] = vec_init(0, 100, 0);   // E
+    cube.points[5] = vec_init(100, 100, 0); // F
+    cube.points[6] = vec_init(100, 100, 0); // G
+    cube.points[7] = vec_init(0, 100, 0);   // H
 
-    pos[2] = vec_sum(pos[2], (t_vec){{35, 35, 0}});
-    pos[3] = vec_sum(pos[3], (t_vec){{35, 35, 0}});
-    pos[6] = vec_sum(pos[6], (t_vec){{35, 35, 0}});
-    pos[7] = vec_sum(pos[7], (t_vec){{35, 35, 0}});
-    center = cube_center(pos);
+    cube.points[2] = vec_sum(cube.points[2], (t_vec){{35, 35, 0}});
+    cube.points[3] = vec_sum(cube.points[3], (t_vec){{35, 35, 0}});
+    cube.points[6] = vec_sum(cube.points[6], (t_vec){{35, 35, 0}});
+    cube.points[7] = vec_sum(cube.points[7], (t_vec){{35, 35, 0}});
+    // center = cube_center(pos);
+    // mlx_loop_hook(mlx_info.mlx, routine, &cube);
     begin = true;
   }
-
-  draw_cube(pos, mlx_info);
+  key_management(keycode, &cube);
+  draw_cube(cube, mlx_info);
 
   return (0);
 }
