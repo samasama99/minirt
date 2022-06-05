@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "main.h"
+#include <stdlib.h>
 
 void	safe_close(int fd)
 {
@@ -27,11 +28,11 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	return (tmp);
 }
 
-void	panic(bool con, char *msg, const char *func)
+void	panic(bool con, const char *msg, const char *func, const char *file, const int line)
 {
 	if (con == true)
 	{
-		printf ("Panic attack [%s] : %s\n", msg, func);
+		printf ("\033[31mPanic [%s,%s,%d] : %s\033[0m\n", file,func, line, msg);
 		exit (1);
 	}
 }

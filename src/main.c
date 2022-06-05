@@ -35,7 +35,7 @@ image	make_point(const uint16_t width
 						, const uint32_t color
 						, const t_mlx mlx_info)
 {
-	uint_fast16_t x;	
+	uint_fast16_t x;
 	uint_fast16_t y;
 	image				img;
 	int				pixel_bits;
@@ -43,7 +43,7 @@ image	make_point(const uint16_t width
 	int				line_bytes;
 	int				*buffer;
 
-	x = 0;	
+	x = 0;
 	y = 0;
 	img = mlx_new_image(mlx_info.mlx
 								, width, height);
@@ -109,11 +109,6 @@ int	main(void)
 	my_data(&data);
 	mlx_loop(data.mlx_info.mlx);
 }
-
-
-
-
-
 	// uint32_t pixel = 0;
 
 	// while (y < image_height)

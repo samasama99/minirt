@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "vector.h"
+#include <math.h>
 
 void	vec_print(char *vec_name, t_vec a)
 {
@@ -30,7 +31,7 @@ void	vec_print_3(char *vec_name, t_vec a)
 				vec_name, a.v[0], a.v[1], a.v[2]);
 }
 
-t_vec	vec_init(float x, float y, float z)
+t_vec	vec_init(double x, double y, double z)
 {
 	t_vec	vec;
 
@@ -66,12 +67,12 @@ t_vec	vec_sub(t_vec a, t_vec b)
 	return (x);
 }
 
-float	vec_distance(t_vec a, t_vec b, float sqrt_func(float))
+double	vec_distance(t_vec a, t_vec b, double sqrt_func(double))
 {
-	float	n1;
-	float	n2;
-	float	n3;
-	float	distance;
+	double	n1;
+	double	n2;
+	double	n3;
+	double	distance;
 
 	n1 = (a.x - b.x) * (a.x - b.x);
 	n2 = (a.y - b.y) * (a.y - b.y);
@@ -80,12 +81,9 @@ float	vec_distance(t_vec a, t_vec b, float sqrt_func(float))
 	return (distance);
 }
 
-float	vec_dot_product(t_vec a, t_vec b)
+double	vec_dot_product(t_vec a, t_vec b)
 {
-	float	dot;
-
-	dot = (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
-	return (dot);
+	  return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
 }
 
 t_vec	vec_cross_product(t_vec a, t_vec b)
@@ -100,15 +98,15 @@ t_vec	vec_cross_product(t_vec a, t_vec b)
 	return (x);
 }
 
-float	vec_lenght(t_vec a, float sqrt_func(float))
+double	vec_lenght(t_vec a, double sqrt_func(double))
 {
-	float	lenght;
+	double	lenght;
 
 	lenght = sqrt_func(vec_dot_product(a, a));
 	return (lenght);
 }
 
-t_vec	vec_scalar(t_vec a, float k)
+t_vec	vec_scalar(t_vec a, double k)
 {
 	t_vec	x;
 
@@ -120,21 +118,21 @@ t_vec	vec_scalar(t_vec a, float k)
 	return (x);
 }
 
-t_vec	vec_normalize(t_vec v, float sqrt_func(float))
+t_vec	vec_normalize(t_vec v, double sqrt_func(double))
 {
 	t_vec	nv;
-	float	len;
-	float	invertLenght;
+	double	len;
+	double	invertLenght;
 
 	len = vec_lenght(v, sqrt_func);
-	if (len > 0)
+	if (len > 0 && len != 1)
 	{
-		invertLenght = 1 / sqrt_func(len);
-		nv = (t_vec){{
+		invertLenght = 1 / len;
+		nv = (t_vec) {
 			v.x * invertLenght,
 			v.y * invertLenght,
 			v.z * invertLenght,
-		}};
+		};
 	}
 	else
 		nv = v;
@@ -171,8 +169,35 @@ t_vec	vec_centroid(t_vec a, t_vec b, t_vec c)
 			a.y + b.y + c.y,
 			a.z + b.z + c.z,
 	}};
-	centroid = vec_scalar (centroid, (float)1 / 3);
+	centroid = vec_scalar (centroid, (double)1 / 3);
 	return (centroid);
+}
+
+bool  is_equal_float(float x, float y)
+{
+  const float EPSILON = 0.00001;
+  if (fabsf(x - y) < EPSILON)
+    return true;
+  return false;
+}
+
+bool  is_equal_double(double x, double y)
+{
+  const double EPSILON = 0.00001;
+  if (fabs(x - y) < EPSILON)
+    return true;
+  return false;
+}
+
+bool vec_is_equal(t_vec v1, t_vec v2)
+{
+  if (is_equal_double(v1.x, v2.x) == false) 
+    return false;
+  if (is_equal_double(v1.y, v2.y) == false) 
+    return false;
+  if (is_equal_double(v1.z, v2.z) == false) 
+    return false;
+  return true;
 }
 
 
@@ -183,7 +208,7 @@ t_vec	vec_centroid(t_vec a, t_vec b, t_vec c)
 	 // t_pos a = vec_init(1, 0, 0);
 	 // t_pos b = vec_init(0, 1, 0);
 //
-	 // float distance = vec_distance(a, b, sqrtf);
+	 // double distance = vec_distance(a, b, sqrtf);
 	 // vec_print("a", a);
 	 // vec_print("b", b);
 	 // printf ("distance :: %f\n", distance);

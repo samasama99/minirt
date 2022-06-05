@@ -23,7 +23,7 @@
 # include <errno.h>
 # include <stdio.h>
 # include <stdarg.h>
-# include <stdint.h>
+// # include <stdint.h>
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -59,7 +59,8 @@ typedef bool error;
 /******* GENERAL  UTILS ********/
 
 char		*ft_strjoin_free(char *s1, char *s2);
-void		panic(bool con, char *msg, const char *func);
+void	panic(bool con, const char *msg, const char *func, const char *file, const int line);
+// void		panic(bool con, const char *msg, const char *func);
 bool		is_equal_str(const char *s1, const char *s2);
 
 /******* 2D_ARRAY *******/
@@ -78,13 +79,37 @@ typedef struct s_assets {
 	image imgs[1024];
 }	t_assets;
 
+/*rgb*/
+
+typedef struct s_rgb {
+		float	red;
+		float	green;
+		float	blue;
+}	t_rgb;
+
+typedef union u_color {
+  struct {
+    unsigned char blue;
+    unsigned char green;
+    unsigned char red;
+    unsigned char alpha;
+  };
+  int color;
+} t_color;
+
+t_rgb	rgb_sum(t_rgb a, t_rgb b);
+t_rgb	rgb_sub(t_rgb a, t_rgb b);
+t_rgb	rgb_scalar(t_rgb a, double k);
+bool rgb_is_equal(t_rgb v1, t_rgb v2);
+t_rgb rgb_hadamard_product(t_rgb c1, t_rgb c2);
+
 /******* MLX *******/
 
 typedef union u_pair_int
 {
-	struct { int16_t width; int16_t height; };
-	struct { int16_t x; int16_t y; };
-	struct { int16_t i; int16_t j; };
+	struct { int width; int height; };
+	struct { int x; int y; };
+	struct { int i; int j; };
 }	t_pair;
 
 typedef t_pair t_res;
@@ -99,7 +124,6 @@ typedef struct s_mlx {
 typedef struct s_data {
 	t_mlx			mlx_info;
 	t_assets		assets;
-
 }	t_data;
 
 typedef struct s_object {
@@ -107,8 +131,22 @@ typedef struct s_object {
 	t_pos			points[1024];
 }	t_object;
 
+
+typedef struct s_image {
+  image img;
+  t_res res;
+  int *buffer;
+} t_image;
+
 t_data *my_data(t_data *data);
 t_mlx	init_mlx(t_res resolution);
 void	handling_events(t_data *data);
+int make_color(t_rgb c, float alpha);
+void put_pixel(t_data data, t_pair pos, t_rgb rgb);
+void put_image(t_data data, t_pair pos, image img);
+t_image create_image(t_mlx mlx, t_res res);
+void put_pixel_to_image(t_image img, t_pos pos, t_rgb color);
+void fill_image(t_image img, t_pair start, t_pair finish, t_rgb color);
+void full_fill_image(t_image img, t_rgb color);
 
 #endif

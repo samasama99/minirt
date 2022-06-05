@@ -16,8 +16,8 @@ NAME				=	mlx
 
 CC					=	cc
 
-FLAGS				=	-Wall -Wextra -I libft -Ofast -ffast-math -march=native
-# FLAGS				=	-Wall -Wextra -I libft
+# FLAGS				=	-Wall -Wextra -I libft -Ofast -ffast-math -march=native
+FLAGS				=	-Wall -Wextra -I libft
 
 MLX_FLAGS		=	-lmlx -framework OpenGL -framework AppKit
 
@@ -27,14 +27,15 @@ HEADER			=	src/main.h
 
 LIBFT 			=	libft/libft.a
 
-MAKE_LIBFT 		=	libft/
+MAKE_LIBFT 	=	libft/
 
 SRC 				=	src/main.c \
-						src/mlx.c \
-						src/handling_events.c \
-						src/vector.c \
-						src/matrix.c \
-						src/utils.c \
+							src/mlx.c \
+							src/vector.c \
+							src/matrix.c \
+							src/utils.c \
+							src/handling_events.c \
+						# src/draw.c \
 
 OBJDIR 			=	obj
 
