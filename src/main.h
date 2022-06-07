@@ -202,5 +202,6 @@ bool is_hit(const t_sphere sp, const t_ray r);
 t_vec normal_at(t_sphere s, t_pos p);
 t_vec reflect(t_vec in, t_vec norm);
 t_light point_light(t_pos position, t_rgb color);
+t_rgb lighting(t_material m, t_light l, t_pos point, t_vec eyev, t_vec normalv);
 
 #endif

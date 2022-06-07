@@ -741,8 +741,49 @@ int main() {
     printf("the light data struct : ✔\n");
   }
   {
-    t_material m = {{}}; 
+    t_material m = {
+      .color = {1, 1, 1},
+      0.1,
+      0.9,
+      0.9,
+      200.0,
+    };
     t_pos position = point(0, 0, 0);  
+    {
+      t_vec eyev = vector(0, 0, -1);
+      t_vec normalv = vector(0, 0, -1);
+      t_light light = point_light(point(0, 0, -10), (t_rgb){1, 1, 1});
+      t_rgb result = lighting(m, light, position, eyev, normalv);
+      assert(rgb_is_equal(result, (t_rgb){1.9, 1.9, 1.9}));
+    }
+    {
+      t_vec eyev = vector(0, M_SQRT2 / 2, -M_SQRT2 / 2);
+      t_vec normalv = vector(0, 0, -1);
+      t_light light = point_light(point(0, 0, -10), (t_rgb){1, 1, 1});
+      t_rgb result = lighting(m, light, position, eyev, normalv);
+      assert(rgb_is_equal(result, (t_rgb){1., 1., 1.}));
+    }
+    {
+      t_vec eyev = vector(0, 0, -1);
+      t_vec normalv = vector(0, 0, -1);
+      t_light light = point_light(point(0, 10, -10), (t_rgb){1, 1, 1});
+      t_rgb result = lighting(m, light, position, eyev, normalv);
+      assert(rgb_is_equal(result, (t_rgb){0.7364, 0.7364, 0.7364}));
+    }
+    {
+      t_vec eyev = vector(0, -M_SQRT2 / 2, -M_SQRT2 / 2);
+      t_vec normalv = vector(0, 0, -1);
+      t_light light = point_light(point(0, 10, -10), (t_rgb){1, 1, 1});
+      t_rgb result = lighting(m, light, position, eyev, normalv);
+      assert(rgb_is_equal(result, (t_rgb){1.6364, 1.6364, 1.6364}));
+    }
+    {
+      t_vec eyev = vector(0, 0, -1);
+      t_vec normalv = vector(0, 0, -1);
+      t_light light = point_light(point(0, 0, 10), (t_rgb){1, 1, 1});
+      t_rgb result = lighting(m, light, position, eyev, normalv);
+      assert(rgb_is_equal(result, (t_rgb){0.1, 0.1, 0.1}));
+    }
   }
   return 0;
 }

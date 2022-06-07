@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 
 t_pos ray_position(t_ray r, double t)
 {
@@ -111,18 +112,16 @@ t_light point_light(t_pos position, t_rgb intensity)
   };
 }
 
-t_rgb lighting(t_material m, t_light l, t_pos point, t_vec eyev, t_vec normalv)
+t_rgb lighting(t_material m, t_light l, t_pos p, t_vec eyev, t_vec normalv)
 {
   t_rgb diffuse;
   t_rgb specular;
   t_vec reflectv;
   double reflect_dot_eye;
   double factor;
+
   const t_rgb effective_color = rgb_hadamard_product(m.color, l.intensity);
-  const t_vec lightv = vec_normalize(
-      vec_sub(l.position, point),
-      sqrt
-    );
+  const t_vec lightv = vec_normalize(vec_sub(l.position, p), sqrt);
   const t_rgb ambient = rgb_scalar(effective_color, m.ambient);
   const double light_dot_normal = vec_dot_product(lightv, normalv);
   if (light_dot_normal < 0) {
@@ -136,9 +135,10 @@ t_rgb lighting(t_material m, t_light l, t_pos point, t_vec eyev, t_vec normalv)
       specular = (t_rgb) {0, 0, 0};
     } else {
       factor = pow(reflect_dot_eye, m.shininess);
+      specular =  rgb_scalar(l.intensity, m.specular * factor);
     }
   }
-  return rgb_sub(ambient, rgb_sub(diffuse, specular));
+  return rgb_sum(ambient, rgb_sum(diffuse, specular));
 }
 // function normal_at(sphere, world_point)
 // object_point ← inverse(sphere.transform) * world_point 
@@ -147,3 +147,9 @@ t_rgb lighting(t_material m, t_light l, t_pos point, t_vec eyev, t_vec normalv)
 // world_normal.w ← 0
 // return normalize(world_normal)
 // end function
+  // printf ("m color %f %f %f\n", m.color.red, m.color.green, m.color.blue);
+  // printf("light intensity %f %f %f\nlight position %f %f %f\n", l.intensity.red, l.intensity.red, l.intensity.red,l.position.x, l.position.y, l.position.z);
+  // printf("p %f %f %f\n", p.x, p.y, p.z);
+  // printf("eye %f %f %f\n", eyev.x, eyev.y, eyev.z);
+  // printf("normal %f %f %f\n", normalv.x, normalv.y, normalv.z);
+  // printf ("light_dot_normal %f\n", light_dot_normal);
