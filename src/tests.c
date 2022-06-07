@@ -462,6 +462,7 @@ int main() {
     t_matrix4 inv = mat4_inverse(v);
     t_pos p = (t_pos) {-3, 4, 5};
     assert(vec_is_equal(mat4_multi_pos3(inv, p), (t_pos) {-8, 7, 3}));
+    printf("testing translation : ✔\n");
   }
   {
     // Scenario: Translation does not affect vectors // fail
@@ -481,6 +482,7 @@ int main() {
     t_matrix4 m = scaling(-1, 1, 1);
     t_pos p = {2, 3, 4};
     assert(vec_is_equal(mat4_multi_pos3(m, p), (t_pos) {-2, 3, 4}));
+    printf("testing scaling : ✔\n");
   }
   {
     t_pos p = {0, 1, 0};
@@ -488,12 +490,14 @@ int main() {
     t_matrix4 full_quarter = rotation_x(M_PI_2);
     assert(vec_is_equal(mat4_multi_pos3(half_quarter, p), (t_pos) {0, M_SQRT2 / 2, M_SQRT2 / 2}));
     assert(vec_is_equal(mat4_multi_pos3(full_quarter, p), (t_pos) {0, 0, 1}));
+    printf("rotation x: ✔\n");
   }
   {
     t_pos p = {0, 1, 0};
     t_matrix4 half_quarter = rotation_x(M_PI_4);
     t_matrix4 inv = mat4_inverse(half_quarter);
     assert(vec_is_equal(mat4_multi_pos3(inv, p), (t_pos) {0, M_SQRT2 / 2, -1 * M_SQRT2 / 2}));
+    printf("inverse rotation x: ✔\n");
   }
   {
     t_pos p = {0, 0, 1};
@@ -501,25 +505,208 @@ int main() {
     t_matrix4 full_quarter = rotation_y(M_PI_2);
     assert(vec_is_equal(mat4_multi_pos3(half_quarter, p), (t_pos) {M_SQRT2 / 2, 0, M_SQRT2 / 2}));
     assert(vec_is_equal(mat4_multi_pos3(full_quarter, p), (t_pos) {1, 0, 0}));
+    printf("rotation y: ✔\n");
   }
   {
     t_pos p = {0, 1, 0};
     t_matrix4 half_quarter = rotation_z(M_PI_4);
     t_matrix4 full_quarter = rotation_z(M_PI_2);
-    assert(vec_is_equal(mat4_multi_pos3(half_quarter, p), (t_pos) {-1 * M_SQRT2 / 2, M_SQRT2 / 2, 0}));
-    assert(vec_is_equal(mat4_multi_pos3(full_quarter, p), (t_pos) {-1, 0, 0}));
+    assert(vec_is_equal(apply_transformation(half_quarter, p), (t_pos) {-1 * M_SQRT2 / 2, M_SQRT2 / 2, 0}));
+    assert(vec_is_equal(apply_transformation(full_quarter, p), (t_pos) {-1, 0, 0}));
+    printf("rotation z: ✔\n");
   }
   {
-    t_pos p = {1, 0, 1};
+    t_pos p = point(1, 0, 1);
+    t_matrix4 A = rotation_x(M_PI_2);
+    p = apply_transformation(A, p);
+    t_matrix4 B = scaling(5, 5, 5);
+    p = apply_transformation(B, p);
+    t_matrix4 C = translation(10, 5, 7);
+    p = apply_transformation(C, p);
+    assert(vec_is_equal(
+             p,
+             (t_pos) {15, 0, 7}));
+    printf("testing transform : ✔\n");
+  }
+  {
+    t_pos p = point(1, 0, 1);
     t_matrix4 A = rotation_x(M_PI_2);
     t_matrix4 B = scaling(5, 5, 5);
     t_matrix4 C = translation(10, 5, 7);
-    assert(vec_is_equal(mat4_multi_pos3(transform(A,B,C), p), (t_pos) {15, 0, 7}));
+    assert(vec_is_equal(
+             apply_transformation(transform(A, B, C), p),
+             (t_pos) {15, 0, 7}));
+    printf("testing transform : ✔\n");
   }
   {
     assert(is_equal_double(radians(30), 0.523599));
     assert(!is_equal_double(radians(30), 0.0));
     printf("checking deg to rand func : ✔\n");
+  }
+  {
+    t_ray ray = {
+      {1, 2, 3},
+      {4, 5, 6},
+    };
+    t_pos origin = {1, 2, 3};
+    t_pos direction = {4, 5, 6};
+    assert(vec_is_equal(ray.origin, origin));
+    assert(vec_is_equal(ray.direction, direction));
+    printf("ray struct : ✔\n");
+  }
+  {
+    t_ray ray = {(t_pos) {2, 3, 4}, (t_vec) {1, 0, 0}};
+    assert(vec_is_equal(ray_position(ray, 0), (t_pos) {2, 3, 4}));
+    assert(vec_is_equal(ray_position(ray, 1), (t_pos) {3, 3, 4}));
+    assert(vec_is_equal(ray_position(ray, -1), (t_pos) {1, 3, 4}));
+    assert(vec_is_equal(ray_position(ray, 2.5), (t_pos) {4.5, 3, 4}));
+    printf("ray position : ✔\n");
+  }
+  {
+    t_ray ray = (t_ray) { (t_pos) {0, 0, -5}, (t_vec) {0, 0, 1}};
+    t_sphere sp = sphere();
+    t_hit hit = intersect_sphere(sp, ray);
+    assert(hit.count == 2);
+    assert(is_equal_double(hit.intersection[0].t, 4.0));
+    assert(is_equal_double(hit.intersection[1].t, 6.0));
+  }
+  {
+    t_ray ray = (t_ray) { (t_pos) {0, 1, -5}, (t_vec) {0, 0, 1}};
+    t_sphere sp = sphere();
+    t_hit hit = intersect_sphere(sp, ray);
+    assert(hit.count == 1);
+    assert(is_equal_double(hit.intersection[0].t, 5.0));
+    assert(is_equal_double(hit.intersection[1].t, 5.0));
+  }
+  {
+    t_ray ray = (t_ray) { (t_pos) {0, 0, 0}, (t_vec) {0, 0, 1}};
+    t_sphere sp = sphere();
+    t_hit hit = intersect_sphere(sp, ray);
+    assert(hit.count == 2);
+    assert(is_equal_double(hit.intersection[0].t, -1));
+    assert(is_equal_double(hit.intersection[1].t, 1));
+  }
+  {
+    t_ray ray = (t_ray) { (t_pos) {0, 0, 5}, (t_vec) {0, 0, 1}};
+    t_sphere sp = sphere();
+    t_hit hit = intersect_sphere(sp, ray);
+    assert(hit.count == 2);
+    assert(is_equal_double(hit.intersection[0].t, -6));
+    assert(is_equal_double(hit.intersection[1].t, -4));
+    printf("intersect sphere : ✔\n");
+  }
+  {
+    t_sphere s = sphere();
+    t_intersection i = {3.5, s};
+    assert(i.sphere.id == s.id);
+    assert(i.t == 3.5);
+  }
+  {
+    t_sphere s = sphere();
+    t_intersection i1 = {1, s};
+    t_intersection i2 = {2, s};
+    t_hit h = {{i1, i2}, 2};
+    assert(hit(h).t == 1 && hit(h).sphere.id == s.id);
+  }
+  {
+    t_sphere s = sphere();
+    t_intersection i1 = {-1, s};
+    t_intersection i2 = {1, s};
+    t_hit h = {{i1, i2}, 2};
+    assert(hit(h).t == 1 && hit(h).sphere.id == s.id);
+  }
+  {
+    t_sphere s = sphere();
+    t_intersection i1 = {-2, s};
+    t_intersection i2 = {-1, s};
+    t_hit h = {{i1, i2}, 2};
+    assert(hit(h).t == -1 && hit(h).sphere.id == -1);
+  }
+  {
+    t_sphere s = sphere();
+    t_intersection i1 = {5, s};
+    t_intersection i2 = {7, s};
+    t_intersection i3 = {-3, s};
+    t_intersection i4 = {2, s};
+    t_hit h = {{i1, i2}, 2};
+    t_hit h2 = {{i3, i4}, 2};
+    t_intersection this = hit(h);
+    assert(this.t == 5 && hit(h).sphere.id == s.id);
+    t_intersection this2 = hit(h2);
+    assert(this2.t == 2 && hit(h2).sphere.id == s.id);
+    t_hit h3 = {{this, this2}, 2};
+    t_intersection i5 = hit(h3);
+    assert(i5.t == i4.t && i5.sphere.id == s.id && i5.sphere.id == i4.sphere.id);
+    printf("getting the hit on sphere : ✔\n");
+  }
+  {
+    t_ray ray = {{1, 2, 3}, {0, 1, 0}};
+    t_ray tray = ray_transform(ray, scaling(2, 3, 4));
+    assert(vec_is_equal(tray.origin, (t_vec){2, 6, 12}));
+    assert(vec_is_equal(tray.direction, (t_vec){0, 3, 0}));
+  }
+  {
+    t_ray ray = {{1, 2, 3, 1}, {0, 1, 0}};
+    t_ray tray = ray_transform(ray, translation(3, 4, 5));
+    assert(vec_is_equal(tray.origin, (t_vec){4, 6, 8}));
+    assert(vec_is_equal(tray.direction, (t_vec){0, 1, 0}));
+    printf("transforming a ray : ✔\n");
+  }
+  {
+    t_sphere s = sphere();
+    assert(mat4_is_equal(s.t, identity()));
+    s.t = translation(2, 3, 4);
+    assert(mat4_is_equal(s.t, translation(2, 3, 4)));
+  }
+  {
+    t_ray r = {{0, 0, -5}, {0, 0, 1}};
+    t_sphere s = sphere();
+    s.t = scaling(2, 2, 2);
+    t_hit h = intersect_sphere(s, r);
+    assert(h.intersection[0].t == 3 && h.intersection[1].t == 7);
+  }
+  {
+    t_ray r = {point(0, 0, -5), vector(0, 0, 1)};
+    t_sphere s = sphere();
+    s.t = translation(5, 0, 0);
+    t_hit h = intersect_sphere(s, r);
+    assert(h.count == 0);
+    printf("transforming a sphere : ✔\n");
+  }
+  {
+    t_sphere s = sphere();
+    t_vec v = normal_at(s, point(1, 0, 0));
+    assert(vec_is_equal(v, vector(1, 0, 0)));
+  }
+  {
+    t_sphere s = sphere();
+    t_vec v = normal_at(s, point(0, 1, 0));
+    assert(vec_is_equal(v, vector(0, 1, 0)));
+  }
+  {
+    t_sphere s = sphere();
+    t_vec v = normal_at(s, point(0, 0, 1));
+    assert(vec_is_equal(v, vector(0, 0, 1)));
+  }
+  {
+    t_sphere s = sphere();
+    t_vec v = normal_at(s, point(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3));
+    assert(vec_is_equal(v, vector(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3)));
+    assert(vec_is_equal(vec_normalize(v, sqrt), v));
+    printf("calc normal in sphere : ✔\n");
+  }
+  {
+    t_sphere s = sphere();
+    s.t = translation(0, 1, 0);
+    t_vec n = normal_at(s, point(0, 1.70711, -0.70711));
+    assert(vec_is_equal(n, vector(0, 0.70711, -0.70711)));
+  }
+  {
+    t_sphere s = sphere();
+    s.t = scaling(1, 0.5, 1);
+    t_vec n = normal_at(s, point(0, M_SQRT2 / 2, -M_SQRT2 / 2));
+    assert(vec_is_equal(n, vector(0, 0.97014, -0.24254)));
+
   }
   return 0;
 }

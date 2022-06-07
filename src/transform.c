@@ -46,7 +46,7 @@ t_matrix4 rotation_z(t_rad deg) {
   return (t_matrix4) {
     cos(deg), -sin(deg), 0, 0,
     sin(deg), cos(deg), 0, 0,
-    0, 0, 0, 0,
+    0, 0, 1, 0,
     0, 0, 0, 1,
   };
 }
@@ -60,8 +60,9 @@ return (t_matrix4) {
   };
 }
 
-t_matrix4 transform(t_matrix4 r, t_matrix4 s, t_matrix4 t) {
-  return mat4_mult(mat4_mult(t, s), r);
+t_matrix4 transform(t_matrix4 a, t_matrix4 b, t_matrix4 c) {
+  const t_transform f = mat4_mult(b, a);
+  return mat4_mult(c, f);
 }
 
 t_matrix4 identity() {

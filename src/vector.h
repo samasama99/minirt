@@ -45,6 +45,23 @@ typedef union u_vec3
 		double	k;
 	};
 	double		v[3];
+}	t_vec3;
+
+typedef union u_vec4
+{
+	struct {
+		double	x;
+		double	y;
+		double	z;
+		double	w;
+	};
+	struct {
+		double	i;
+		double	j;
+		double	k;
+		double	l;
+	};
+	double		v[4];
 }	t_vec;
 
 typedef union u_matrix2
@@ -102,6 +119,7 @@ typedef union u_matrix4
 
 typedef t_vec	t_pos;
 typedef t_vec	t_norm;
+typedef t_matrix4 t_transform;
 
 // UTILS //
 bool  is_equal_float(float x, float y);
@@ -127,6 +145,9 @@ t_vec	vec_centroid(t_vec a, t_vec b, t_vec c);
 double	vec_distance(t_vec a, t_vec b, double sqrt_func(double));
 double	vec_lenght(t_vec a, double sqrt(double));
 double	vec_dot_product(t_vec a, t_vec b);
+
+t_vec vector(double x, double y, double z);
+t_pos point(double x, double y, double z);
 
 void	vec_print(char *vec_name, t_vec a);
 
@@ -160,5 +181,6 @@ t_matrix4 rotation_y(t_rad deg);
 t_matrix4 rotation_z(t_rad deg);
 t_matrix4 shearing(t_pos x, t_pos y, t_pos z);
 t_matrix4 transform(t_matrix4 r, t_matrix4 s, t_matrix4 t);
+t_pos apply_transformation(t_transform mat, t_pos p);
 
 #endif

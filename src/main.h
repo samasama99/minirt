@@ -119,6 +119,7 @@ typedef struct s_mlx {
 	mlx_ptr	mlx;
 	win_ptr	win;
 	t_res		resolution;
+	t_res		center;
 }	t_mlx;
 
 typedef struct s_data {
@@ -139,14 +140,51 @@ typedef struct s_image {
 } t_image;
 
 t_data *my_data(t_data *data);
-t_mlx	init_mlx(t_res resolution);
+t_mlx	init_mlx(t_res resolution, t_res center);
 void	handling_events(t_data *data);
 int make_color(t_rgb c, float alpha);
-void put_pixel(t_data data, t_pair pos, t_rgb rgb);
-void put_image(t_data data, t_pair pos, image img);
-t_image create_image(t_mlx mlx, t_res res);
+void put_pixel(t_pair pos, t_rgb rgb);
+void put_image(t_pair pos, t_image img);
+t_image create_image(t_res res);
 void put_pixel_to_image(t_image img, t_pos pos, t_rgb color);
 void fill_image(t_image img, t_pair start, t_pair finish, t_rgb color);
 void full_fill_image(t_image img, t_rgb color);
+void fill_image_con(t_image img, t_rgb color, bool (*functor)(t_pos p));
+void loop_hook(int (*funct_ptr)(), void *param);
+void clear_window();
+void start_mlx();
+
+// RAY TRACING
+typedef struct s_ray {
+    t_pos origin;
+    t_vec direction;
+}               t_ray;
+
+typedef struct s_sphere {
+    int id;
+    t_pos center;
+    double radius;
+    t_matrix4 t;
+}               t_sphere;
+// 1. The t value of the intersection, and
+// 2. The object that was intersected.
+typedef struct s_intersection {
+  double t;
+  t_sphere sphere;
+} t_intersection;
+
+typedef struct s_hit {
+    t_intersection intersection[2];
+    int count;
+}               t_hit;
+
+t_pos ray_position(t_ray r, double t);
+t_sphere make_sphere(t_pos origin, double radius);
+t_sphere sphere();
+t_hit intersect_sphere(const t_sphere sphere, const t_ray r);
+t_intersection hit(t_hit h);
+t_ray ray_transform(t_ray ray, t_matrix4 m);
+bool is_hit(const t_sphere sp, const t_ray r);
+t_vec normal_at(t_sphere s, t_pos p);
 
 #endif

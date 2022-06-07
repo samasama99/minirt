@@ -6,16 +6,6 @@
 // #define WIN_WIDTH 256
 // #define WIN_HEIGHT 256
 
-typedef struct s_ray {
-    t_pos origin;
-    t_vec direction;
-}               t_ray;
-
-typedef struct s_sphere {
-    t_pos center;
-    double radius;
-}               t_sphere;
-
 t_vec vec_normal_product(t_vec v1, t_vec v2) {
   t_vec v;
 

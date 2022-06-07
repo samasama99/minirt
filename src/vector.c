@@ -200,6 +200,15 @@ bool vec_is_equal(t_vec v1, t_vec v2)
   return true;
 }
 
+t_vec vector(double x, double y, double z)
+{
+  return ((t_vec){x, y, z, 0});
+}
+
+t_pos point(double x, double y, double z)
+{
+  return ((t_pos){x, y, z, 1});
+}
 
 // int main()
 // {
