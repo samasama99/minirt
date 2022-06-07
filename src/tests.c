@@ -706,7 +706,43 @@ int main() {
     s.t = scaling(1, 0.5, 1);
     t_vec n = normal_at(s, point(0, M_SQRT2 / 2, -M_SQRT2 / 2));
     assert(vec_is_equal(n, vector(0, 0.97014, -0.24254)));
-
+  }
+  {
+    t_vec v = vector(1, -1, 0);
+    t_vec n = vector(0, 1, 0);
+    t_vec r = reflect(v, n);
+    assert(vec_is_equal(r, vector(1, 1, 0)));
+  }
+  {
+    t_vec v = vector(0, -1, 0);
+    t_vec n = vector(M_SQRT2 / 2, M_SQRT2 / 2, 0);
+    t_vec r = reflect(v, n);
+    assert(vec_is_equal(r, vector(1, 0, 0)));
+    printf("calc the reflection vector : ✔\n");
+  }
+  {
+    const t_rgb intensity = (t_rgb) {1, 1, 1};
+    const t_pos position = point(0, 0, 0);
+    t_light light = point_light(position, intensity);
+    assert(vec_is_equal(position, light.position));
+    rgb_is_equal(intensity, light.intensity);
+  }
+  {
+    t_material m = {
+      .color = {1, 1, 1},
+      0.1,
+      0.9,
+      0.9,
+      200.0,
+    };
+    t_sphere s = sphere();
+    s.material = m;
+    assert(s.material.shininess == 200.0);
+    printf("the light data struct : ✔\n");
+  }
+  {
+    t_material m = {{}}; 
+    t_pos position = point(0, 0, 0);  
   }
   return 0;
 }

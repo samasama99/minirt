@@ -160,11 +160,25 @@ typedef struct s_ray {
     t_vec direction;
 }               t_ray;
 
+typedef struct s_light {
+    t_pos position;
+    t_rgb intensity;
+}               t_light;
+
+typedef struct s_material {
+  t_rgb color;
+  double ambient;
+  double diffuse;
+  double specular;
+  double shininess;
+}               t_material;
+
 typedef struct s_sphere {
     int id;
     t_pos center;
     double radius;
     t_matrix4 t;
+    t_material material;
 }               t_sphere;
 // 1. The t value of the intersection, and
 // 2. The object that was intersected.
@@ -186,5 +200,7 @@ t_intersection hit(t_hit h);
 t_ray ray_transform(t_ray ray, t_matrix4 m);
 bool is_hit(const t_sphere sp, const t_ray r);
 t_vec normal_at(t_sphere s, t_pos p);
+t_vec reflect(t_vec in, t_vec norm);
+t_light point_light(t_pos position, t_rgb color);
 
 #endif

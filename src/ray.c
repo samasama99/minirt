@@ -95,6 +95,51 @@ t_vec normal_at(t_sphere s, t_pos world_point)
   return vec_normalize(world_normal, sqrt);
 }
 
+t_vec reflect(t_vec in, t_vec norm)
+{
+  return vec_sub(
+    in,
+    vec_scalar(norm, 2 * vec_dot_product(in, norm))
+  );
+}
+
+t_light point_light(t_pos position, t_rgb intensity)
+{
+  return (t_light) {
+    position,
+    intensity,
+  };
+}
+
+t_rgb lighting(t_material m, t_light l, t_pos point, t_vec eyev, t_vec normalv)
+{
+  t_rgb diffuse;
+  t_rgb specular;
+  t_vec reflectv;
+  double reflect_dot_eye;
+  double factor;
+  const t_rgb effective_color = rgb_hadamard_product(m.color, l.intensity);
+  const t_vec lightv = vec_normalize(
+      vec_sub(l.position, point),
+      sqrt
+    );
+  const t_rgb ambient = rgb_scalar(effective_color, m.ambient);
+  const double light_dot_normal = vec_dot_product(lightv, normalv);
+  if (light_dot_normal < 0) {
+   diffuse = (t_rgb){0 ,0 ,0}; 
+   specular = (t_rgb){0 ,0 ,0}; 
+  } else {
+    diffuse = rgb_scalar(effective_color, m.diffuse * light_dot_normal);
+    reflectv = reflect(vec_opose(lightv), normalv);
+    reflect_dot_eye = vec_dot_product(reflectv, eyev);
+    if (reflect_dot_eye <= 0) {
+      specular = (t_rgb) {0, 0, 0};
+    } else {
+      factor = pow(reflect_dot_eye, m.shininess);
+    }
+  }
+  return rgb_sub(ambient, rgb_sub(diffuse, specular));
+}
 // function normal_at(sphere, world_point)
 // object_point ← inverse(sphere.transform) * world_point 
 // object_normal ← object_point - point(0, 0, 0)

@@ -3,14 +3,14 @@
 
 const double wall_z = 20;
 const double wall_size_x = 48;
-const double wall_size_y = 48 / (16.0 / 9.0);
-const double canvas_pixel_x = 600;
-const double canvas_pixel_y = canvas_pixel_x  / (16.0 / 9.0);
+const double wall_size_y = 27;
+const double canvas_pixel_x = 500;
+const double canvas_pixel_y = 500.0 / (16.0 / 9.0);
 const double pixel_size_x = wall_size_x / canvas_pixel_x;
 const double pixel_size_y = wall_size_y / canvas_pixel_y;
 const double half_x = wall_size_x / 2;
 const double half_y = wall_size_y / 2;
-const t_pos ray_origin = {0, 0, -12, 1};
+const t_pos ray_origin = {0, 0, -15, 1};
 const t_res res = {canvas_pixel_x, canvas_pixel_y }; 
 const t_pair center = {0, 0}; 
 
@@ -33,8 +33,8 @@ int f(void *ptr) {
   s1.t = identity();
   s2.t = identity();
   s3.t = identity();
-  s1.t = transform(translation(0, 0, 10), scaling(1, 1, 1), rotation_y(radians(deg)));
-  s2.t = transform(translation(0, 0, 14), scaling(1, 1, 1), rotation_y(radians(deg2)));
+  s1.t = transform(translation(0, 0, 6), scaling(0.5, 0.5, 0.5), rotation_y(radians(deg)));
+  s2.t = transform(translation(0, 0, 8), scaling(0.6, 0.6, 0.6), rotation_y(radians(deg2)));
   s3.t = scaling(2, 2, 2);
   deg += 15;
   deg2 += 20;
