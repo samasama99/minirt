@@ -900,6 +900,9 @@ int main() {
       t_pos up = vector(1, 1, 0);
       t_transform t = view_transform(from, to, up);
       printf ("%f %f %f %f\n", t.l1_c1, t.l1_c2, t.l1_c3, t.l1_c4);
+      printf ("%f %f %f %f\n", t.l2_c1, t.l2_c2, t.l2_c3, t.l2_c4);
+      printf ("%f %f %f %f\n", t.l3_c1, t.l3_c2, t.l3_c3, t.l3_c4);
+      printf ("%f %f %f %f\n", t.l4_c1, t.l4_c2, t.l4_c3, t.l4_c4);
       assert(mat4_is_equal((t_matrix4) {
         -0.50709, 0.50709, 0.67612, -2.36643,
         0.76772, 0.60609, 0.12122, -2.82843,

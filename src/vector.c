@@ -19,31 +19,7 @@ void	vec_print(char *vec_name, t_vec a)
 				vec_name, a.x, a.y, a.z);
 }
 
-void	vec_print_2(char *vec_name, t_vec a)
-{
-	printf("vec %s\n|i = %10f|\n|j = %10f|\n|k = %10f|\n",
-				vec_name, a.i, a.j, a.k);
-}
-
-void	vec_print_3(char *vec_name, t_vec a)
-{
-	printf("vec %s\n|i = %10f|\n|j = %10f|\n|k = %10f|\n",
-				vec_name, a.v[0], a.v[1], a.v[2]);
-}
-
-t_vec	vec_init(double x, double y, double z)
-{
-	t_vec	vec;
-
-	vec = (t_vec){{
-		x,
-		y,
-		z,
-	 }};
-	return (vec);
-}
-
-t_vec	vec_sum(t_vec a, t_vec b)
+t_vec	sum(t_vec a, t_vec b)
 {
 	t_vec	x;
 
@@ -155,7 +131,7 @@ t_vec	vec_mid(t_vec a, t_vec b)
 {
 	t_vec	o;
 
-	o = vec_sum(a, b);
+	o = sum(a, b);
 	o = vec_scalar(o, 0.5);
 	return (o);
 }

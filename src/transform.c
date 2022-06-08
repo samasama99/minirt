@@ -84,7 +84,7 @@ t_transform view_transform(t_pos from, t_pos to, t_vec up)
     left.x, left.y, left.z, 0,
     true_up.x, true_up.y, true_up.z, 0,
     -forward.x, -forward.y, -forward.z, 0,
-    0, 0, 0, 0,
+    0, 0, 0, 1,
   };
 
   return mat4_mult(orientation, translation(-from.x, -from.y, -from.z));
