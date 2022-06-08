@@ -1,27 +1,27 @@
 #include "main.h"
 #include <stdio.h>
 
-const double wall_z = 10;
-const double wall_size_x = 7;
-const double wall_size_y = 7;
-const double canvas_pixel_x = 1200.0;
-const double canvas_pixel_y = 1200.0;
+const double wall_z = 0;
+const double wall_size_x = 70;
+const double wall_size_y = 70;
+const double canvas_pixel_x = 600.0;
+const double canvas_pixel_y = 600.0;
 const double pixel_size_x = wall_size_x / canvas_pixel_x;
 const double pixel_size_y = wall_size_y / canvas_pixel_y;
 const double half_x = wall_size_x / 2;
 const double half_y = wall_size_y / 2;
-const t_pos ray_origin = {0, 0, -5, 1};
+const t_pos ray_origin = {-50, 0, 20, 1};
 const t_res res = {canvas_pixel_x, canvas_pixel_y}; 
 const t_pair center = {0, 0}; 
 
 int f(void *ptr) {
   t_image canvas;
   t_sphere s;
-  const t_light light = point_light(point(10, 0, 0), (t_rgb) {1, 1, 1});
+  const t_light light = point_light(point(-40, 0, 30), (t_rgb) {1, 1, 1});
 
   canvas = create_image(res);
-  s = sphere();
-  s.t = transform(scaling(0.5, 0.5, 0.5), identity(), identity());
+  s = make_sphere(point(0, 0, 20), 20);
+  // s.t = transform(scaling(0.5, 0.5, 0.5), identity(), identity());
   t_material m = {
       .color = {1, 0.2, 1},
       .ambient = 0.1,

@@ -102,6 +102,7 @@ t_rgb	rgb_sub(t_rgb a, t_rgb b);
 t_rgb	rgb_scalar(t_rgb a, double k);
 bool rgb_is_equal(t_rgb v1, t_rgb v2);
 t_rgb rgb_hadamard_product(t_rgb c1, t_rgb c2);
+t_rgb color(float r, float g, float b);
 
 /******* MLX *******/
 
@@ -127,10 +128,10 @@ typedef struct s_data {
 	t_assets		assets;
 }	t_data;
 
-typedef struct s_object {
-	size_t		size;
-	t_pos			points[1024];
-}	t_object;
+// typedef struct s_object {
+// 	size_t		size;
+// 	t_pos			points[1024];
+// }	t_object;
 
 
 typedef struct s_image {
@@ -180,18 +181,34 @@ typedef struct s_sphere {
     t_matrix4 t;
     t_material material;
 }               t_sphere;
-// 1. The t value of the intersection, and
-// 2. The object that was intersected.
+// 1. The t value of the intersection
+// 2. The object that was intersected
 typedef struct s_intersection {
   double t;
   t_sphere sphere;
 } t_intersection;
 
 typedef struct s_hit {
-    t_intersection intersection[2];
+    t_intersection intersection[1024];
     int count;
 }               t_hit;
 
+typedef union u_object {
+  t_sphere sphere;
+}             t_object;
+
+
+typedef struct s_comp {
+    double t;
+    t_object object;
+    t_pos point; 
+    t_vec eyev;
+    t_vec normalv;
+    bool inside;
+}               t_comp;
+
+
+t_ray ray(t_pos origin, t_vec direction);
 t_pos ray_position(t_ray r, double t);
 t_sphere make_sphere(t_pos origin, double radius);
 t_sphere sphere();
@@ -203,5 +220,19 @@ t_vec normal_at(t_sphere s, t_pos p);
 t_vec reflect(t_vec in, t_vec norm);
 t_light point_light(t_pos position, t_rgb color);
 t_rgb lighting(t_material m, t_light l, t_pos point, t_vec eyev, t_vec normalv);
+t_material material();
+t_comp prepare_computations(t_intersection i, t_ray r);
 
+// THE WORLD
+typedef struct s_world {
+  t_sphere spheres[1024];
+  t_light lights[1024];
+  int amount_of_spheres;
+  int amount_of_lights;
+}               t_world;
+
+t_world world();
+t_world add_sphere(const t_world w, const t_sphere s);
+t_world default_world();
+t_hit intersect_world(t_world w, t_ray r);
 #endif

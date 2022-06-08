@@ -1,6 +1,14 @@
 #include "main.h"
 #include <stdio.h>
 
+t_ray ray(t_pos origin, t_vec direction)
+{
+  return ((t_ray){
+    .origin = origin,
+    .direction = direction,
+  });
+}
+
 t_pos ray_position(t_ray r, double t)
 {
   return vec_sum(r.origin, vec_scalar(r.direction, t));
@@ -55,7 +63,7 @@ t_hit intersect_sphere(const t_sphere sp, const t_ray r) {
     if (discriminant == 0)
     {
         const double root = (-1 * b) / (2 * a);
-        return ((t_hit) {{{.t = root, sp}, {.t = root, sp}}, 1});
+        return ((t_hit) {{{.t = root, sp}, {.t = root, sp}}, 2});
     }
     const double sqrt_dis =  sqrt(discriminant);
     const double root1 = ((-1 * b) - sqrt_dis) / (2 * a);
@@ -112,6 +120,18 @@ t_light point_light(t_pos position, t_rgb intensity)
   };
 }
 
+t_material material()
+{
+  return ((t_material){
+    .color = color(1, 1, 1),
+    .ambient = 0.1,
+    .diffuse = 0.9,
+    .specular = 0.9,
+    .shininess = 200.0,
+  });
+}
+
+
 t_rgb lighting(t_material m, t_light l, t_pos p, t_vec eyev, t_vec normalv)
 {
   t_rgb diffuse;
@@ -140,6 +160,18 @@ t_rgb lighting(t_material m, t_light l, t_pos p, t_vec eyev, t_vec normalv)
   }
   return rgb_sum(ambient, rgb_sum(diffuse, specular));
 }
+
+t_comp prepare_computations(t_intersection i, t_ray r)
+{
+    t_comp comp;
+
+    comp.t = i.t;
+    comp.object.sphere = i.sphere;
+    comp.point = ray_position(r, comp.t);
+    comp.eyev = vec_opose(r.direction);
+    comp.normalv = normal_at(comp.object.sphere, comp.point);
+    return comp;
+};
 // function normal_at(sphere, world_point)
 // object_point ← inverse(sphere.transform) * world_point 
 // object_normal ← object_point - point(0, 0, 0)

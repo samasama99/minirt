@@ -23,8 +23,8 @@ int f(void *ptr) {
   static double deg;
   static double deg2;
   static double scale = 1;
-  const t_light light = {point(0, 0, -15), (t_rgb) {1, 1, 1}};
-  const t_light light2 = {point(0, 0, -15), (t_rgb) {0, 0, 0}};
+  const t_light light = {point(10, 10, -15), (t_rgb) {1, 1, 1}};
+  const t_light light2 = {point(-10, -10, -15), (t_rgb) {0, 0, 0}};
 
   if (start == false) {
     canvas = create_image(res);
@@ -33,7 +33,7 @@ int f(void *ptr) {
         .color = {1, 0.2, 1},
         .ambient = 0.1,
         .diffuse = 0.9,
-        .specular = 0.9,
+        .specular = 0.0,
         .shininess = 200.0,
     };
     s2 = sphere();
@@ -51,56 +51,50 @@ int f(void *ptr) {
   s3.t = scaling(2, 2, 2);
   deg += 15;
   deg2 += 20;
-  // scale += 0.1;
-  // printf ("%f\n", deg); 
-  // printf ("%f %f %f\n", s1.t.l1_c1, s1.t.l1_c2, s1.t.l1_c3);
-  // printf ("%f %f %f\n", s2.t.l1_c1, s2.t.l1_c2, s2.t.l1_c3);
-  // printf ("%d %d\n", s.id, s2.id);
-
-    for (int y = 0;y < canvas_pixel_y - 1;++y) {
-      double world_y = half_y - pixel_size_y * y; 
-      for (int x = 0;x < canvas_pixel_x - 1;++x) {
-        double world_x = -half_x + pixel_size_x * x;
-        t_pos position = {world_x, world_y, wall_z, 1};
-        t_ray r = {ray_origin, vec_normalize(vec_sub(position, ray_origin), sqrt)};
-        t_hit h = intersect_sphere(s1, r);
-        t_hit h2 = intersect_sphere(s2, r);
-        t_hit h3 = {{hit(h), hit(h2)}, 2};
-        t_hit h4 = intersect_sphere(s3, r);
-        t_hit h5 = {{hit(h3), hit(h4)}, 2};
-        t_intersection inter = hit(h5);
-        if (inter.sphere.id == 0 && inter.t > 0) {
-            t_pos p = ray_position(r, inter.t);
-            t_norm normal = normal_at(inter.sphere, p);
-            t_vec eye = vec_opose(r.direction);
-            t_rgb color = lighting(inter.sphere.material, light, p, eye, normal);
-            t_rgb color2 = lighting(inter.sphere.material, light2, p, eye, normal);
-            color = rgb_sum(color, color2);
-            put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, color);
-        } else if (inter.sphere.id == 1 && inter.t > 0) {
-            t_pos p = ray_position(r, inter.t);
-            t_norm normal = normal_at(inter.sphere, p);
-            t_vec eye = vec_opose(r.direction);
-            t_rgb color = lighting(inter.sphere.material, light, p, eye, normal);
-            t_rgb color2 = lighting(inter.sphere.material, light2, p, eye, normal);
-            color = rgb_sum(color, color2);
-            put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, color);
-        } else if (inter.sphere.id == 2 && inter.t > 0) {
-            t_pos p = ray_position(r, inter.t);
-            t_norm normal = normal_at(inter.sphere, p);
-            t_vec eye = vec_opose(r.direction);
-            t_rgb color = lighting(inter.sphere.material, light, p, eye, normal);
-            t_rgb color2 = lighting(inter.sphere.material, light2, p, eye, normal);
-            color = rgb_sum(color, color2);
-            put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, color);
-        } else
-            put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, (t_rgb) {0, 0, 0});
-          
-      }
+  for (int y = 0;y < canvas_pixel_y - 1;++y) {
+    double world_y = half_y - pixel_size_y * y; 
+    for (int x = 0;x < canvas_pixel_x - 1;++x) {
+      double world_x = -half_x + pixel_size_x * x;
+      t_pos position = {world_x, world_y, wall_z, 1};
+      t_ray r = {ray_origin, vec_normalize(vec_sub(position, ray_origin), sqrt)};
+      t_hit h = intersect_sphere(s1, r);
+      t_hit h2 = intersect_sphere(s2, r);
+      t_hit h3 = {{hit(h), hit(h2)}, 2};
+      t_hit h4 = intersect_sphere(s3, r);
+      t_hit h5 = {{hit(h3), hit(h4)}, 2};
+      t_intersection inter = hit(h5);
+      if (inter.sphere.id == 0 && inter.t > 0) {
+          t_pos p = ray_position(r, inter.t);
+          t_norm normal = normal_at(inter.sphere, p);
+          t_vec eye = vec_opose(r.direction);
+          t_rgb color = lighting(inter.sphere.material, light, p, eye, normal);
+          t_rgb color2 = lighting(inter.sphere.material, light2, p, eye, normal);
+          color = rgb_sum(color, color2);
+          put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, color);
+      } else if (inter.sphere.id == 1 && inter.t > 0) {
+          t_pos p = ray_position(r, inter.t);
+          t_norm normal = normal_at(inter.sphere, p);
+          t_vec eye = vec_opose(r.direction);
+          t_rgb color = lighting(inter.sphere.material, light, p, eye, normal);
+          t_rgb color2 = lighting(inter.sphere.material, light2, p, eye, normal);
+          color = rgb_sum(color, color2);
+          put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, color);
+      } else if (inter.sphere.id == 2 && inter.t > 0) {
+          t_pos p = ray_position(r, inter.t);
+          t_norm normal = normal_at(inter.sphere, p);
+          t_vec eye = vec_opose(r.direction);
+          t_rgb color = lighting(inter.sphere.material, light, p, eye, normal);
+          t_rgb color2 = lighting(inter.sphere.material, light2, p, eye, normal);
+          color = rgb_sum(color, color2);
+          put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, color);
+      } else
+          put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, (t_rgb) {0, 0, 0});
+        
     }
-    clear_window();
-    put_image((t_pair) {0, 0}, canvas);
-    return 0;
+  }
+  clear_window();
+  put_image((t_pair) {0, 0}, canvas);
+  return 0;
 }
 
 int main()

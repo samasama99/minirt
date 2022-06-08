@@ -574,7 +574,7 @@ int main() {
     t_ray ray = (t_ray) { (t_pos) {0, 1, -5}, (t_vec) {0, 0, 1}};
     t_sphere sp = sphere();
     t_hit hit = intersect_sphere(sp, ray);
-    assert(hit.count == 1);
+    assert(hit.count == 2);
     assert(is_equal_double(hit.intersection[0].t, 5.0));
     assert(is_equal_double(hit.intersection[1].t, 5.0));
   }
@@ -783,7 +783,40 @@ int main() {
       t_light light = point_light(point(0, 0, 10), (t_rgb){1, 1, 1});
       t_rgb result = lighting(m, light, position, eyev, normalv);
       assert(rgb_is_equal(result, (t_rgb){0.1, 0.1, 0.1}));
+      printf("the lighting function : ✔\n");
     }
+    {
+      t_world w = world();
+      assert(w.amount_of_spheres == 0);
+      assert(w.amount_of_lights == 0);
+    }
+    {
+      t_world w = default_world();
+      assert(w.amount_of_lights == 1);
+      assert(w.amount_of_spheres == 2);
+      assert(w.spheres[0].material.shininess == 200);
+      assert(mat4_is_equal(w.spheres[1].t, scaling(0.5, 0.5, 0.5)));
+      assert(vec_is_equal(w.lights[0].position, point(-10, 10, -10)));
+      printf("create the world default functions : ✔\n");
+    }
+    {
+      t_world w = default_world();
+      const t_ray r = {point(0, 0, -5), vector(0, 0, 1)};
+      t_hit i = intersect_world(w, r);  
+      assert(i.count == 4);
+      assert(is_equal_double(i.intersection[0].t, 4));
+      assert(is_equal_double(i.intersection[1].t, 4.5));
+      assert(is_equal_double(i.intersection[2].t, 5.5));
+      assert(is_equal_double(i.intersection[3].t, 6));
+      printf("world intersection : ✔\n");
+    }
+    {
+      t_ray r = ray(point(0, 0, -5), vector(0, 0, 1));     
+      t_sphere s = sphere();
+      t_intersection i = {.sphere = s, .t = 4};
+      t_comp comps = prepare_computations(i, r);
+    }
+      // t_world add_sphere(const t_world w, const t_sphere s);
   }
   return 0;
 }

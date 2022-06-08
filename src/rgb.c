@@ -66,6 +66,15 @@ bool rgb_is_equal(t_rgb v1, t_rgb v2)
   return true;
 }
 
+t_rgb color(float r, float g, float b)
+{
+  return ((t_rgb){
+    .red = r,
+    .green = g,
+    .blue = b,
+  });
+}
+
 // int main () {
 //   t_rgb color1 = {{255, 0, 255, 0}};
 //   unsigned int color2 = 0x00FF00FF;
