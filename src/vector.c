@@ -13,10 +13,10 @@
 #include "vector.h"
 #include <math.h>
 
-void	vec_print(char *vec_name, t_vec a)
+void	print_tupil(char *vec_name, t_vec a)
 {
-	printf("vec %s\n|x = %.2f|\n|y = %.2f|\n|z = %.2f|\n",
-				vec_name, a.x, a.y, a.z);
+	printf("vec %s\n|x = %f|\n|y = %f|\n|z = %f|w = %f|\n",
+				vec_name, a.x, a.y, a.z, a.w);
 }
 
 t_vec	sum(t_vec a, t_vec b)
@@ -27,11 +27,12 @@ t_vec	sum(t_vec a, t_vec b)
 		a.x + b.x,
 		a.y + b.y,
 		a.z + b.z,
+		a.w + b.w,
 	}};
 	return (x);
 }
 
-t_vec	vec_sub(t_vec a, t_vec b)
+t_vec	sub(t_vec a, t_vec b)
 {
 	t_vec	x;
 
@@ -39,30 +40,31 @@ t_vec	vec_sub(t_vec a, t_vec b)
 		a.x - b.x,
 		a.y - b.y,
 		a.z - b.z,
+		a.w - b.w,
 	}};
 	return (x);
 }
 
-double	vec_distance(t_vec a, t_vec b, double sqrt_func(double))
+double	distance(t_vec a, t_vec b)
 {
 	double	n1;
 	double	n2;
 	double	n3;
-	double	distance;
+	double	d;
 
 	n1 = (a.x - b.x) * (a.x - b.x);
 	n2 = (a.y - b.y) * (a.y - b.y);
 	n3 = (a.z - b.z) * (a.z - b.z);
-	distance = sqrt_func(n1 + n2 + n3);
-	return (distance);
+	d = sqrt(n1 + n2 + n3);
+	return (d);
 }
 
-double	vec_dot_product(t_vec a, t_vec b)
+double	dot(t_vec a, t_vec b)
 {
-	  return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
+	  return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
 }
 
-t_vec	vec_cross_product(t_vec a, t_vec b)
+t_vec	cross(t_vec a, t_vec b)
 {
 	t_vec	x;
 
@@ -74,15 +76,12 @@ t_vec	vec_cross_product(t_vec a, t_vec b)
 	return (x);
 }
 
-double	vec_lenght(t_vec a, double sqrt_func(double))
+double	magnitude(t_vec a)
 {
-	double	lenght;
-
-	lenght = sqrt_func(vec_dot_product(a, a));
-	return (lenght);
+	return sqrt(dot(a, a));
 }
 
-t_vec	vec_scalar(t_vec a, double k)
+t_vec	scalar(t_vec a, double k)
 {
 	t_vec	x;
 
@@ -90,17 +89,18 @@ t_vec	vec_scalar(t_vec a, double k)
 		a.x * k,
 		a.y * k,
 		a.z * k,
+		a.w * k,
 	}};
 	return (x);
 }
 
-t_vec	vec_normalize(t_vec v, double sqrt_func(double))
+t_vec	normalize(t_vec v)
 {
 	t_vec	nv;
 	double	len;
 	double	invertLenght;
 
-	len = vec_lenght(v, sqrt_func);
+	len = magnitude(v);
 	if (len > 0 && len != 1)
 	{
 		invertLenght = 1 / len;
@@ -108,6 +108,7 @@ t_vec	vec_normalize(t_vec v, double sqrt_func(double))
 			v.x * invertLenght,
 			v.y * invertLenght,
 			v.z * invertLenght,
+			v.w * invertLenght,
 		};
 	}
 	else
@@ -115,7 +116,7 @@ t_vec	vec_normalize(t_vec v, double sqrt_func(double))
 	return (nv);
 }
 
-t_vec	vec_opose(t_vec v)
+t_vec	opose(t_vec v)
 {
 	t_vec	o;
 
@@ -123,31 +124,32 @@ t_vec	vec_opose(t_vec v)
 			v.x * -1,
 			v.y * -1,
 			v.z * -1,
+			v.w * -1,
 	}};
 	return (o);
 }
 
-t_vec	vec_mid(t_vec a, t_vec b)
-{
-	t_vec	o;
+// t_vec	vec_mid(t_vec a, t_vec b)
+// {
+// 	t_vec	o;
 
-	o = sum(a, b);
-	o = vec_scalar(o, 0.5);
-	return (o);
-}
+// 	o = sum(a, b);
+// 	o = vec_scalar(o, 0.5);
+// 	return (o);
+// }
 
-t_vec	vec_centroid(t_vec a, t_vec b, t_vec c)
-{
-	t_vec	centroid;
+// t_vec	vec_centroid(t_vec a, t_vec b, t_vec c)
+// {
+// 	t_vec	centroid;
 
-	centroid = (t_pos){{
-			a.x + b.x + c.x,
-			a.y + b.y + c.y,
-			a.z + b.z + c.z,
-	}};
-	centroid = vec_scalar (centroid, (double)1 / 3);
-	return (centroid);
-}
+// 	centroid = (t_pos){{
+// 			a.x + b.x + c.x,
+// 			a.y + b.y + c.y,
+// 			a.z + b.z + c.z,
+// 	}};
+// 	centroid = vec_scalar (centroid, (double)1 / 3);
+// 	return (centroid);
+// }
 
 bool  is_equal_float(float x, float y)
 {
@@ -173,6 +175,8 @@ bool vec_is_equal(t_vec v1, t_vec v2)
     return false;
   if (is_equal_double(v1.z, v2.z) == false) 
     return false;
+  // if (is_equal_double(v1.w, v2.w) == false) 
+  //   return false;
   return true;
 }
 
@@ -181,9 +185,14 @@ t_vec vector(double x, double y, double z)
   return ((t_vec){x, y, z, 0});
 }
 
-t_pos point(double x, double y, double z)
+t_point point(double x, double y, double z)
 {
-  return ((t_pos){x, y, z, 1});
+  return ((t_point){x, y, z, 1});
+}
+
+t_pair pair(double x, double y)
+{
+  return ((t_pair){x, y});
 }
 
 // int main()

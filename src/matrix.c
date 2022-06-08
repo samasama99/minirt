@@ -64,80 +64,18 @@ t_matrix4 mat4_mult(t_matrix4 mat1, t_matrix4 mat2) {
   return (mult);
 }
 
-// multiply coeffs from row 1 with coeffs from column 1
-// Ptransformed.x = P.x * c00 + P.y * c10 + P.z * c20
-// multiply coeffs from row 1 with coeffs from column 2
-// Ptransformed.y = P.x * c01 + P.y * c11 + P.z * c21
-// multiply coeffs from row 1 with coeffs from column 3
-// Ptransformed.z = P.x * c02 + P.y * c12 + P.z * c22
-
-t_pos vec3_multi_mat3(t_pos p, t_matrix3 mat) {
-  t_pos new_point;
-
-  new_point = vec_init(p.x * mat.l1_c1 + p.y * mat.l2_c1 + p.z * mat.l3_c1,
-                       p.x * mat.l1_c2 + p.y * mat.l2_c2 + p.z * mat.l3_c2,
-                       p.x * mat.l1_c3 + p.y * mat.l2_c3 + p.z * mat.l3_c3
-                       // p.x * mat.l1_c1 + p.y * mat.l1_c2 + p.z * mat.l1_c3,
-                       // p.x * mat.l2_c1 + p.y * mat.l2_c2 + p.z * mat.l2_c3,
-                       // p.x * mat.l3_c1 + p.y * mat.l3_c2 + p.z * mat.l3_c3
-  );
-  return (new_point);
-}
-
-t_pos apply_transformation(t_transform mat, t_pos p)
+t_point apply_transformation(t_transform mat, t_point p)
 {
-    return ((t_pos){
+    return ((t_point){
         p.x * mat.l1_c1 + p.y * mat.l1_c2 + p.z * mat.l1_c3 + p.w * mat.l1_c4,
         p.x * mat.l2_c1 + p.y * mat.l2_c2 + p.z * mat.l2_c3 + p.w * mat.l2_c4,
         p.x * mat.l3_c1 + p.y * mat.l3_c2 + p.z * mat.l3_c3 + p.w * mat.l3_c4,
         p.x * mat.l4_c1 + p.y * mat.l4_c2 + p.z * mat.l4_c3 + p.w * mat.l4_c4,
-        // p.x * mat.l1_c1 + p.y * mat.l2_c1 + p.z * mat.l3_c1 + mat.l4_c1,
-        // p.x * mat.l1_c2 + p.y * mat.l2_c2 + p.z * mat.l3_c2 + mat.l4_c2,
-        // p.x * mat.l1_c3 + p.y * mat.l2_c3 + p.z * mat.l3_c3 + mat.l4_c3,
-        // p.x * mat.l1_c4 + p.y * mat.l2_c4 + p.z * mat.l3_c4 + mat.l4_c4
     });
 }
 
-t_pos pos3_multi_mat4(t_pos p, t_matrix4 mat) {
-  double w;
-  t_pos new_point;
 
-  new_point =
-      vec_init(p.x * mat.l1_c1 + p.y * mat.l2_c1 + p.z * mat.l3_c1 + mat.l4_c1,
-               p.x * mat.l1_c2 + p.y * mat.l2_c2 + p.z * mat.l3_c2 + mat.l4_c2,
-               p.x * mat.l1_c3 + p.y * mat.l2_c3 + p.z * mat.l3_c3 + mat.l4_c3);
-  w = p.x * mat.l1_c4 + p.y * mat.l2_c4 + p.z * mat.l3_c4 + mat.l4_c4;
-  if (w != 1 && w != 0) {
-    new_point.x /= w;
-    new_point.y /= w;
-    new_point.z /= w;
-  }
-  return (new_point);
-}
-
-// t_pos pos3_multi_mat4(t_pos p, t_matrix4 mat) {
-//   double w;
-//   t_pos new_point;
-
-//   new_point =
-//       vec_init(p.x * mat.l1_c1 + p.y * mat.l2_c1 + p.z * mat.l3_c1 + mat.l4_c1,
-//                p.x * mat.l1_c2 + p.y * mat.l2_c2 + p.z * mat.l3_c2 + mat.l4_c2,
-//                p.x * mat.l1_c3 + p.y * mat.l2_c3 + p.z * mat.l3_c3 + mat.l4_c3);
-//   w = p.x * mat.l1_c4 + p.y * mat.l2_c4 + p.z * mat.l3_c4 + mat.l4_c4;
-//   if (w != 1 && w != 0) {
-//     new_point.x /= w;
-//     new_point.y /= w;
-//     new_point.z /= w;
-//   }
-//   return (new_point);
-// }
-
-t_pos mat4_multi_pos3(t_matrix4 mat, t_pos p) {
-  mat = mat4_transpose(mat);
-  return pos3_multi_mat4(p, mat);
-}
-
-bool mat4_is_equal(t_matrix4 m, t_matrix4 n) {
+bool matrix_is_equal(t_matrix4 m, t_matrix4 n) {
   int i;
   int j;
 
@@ -155,7 +93,7 @@ bool mat4_is_equal(t_matrix4 m, t_matrix4 n) {
   return true;
 }
 
-t_matrix4 mat4_transpose(t_matrix4 m) {
+t_matrix4 transpose(t_matrix4 m) {
   int i;
   int j;
   t_matrix4 t;
@@ -300,7 +238,7 @@ bool mat4_is_invertible(t_matrix4 m)
   return mat4_determinant(m);
 }
 
-t_matrix4 mat4_inverse(t_matrix4 m)
+t_matrix4 inverse(t_matrix4 m)
 {
   const double determinant = mat4_determinant(m);
   const double id = 1 / mat4_determinant(m);

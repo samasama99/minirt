@@ -9,110 +9,110 @@
 
 int main() {
   {
-    t_vec v = vec_init(3, -2, 5);
-    t_vec w = vec_init(-2, 3, 1);
-    t_vec vw = vec_sum(v, w);
+    t_vec v = vector(3, -2, 5);
+    t_vec w = vector(-2, 3, 1);
+    t_vec vw = sum(v, w);
     assert(vec_is_equal(vw, (t_vec){1, 1, 6}));
     assert(!vec_is_equal(vw, (t_vec){2, 1, 6}));
     printf("Vector sum : ✔\n");
   }
   {
-    t_vec v = vec_init(3, 2, 1);
-    t_vec w = vec_init(5, 6, 7);
-    t_vec vw = vec_sub(v, w);
+    t_vec v = vector(3, 2, 1);
+    t_vec w = vector(5, 6, 7);
+    t_vec vw = sub(v, w);
     assert(vec_is_equal(vw, (t_vec){-2, -4, -6}));
     assert(!vec_is_equal(vw, (t_vec){-3, -4, -6}));
     printf("Vector sub : ✔\n");
   }
   {
-    t_vec v = vec_init(0, 0, 0);
-    t_vec w = vec_init(1, -2, 3);
-    t_vec vw = vec_sub(v, w);
+    t_vec v = vector(0, 0, 0);
+    t_vec w = vector(1, -2, 3);
+    t_vec vw = sub(v, w);
     assert(vec_is_equal(vw, (t_vec){-1, 2, -3}));
     assert(!vec_is_equal(vw, (t_vec){-2, 2, -3}));
     printf("Vector negation : ✔\n");
   }
   {
-    t_vec v = vec_init(1, -2, 3);
-    t_vec ov = vec_opose(v);
+    t_vec v = vector(1, -2, 3);
+    t_vec ov = opose(v);
     assert(vec_is_equal(ov, (t_vec){-1, 2, -3}));
     assert(!vec_is_equal(ov, (t_vec){-1, 3, -3}));
     printf("Vector negation : ✔\n");
   }
   {
-    t_vec v = vec_init(1, -2, 3);
-    t_vec w = vec_scalar(v, 3.5);
+    t_vec v = vector(1, -2, 3);
+    t_vec w = scalar(v, 3.5);
     assert(vec_is_equal(w, (t_vec){3.5, -7, 10.5}));
     assert(!vec_is_equal(w, (t_vec){3.5, -8, 10.5}));
     printf("Vector mult with scalar : ✔\n");
   }
   {
-    t_vec v = vec_init(1, -2, 3);
-    t_vec w = vec_scalar(v, 0.5);
+    t_vec v = vector(1, -2, 3);
+    t_vec w = scalar(v, 0.5);
     assert(vec_is_equal(w, (t_vec){0.5, -1, 1.5}));
     assert(!vec_is_equal(w, (t_vec){0.5, -2, 1.5}));
     printf("Vector mult with scalar : ✔\n");
   }
   {
-    t_vec v = vec_init(1, 0, 0);
-    assert(vec_lenght(v, sqrt) == 1);
-    assert(!(vec_lenght(v, sqrt) == 1.1));
+    t_vec v = vector(1, 0, 0);
+    assert(magnitude(v) == 1);
+    assert(!(magnitude(v) == 1.1));
     printf("computing the magnitude of vector: ✔\n");
   }
   {
-    t_vec v = vec_init(0, 1, 0);
-    assert(vec_lenght(v, sqrt) == 1);
-    assert(!(vec_lenght(v, sqrt) == 2));
+    t_vec v = vector(0, 1, 0);
+    assert(magnitude(v) == 1);
+    assert(!(magnitude(v) == 2));
     printf("computing the magnitude of vector: ✔\n");
   }
   {
-    t_vec v = vec_init(0, 0, 1);
-    assert(vec_lenght(v, sqrt) == 1);
-    assert(!(vec_lenght(v, sqrt) == 1.1));
+    t_vec v = vector(0, 0, 1);
+    assert(magnitude(v) == 1);
+    assert(!(magnitude(v) == 1.1));
     printf("computing the magnitude of vector: ✔\n");
   }
   {
-    t_vec v = vec_init(1, 2, 3);
-    assert(vec_lenght(v, sqrt) == sqrt(14));
-    assert(!(vec_lenght(v, sqrt) == sqrt(15)));
+    t_vec v = vector(1, 2, 3);
+    assert(magnitude(v) == sqrt(14));
+    assert(!(magnitude(v) == sqrt(15)));
     printf("computing the magnitude of vector: ✔\n");
   }
   {
-    t_vec v = vec_init(-1, -2, -3);
-    assert(vec_lenght(v, sqrt) == sqrt(14));
-    assert(!(vec_lenght(v, sqrt) == sqrt(16)));
+    t_vec v = vector(-1, -2, -3);
+    assert(magnitude(v) == sqrt(14));
+    assert(!(magnitude(v) == sqrt(16)));
     printf("computing the magnitude of vector: ✔\n");
   }
   {
-    t_vec v = vec_init(4, 0, 0);
-    t_vec nv = vec_normalize(v, sqrt);
-    assert(vec_is_equal(vec_normalize(v, sqrt), (t_vec){1, 0, 0}));
-    assert(!vec_is_equal(vec_normalize(v, sqrt), (t_vec){1, 1, 0}));
+    t_vec v = vector(4, 0, 0);
+    t_vec nv = normalize(v);
+    assert(vec_is_equal(normalize(v), (t_vec){1, 0, 0}));
+    assert(!vec_is_equal(normalize(v), (t_vec){1, 1, 0}));
     printf("vector normalize: ✔\n");
   }
   {
-    t_vec v = vec_init(1, 2, 3);
-    t_vec nv = vec_normalize(v, sqrt);
-    assert(vec_is_equal(vec_normalize(v, sqrt),
+    t_vec v = vector(1, 2, 3);
+    t_vec nv = normalize(v);
+    assert(vec_is_equal(normalize(v),
                         (t_vec){0.26726, 0.53452, 0.80178}));
-    assert(vec_is_equal(vec_normalize(v, sqrt),
+    assert(vec_is_equal(normalize(v),
                         (t_vec){1 / sqrt(14), 2 / sqrt(14), 3 / sqrt(14)}));
-    assert(!vec_is_equal(vec_normalize(v, sqrt),
+    assert(!vec_is_equal(normalize(v),
                          (t_vec){0.26726, 0.53452, 0.80177}));
     printf("Vector normalize: ✔\n");
   }
   {
-    t_vec v = vec_init(1, 2, 3);
-    t_vec w = vec_init(2, 3, 4);
-    assert(vec_dot_product(v, w) == 20);
-    assert(!(vec_dot_product(v, w) == 25));
+    t_vec v = vector(1, 2, 3);
+    t_vec w = vector(2, 3, 4);
+    assert(dot(v, w) == 20);
+    assert(!(dot(v, w) == 25));
     printf("Vector dot product : ✔\n");
   }
   {
-    t_vec v = vec_init(1, 2, 3);
-    t_vec w = vec_init(2, 3, 4);
-    t_vec vw = vec_cross_product(v, w);
-    t_vec wv = vec_cross_product(w, v);
+    t_vec v = vector(1, 2, 3);
+    t_vec w = vector(2, 3, 4);
+    t_vec vw = cross(v, w);
+    t_vec wv = cross(w, v);
     assert(vec_is_equal(vw, (t_vec){-1, 2, -1}));
     assert(!(vec_is_equal(vw, (t_vec){-1, 2, 1})));
     assert(vec_is_equal(wv, (t_vec){1, -2, 1}));
@@ -120,20 +120,20 @@ int main() {
   }
   {
     typedef struct s_projectile {
-      t_pos position;
+      t_point position;
       t_vec velocity;
     } t_projectile;
     typedef struct s_environment {
-      t_pos gravity;
+      t_point gravity;
       t_vec wind;
     } t_environment;
-    t_projectile proj = {(t_pos){0, 1, 0},
-                         vec_normalize((t_vec){1, 1, 0}, sqrt)};
+    t_projectile proj = {(t_point){0, 1, 0},
+                         normalize((t_vec){1, 1, 0})};
     t_environment env = {(t_vec){0, -0.1, 0}, (t_vec){-0.01, 0, 0}};
     int ticks = 0;
     while (proj.position.y > 0) {
-      proj.position = vec_sub(proj.position, proj.velocity);
-      proj.velocity = vec_sub(proj.velocity, vec_sum(env.gravity, env.wind));
+      proj.position = sub(proj.position, proj.velocity);
+      proj.velocity = sub(proj.velocity, sum(env.gravity, env.wind));
       ++ticks;
     }
     printf("amount of ticks is %d\n", ticks);
@@ -242,8 +242,8 @@ int main() {
         9, 8, 7, 6
       , 5, 4, 3, 2,
     };
-    assert(mat4_is_equal(m, n));
-    assert(!mat4_is_equal(m, n2));
+    assert(matrix_is_equal(m, n));
+    assert(!matrix_is_equal(m, n2));
     printf("4 x 4 Matrix equality : ✔\n");
   }
   {
@@ -265,7 +265,7 @@ int main() {
       40, 58, 110, 102,
       16, 26, 46, 42,
     };
-    assert(mat4_is_equal(mat4_mult(m, n), mXn));
+    assert(matrix_is_equal(mat4_mult(m, n), mXn));
     printf("4 x 4 Matrix multi : ✔\n");
   }
   {
@@ -280,8 +280,8 @@ int main() {
         3,0,5,5,
         0,8,3,8,
     };
-    mat4_is_equal(Tm, mat4_transpose(m));
-    mat4_is_equal(m, mat4_transpose(Tm));
+    matrix_is_equal(Tm, transpose(m));
+    matrix_is_equal(m, transpose(Tm));
     printf("Matrix transposing : ✔\n");
   }
   {
@@ -291,10 +291,10 @@ int main() {
         8, 6, 4, 1,
         0, 0, 0, 1,
     };
-    m = mat4_transpose(m);
-    t_pos pos = {1, 2, 3};
-    t_pos res =  pos3_multi_mat4(pos, m);
-    assert(vec_is_equal(res, (t_pos) {18, 24, 33}));
+    // m = transpose(m);
+    t_point pos = point(1, 2, 3);
+    t_point res =  apply_transformation(m, pos);
+    assert(vec_is_equal(res, point(18, 24, 33)));
     printf("vec3 and Matrix multi : ✔\n");
   }
   {
@@ -304,12 +304,12 @@ int main() {
       0, 0, 1, 0,
       0, 0, 0, 1,
     };
-    t_pos pos = {1, 2, 3};
-    t_pos res =  pos3_multi_mat4(pos, mat4_transpose(Identity));
-    t_pos res2 =  pos3_multi_mat4(pos, Identity);
-    assert(vec_is_equal(res, (t_pos) {1, 2, 3}));
-    assert(vec_is_equal(res2, (t_pos) {1, 2, 3}));
-    assert(mat4_is_equal(Identity, mat4_transpose(Identity)));
+    t_point pos = point(1, 2, 3);
+    t_point res =  apply_transformation(transpose(Identity), pos);
+    t_point res2 =  apply_transformation(Identity, pos);
+    assert(vec_is_equal(res, (t_point) {1, 2, 3}));
+    assert(vec_is_equal(res2, (t_point) {1, 2, 3}));
+    assert(matrix_is_equal(Identity, transpose(Identity)));
     printf("vec3 and Identity Matrix multi : ✔\n");
   }
   {
@@ -434,7 +434,7 @@ int main() {
           -0.07895,-0.22368,-0.05263,0.19737,
           -0.52256,-0.81391,-0.30075,0.30639,
     };
-    assert(mat4_is_equal(mat4_inverse(m), res));
+    assert(matrix_is_equal(inverse(m), res));
 
     t_matrix4 a = {
           3,-9, 7, 3,
@@ -449,19 +449,19 @@ int main() {
            6,-2, 0, 5,
     }; 
     t_matrix4 c = mat4_mult(a, b);
-    assert(mat4_is_equal(mat4_mult(c, mat4_inverse(b)), a));
+    assert(matrix_is_equal(mat4_mult(c, inverse(b)), a));
     printf("inversing a 4x4 matrix : ✔\n");
   }
   {
     t_matrix4 v = translation(5, -3, 2);
-    t_pos p = (t_pos) {-3, 4, 5};
-    assert(vec_is_equal(mat4_multi_pos3(v, p), (t_pos) {2, 1, 7}));
+    t_point p = point(-3, 4, 5);
+    assert(vec_is_equal(apply_transformation(v, p), point(2, 1, 7)));
   }
   {
     t_matrix4 v = translation(5, -3, 2);
-    t_matrix4 inv = mat4_inverse(v);
-    t_pos p = (t_pos) {-3, 4, 5};
-    assert(vec_is_equal(mat4_multi_pos3(inv, p), (t_pos) {-8, 7, 3}));
+    t_matrix4 inv = inverse(v);
+    t_point p = point(-3, 4, 5);
+    assert(vec_is_equal(apply_transformation(inv, p), point(-8, 7, 3)));
     printf("testing translation : ✔\n");
   }
   {
@@ -469,54 +469,54 @@ int main() {
   }
   {
     t_matrix4 m = scaling(2, 3, 4);
-    t_pos p = {-4, 6, 8};
-    assert(vec_is_equal(mat4_multi_pos3(m, p), (t_pos) {-8, 18, 32}));
+    t_point p = point(-4, 6, 8);
+    assert(vec_is_equal(apply_transformation(m, p), point(-8, 18, 32)));
   }
   {
     t_matrix4 m = scaling(2, 3, 4);
-    t_matrix4 inv = mat4_inverse(m);
-    t_pos p = {-4, 6, 8};
-    assert(vec_is_equal(mat4_multi_pos3(inv, p), (t_pos) {-2, 2, 2}));
+    t_matrix4 inv = inverse(m);
+    t_point p = point(-4, 6, 8);
+    assert(vec_is_equal(apply_transformation(inv, p), point(-2, 2, 2)));
   }
   {
     t_matrix4 m = scaling(-1, 1, 1);
-    t_pos p = {2, 3, 4};
-    assert(vec_is_equal(mat4_multi_pos3(m, p), (t_pos) {-2, 3, 4}));
+    t_point p = point(2, 3, 4);
+    assert(vec_is_equal(apply_transformation(m, p), point(-2, 3, 4)));
     printf("testing scaling : ✔\n");
   }
   {
-    t_pos p = {0, 1, 0};
+    t_point p = {0, 1, 0};
     t_matrix4 half_quarter = rotation_x(M_PI_4);
     t_matrix4 full_quarter = rotation_x(M_PI_2);
-    assert(vec_is_equal(mat4_multi_pos3(half_quarter, p), (t_pos) {0, M_SQRT2 / 2, M_SQRT2 / 2}));
-    assert(vec_is_equal(mat4_multi_pos3(full_quarter, p), (t_pos) {0, 0, 1}));
+    assert(vec_is_equal(apply_transformation(half_quarter, p), point(0, M_SQRT2 / 2, M_SQRT2 / 2)));
+    assert(vec_is_equal(apply_transformation(full_quarter, p), point(0, 0, 1)));
     printf("rotation x: ✔\n");
   }
   {
-    t_pos p = {0, 1, 0};
+    t_point p = point(0, 1, 0);
     t_matrix4 half_quarter = rotation_x(M_PI_4);
-    t_matrix4 inv = mat4_inverse(half_quarter);
-    assert(vec_is_equal(mat4_multi_pos3(inv, p), (t_pos) {0, M_SQRT2 / 2, -1 * M_SQRT2 / 2}));
+    t_matrix4 inv = inverse(half_quarter);
+    assert(vec_is_equal(apply_transformation(inv, p), point(0, M_SQRT2 / 2, -1 * M_SQRT2 / 2)));
     printf("inverse rotation x: ✔\n");
   }
   {
-    t_pos p = {0, 0, 1};
+    t_point p = {0, 0, 1};
     t_matrix4 half_quarter = rotation_y(M_PI_4);
     t_matrix4 full_quarter = rotation_y(M_PI_2);
-    assert(vec_is_equal(mat4_multi_pos3(half_quarter, p), (t_pos) {M_SQRT2 / 2, 0, M_SQRT2 / 2}));
-    assert(vec_is_equal(mat4_multi_pos3(full_quarter, p), (t_pos) {1, 0, 0}));
+    assert(vec_is_equal(apply_transformation(half_quarter, p), point(M_SQRT2 / 2, 0, M_SQRT2 / 2)));
+    assert(vec_is_equal(apply_transformation(full_quarter, p), point(1, 0, 0)));
     printf("rotation y: ✔\n");
   }
   {
-    t_pos p = {0, 1, 0};
+    t_point p = {0, 1, 0};
     t_matrix4 half_quarter = rotation_z(M_PI_4);
     t_matrix4 full_quarter = rotation_z(M_PI_2);
-    assert(vec_is_equal(apply_transformation(half_quarter, p), (t_pos) {-1 * M_SQRT2 / 2, M_SQRT2 / 2, 0}));
-    assert(vec_is_equal(apply_transformation(full_quarter, p), (t_pos) {-1, 0, 0}));
+    assert(vec_is_equal(apply_transformation(half_quarter, p), point(-1 * M_SQRT2 / 2, M_SQRT2 / 2, 0)));
+    assert(vec_is_equal(apply_transformation(full_quarter, p), point(-1, 0, 0)));
     printf("rotation z: ✔\n");
   }
   {
-    t_pos p = point(1, 0, 1);
+    t_point p = point(1, 0, 1);
     t_matrix4 A = rotation_x(M_PI_2);
     p = apply_transformation(A, p);
     t_matrix4 B = scaling(5, 5, 5);
@@ -525,17 +525,17 @@ int main() {
     p = apply_transformation(C, p);
     assert(vec_is_equal(
              p,
-             (t_pos) {15, 0, 7}));
+             point(15, 0, 7)));
     printf("testing transform : ✔\n");
   }
   {
-    t_pos p = point(1, 0, 1);
+    t_point p = point(1, 0, 1);
     t_matrix4 A = rotation_x(M_PI_2);
     t_matrix4 B = scaling(5, 5, 5);
     t_matrix4 C = translation(10, 5, 7);
     assert(vec_is_equal(
              apply_transformation(transform(A, B, C), p),
-             (t_pos) {15, 0, 7}));
+             point(15, 0, 7)));
     printf("testing transform : ✔\n");
   }
   {
@@ -548,22 +548,22 @@ int main() {
       {1, 2, 3},
       {4, 5, 6},
     };
-    t_pos origin = {1, 2, 3};
-    t_pos direction = {4, 5, 6};
+    t_point origin = {1, 2, 3};
+    t_point direction = {4, 5, 6};
     assert(vec_is_equal(ray.origin, origin));
     assert(vec_is_equal(ray.direction, direction));
     printf("ray struct : ✔\n");
   }
   {
-    t_ray ray = {(t_pos) {2, 3, 4}, (t_vec) {1, 0, 0}};
-    assert(vec_is_equal(ray_position(ray, 0), (t_pos) {2, 3, 4}));
-    assert(vec_is_equal(ray_position(ray, 1), (t_pos) {3, 3, 4}));
-    assert(vec_is_equal(ray_position(ray, -1), (t_pos) {1, 3, 4}));
-    assert(vec_is_equal(ray_position(ray, 2.5), (t_pos) {4.5, 3, 4}));
+    t_ray ray = {point(2, 3, 4), (t_vec) {1, 0, 0}};
+    assert(vec_is_equal(ray_position(ray, 0), point(2, 3, 4)));
+    assert(vec_is_equal(ray_position(ray, 1), point(3, 3, 4)));
+    assert(vec_is_equal(ray_position(ray, -1),point(1, 3, 4)));
+    assert(vec_is_equal(ray_position(ray, 2.5), point(4.5, 3, 4)));
     printf("ray position : ✔\n");
   }
   {
-    t_ray ray = (t_ray) { (t_pos) {0, 0, -5}, (t_vec) {0, 0, 1}};
+    t_ray ray = (t_ray) { point(0, 0, -5), (t_vec) {0, 0, 1}};
     t_sphere sp = sphere();
     t_hit hit = intersect_sphere(sp, ray);
     assert(hit.count == 2);
@@ -571,7 +571,7 @@ int main() {
     assert(is_equal_double(hit.intersection[1].t, 6.0));
   }
   {
-    t_ray ray = (t_ray) { (t_pos) {0, 1, -5}, (t_vec) {0, 0, 1}};
+    t_ray ray = (t_ray) { point(0, 1, -5), (t_vec) {0, 0, 1}};
     t_sphere sp = sphere();
     t_hit hit = intersect_sphere(sp, ray);
     assert(hit.count == 2);
@@ -579,7 +579,7 @@ int main() {
     assert(is_equal_double(hit.intersection[1].t, 5.0));
   }
   {
-    t_ray ray = (t_ray) { (t_pos) {0, 0, 0}, (t_vec) {0, 0, 1}};
+    t_ray ray = (t_ray) { point(0, 0, 0), (t_vec) {0, 0, 1}};
     t_sphere sp = sphere();
     t_hit hit = intersect_sphere(sp, ray);
     assert(hit.count == 2);
@@ -587,7 +587,7 @@ int main() {
     assert(is_equal_double(hit.intersection[1].t, 1));
   }
   {
-    t_ray ray = (t_ray) { (t_pos) {0, 0, 5}, (t_vec) {0, 0, 1}};
+    t_ray ray = (t_ray) { point(0, 0, 5), (t_vec) {0, 0, 1}};
     t_sphere sp = sphere();
     t_hit hit = intersect_sphere(sp, ray);
     assert(hit.count == 2);
@@ -654,12 +654,12 @@ int main() {
   }
   {
     t_sphere s = sphere();
-    assert(mat4_is_equal(s.t, identity()));
+    assert(matrix_is_equal(s.t, identity()));
     s.t = translation(2, 3, 4);
-    assert(mat4_is_equal(s.t, translation(2, 3, 4)));
+    assert(matrix_is_equal(s.t, translation(2, 3, 4)));
   }
   {
-    t_ray r = {{0, 0, -5}, {0, 0, 1}};
+    t_ray r = {point(0, 0, -5), {0, 0, 1}};
     t_sphere s = sphere();
     s.t = scaling(2, 2, 2);
     t_hit h = intersect_sphere(s, r);
@@ -692,7 +692,7 @@ int main() {
     t_sphere s = sphere();
     t_vec v = normal_at(s, point(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3));
     assert(vec_is_equal(v, vector(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3)));
-    assert(vec_is_equal(vec_normalize(v, sqrt), v));
+    assert(vec_is_equal(normalize(v), v));
     printf("calc normal in sphere : ✔\n");
   }
   {
@@ -722,7 +722,7 @@ int main() {
   }
   {
     const t_rgb intensity = (t_rgb) {1, 1, 1};
-    const t_pos position = point(0, 0, 0);
+    const t_point position = point(0, 0, 0);
     t_light light = point_light(position, intensity);
     assert(vec_is_equal(position, light.position));
     rgb_is_equal(intensity, light.intensity);
@@ -748,7 +748,7 @@ int main() {
       0.9,
       200.0,
     };
-    t_pos position = point(0, 0, 0);  
+    t_point position = point(0, 0, 0);  
     {
       t_vec eyev = vector(0, 0, -1);
       t_vec normalv = vector(0, 0, -1);
@@ -795,7 +795,7 @@ int main() {
       assert(w.amount_of_lights == 1);
       assert(w.amount_of_spheres == 2);
       assert(w.spheres[0].material.shininess == 200);
-      assert(mat4_is_equal(w.spheres[1].t, scaling(0.5, 0.5, 0.5)));
+      assert(matrix_is_equal(w.spheres[1].t, scaling(0.5, 0.5, 0.5)));
       assert(vec_is_equal(w.lights[0].position, point(-10, 10, -10)));
       printf("create the world default functions : ✔\n");
     }
@@ -870,40 +870,32 @@ int main() {
       assert(rgb_is_equal(c, inner.material.color));
     }
     {
-      t_pos from = point(0, 0 ,0);
-      t_pos to = point(0, 0, -1);
-      t_pos up = vector(0, 1, 0);
+      t_point from = point(0, 0 ,0);
+      t_point to = point(0, 0, -1);
+      t_point up = vector(0, 1, 0);
       t_transform t = view_transform(from, to, up);
-      printf ("%f %f %f %f\n", t.l1_c1, t.l1_c2, t.l1_c3, t.l1_c4);
-      printf ("%f %f %f %f\n", t.l2_c1, t.l2_c2, t.l2_c3, t.l2_c4);
-      printf ("%f %f %f %f\n", t.l3_c1, t.l3_c2, t.l3_c3, t.l3_c4);
-      printf ("%f %f %f %f\n", t.l4_c1, t.l4_c2, t.l4_c3, t.l4_c4);
-      assert(mat4_is_equal(identity(), t));
+      assert(matrix_is_equal(identity(), t));
     }
     {
-      t_pos from = point(0, 0 ,0); 
-      t_pos to = point(0, 0, 1);
-      t_pos up = vector(0, 1, 0);
+      t_point from = point(0, 0 ,0); 
+      t_point to = point(0, 0, 1);
+      t_point up = vector(0, 1, 0);
       t_transform t = view_transform(from, to, up);
-      assert(mat4_is_equal(scaling(-1, 1, -1), t));
+      assert(matrix_is_equal(scaling(-1, 1, -1), t));
     }
     {
-      t_pos from = point(0, 0, 8); 
-      t_pos to = point(0, 0, 0);
-      t_pos up = vector(0, 1, 0);
+      t_point from = point(0, 0, 8); 
+      t_point to = point(0, 0, 0);
+      t_point up = vector(0, 1, 0);
       t_transform t = view_transform(from, to, up);
-      assert(mat4_is_equal(translation(0, 0, -8), t));
+      assert(matrix_is_equal(translation(0, 0, -8), t));
     }
     {
-      t_pos from = point(1, 3, 2); 
-      t_pos to = point(4, -2, 8);
-      t_pos up = vector(1, 1, 0);
+      t_point from = point(1, 3, 2); 
+      t_point to = point(4, -2, 8);
+      t_vec up = vector(1, 1, 0);
       t_transform t = view_transform(from, to, up);
-      printf ("%f %f %f %f\n", t.l1_c1, t.l1_c2, t.l1_c3, t.l1_c4);
-      printf ("%f %f %f %f\n", t.l2_c1, t.l2_c2, t.l2_c3, t.l2_c4);
-      printf ("%f %f %f %f\n", t.l3_c1, t.l3_c2, t.l3_c3, t.l3_c4);
-      printf ("%f %f %f %f\n", t.l4_c1, t.l4_c2, t.l4_c3, t.l4_c4);
-      assert(mat4_is_equal((t_matrix4) {
+      assert(matrix_is_equal((t_matrix4) {
         -0.50709, 0.50709, 0.67612, -2.36643,
         0.76772, 0.60609, 0.12122, -2.82843,
         -0.35857, 0.59761, -0.71714, 0.00000,

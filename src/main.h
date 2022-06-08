@@ -106,14 +106,6 @@ t_rgb color(float r, float g, float b);
 
 /******* MLX *******/
 
-typedef union u_pair_int
-{
-	struct { int width; int height; };
-	struct { int x; int y; };
-	struct { int i; int j; };
-}	t_pair;
-
-typedef t_pair t_res;
 // typedef t_pair t_pos;
 
 typedef struct s_mlx {
@@ -147,22 +139,22 @@ int make_color(t_rgb c, float alpha);
 void put_pixel(t_pair pos, t_rgb rgb);
 void put_image(t_pair pos, t_image img);
 t_image create_image(t_res res);
-void put_pixel_to_image(t_image img, t_pos pos, t_rgb color);
+void put_pixel_to_image(t_image img, t_pair pos, t_rgb color);
 void fill_image(t_image img, t_pair start, t_pair finish, t_rgb color);
 void full_fill_image(t_image img, t_rgb color);
-void fill_image_con(t_image img, t_rgb color, bool (*functor)(t_pos p));
+void fill_image_con(t_image img, t_rgb color, bool (*functor)(t_point p));
 void loop_hook(int (*funct_ptr)(), void *param);
 void clear_window();
 void start_mlx();
 
 // RAY TRACING
 typedef struct s_ray {
-    t_pos origin;
+    t_point origin;
     t_vec direction;
 }               t_ray;
 
 typedef struct s_light {
-    t_pos position;
+    t_point position;
     t_rgb intensity;
 }               t_light;
 
@@ -176,7 +168,7 @@ typedef struct s_material {
 
 typedef struct s_sphere {
     int id;
-    t_pos center;
+    t_point center;
     double radius;
     t_matrix4 t;
     t_material material;
@@ -201,28 +193,28 @@ typedef union u_object {
 typedef struct s_comp {
     double t;
     t_object object;
-    t_pos point; 
+    t_point point; 
     t_vec eyev;
     t_vec normalv;
     bool inside;
 }               t_comp;
 
 
-t_ray ray(t_pos origin, t_vec direction);
-t_pos ray_position(t_ray r, double t);
-t_sphere make_sphere(t_pos origin, double radius);
+t_ray ray(t_point origin, t_vec direction);
+t_point ray_position(t_ray r, double t);
+t_sphere make_sphere(t_point origin, double radius);
 t_sphere sphere();
 t_hit intersect_sphere(const t_sphere sphere, const t_ray r);
 t_intersection hit(t_hit h);
 t_ray ray_transform(t_ray ray, t_matrix4 m);
 bool is_hit(const t_sphere sp, const t_ray r);
-t_vec normal_at(t_sphere s, t_pos p);
+t_vec normal_at(t_sphere s, t_point p);
 t_vec reflect(t_vec in, t_vec norm);
-t_light point_light(t_pos position, t_rgb color);
-t_rgb lighting(t_material m, t_light l, t_pos point, t_vec eyev, t_vec normalv);
+t_light point_light(t_point position, t_rgb color);
+t_rgb lighting(t_material m, t_light l, t_point point, t_vec eyev, t_vec normalv);
 t_material material();
 t_comp prepare_computations(t_intersection i, t_ray r);
-t_transform view_transform(t_pos from, t_pos to, t_vec up);
+t_transform view_transform(t_point from, t_point to, t_vec up);
 
 // THE WORLD
 typedef struct s_world {

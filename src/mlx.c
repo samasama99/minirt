@@ -85,7 +85,7 @@ void put_image(t_pair pos, t_image img) {
   mlx_put_image_to_window(m.mlx, m.win, img.img, pos.x, pos.y);
 }
 
-void put_pixel_to_image(t_image img, t_pos p, t_rgb color) {
+void put_pixel_to_image(t_image img, t_pair p, t_rgb color) {
   const t_mlx m = get_mlx_info(NULL);
   t_pair pos;
 
@@ -100,25 +100,25 @@ void put_pixel_to_image(t_image img, t_pos p, t_rgb color) {
 }
 
 
-void fill_image_con(t_image img, t_rgb color, bool (*functor)(t_pos p)) {
-  const t_mlx m = get_mlx_info(NULL);
-  int x;
-  int y;
-  int c;
+// void fill_image_con(t_image img, t_rgb color, bool (*functor)(t_pos p)) {
+//   const t_mlx m = get_mlx_info(NULL);
+//   int x;
+//   int y;
+//   int c;
 
-  x = 0;
-  y = 0;
-  c = make_color(color, 0);
-  while (y < img.res.height) {
-    while (x < img.res.height) {
-      if (functor((t_pos) {x, y}))
-        img.buffer[x + (y * (img.res.x))] = c;
-      x++;
-    }
-    x = 0;
-    y++;
-  }
-}
+//   x = 0;
+//   y = 0;
+//   c = make_color(color, 0);
+//   while (y < img.res.height) {
+//     while (x < img.res.height) {
+//       if (functor((t_pos) {x, y}))
+//         img.buffer[x + (y * (img.res.x))] = c;
+//       x++;
+//     }
+//     x = 0;
+//     y++;
+//   }
+// }
 
 void fill_image(t_image img, t_pair start, t_pair finish, t_rgb color) {
   const t_mlx m = get_mlx_info(NULL);

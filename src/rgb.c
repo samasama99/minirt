@@ -75,6 +75,13 @@ t_rgb color(float r, float g, float b)
   });
 }
 
+t_rgb black()
+{
+  return ((t_rgb){
+    0, 0, 0
+  });
+}
+
 // int main () {
 //   t_rgb color1 = {{255, 0, 255, 0}};
 //   unsigned int color2 = 0x00FF00FF;

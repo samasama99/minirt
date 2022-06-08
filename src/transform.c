@@ -51,7 +51,7 @@ t_matrix4 rotation_z(t_rad deg) {
   };
 }
 
-t_matrix4 shearing(t_pos x, t_pos y, t_pos z) {
+t_matrix4 shearing(t_point x, t_point y, t_point z) {
 return (t_matrix4) {
     1, y.x, z.x, 0,
     x.y, 1, z.y, 0,
@@ -74,12 +74,12 @@ t_matrix4 identity() {
   };
 }
 
-
-t_transform view_transform(t_pos from, t_pos to, t_vec up)
+t_transform view_transform(t_point from, t_point to, t_vec up)
 {
-  const t_vec forward = vec_normalize(vec_sub(to, from), sqrt);
-  const t_vec left = vec_normalize(vec_cross_product(forward, vec_normalize(up, sqrt)), sqrt);
-  const t_vec true_up = vec_cross_product(left, forward);
+  const t_vec forward = normalize(sub(to, from));
+  const t_vec nup = normalize(up);
+  const t_vec left = cross(forward, nup);
+  const t_vec true_up = cross(left, forward);
   const t_transform orientation = {
     left.x, left.y, left.z, 0,
     true_up.x, true_up.y, true_up.z, 0,
