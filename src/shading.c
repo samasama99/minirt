@@ -4,8 +4,8 @@
 const double wall_z = 10;
 const double wall_size_x = 7;
 const double wall_size_y = 7;
-const double canvas_pixel_x = 1200.0;
-const double canvas_pixel_y = 1200.0;
+const double canvas_pixel_x = 300.0;
+const double canvas_pixel_y = 300.0;
 const double pixel_size_x = wall_size_x / canvas_pixel_x;
 const double pixel_size_y = wall_size_y / canvas_pixel_y;
 const double half_x = wall_size_x / 2;
@@ -21,15 +21,7 @@ int f(void *ptr) {
 
   canvas = create_image(res);
   s = sphere();
-  s.t = transform(scaling(0.5, 0.5, 0.5), identity(), identity());
-  t_material m = {
-      .color = {1, 0.2, 1},
-      .ambient = 0.1,
-      .diffuse = 0.9,
-      .specular = 0.0,
-      .shininess = 200.0,
-  };
-  s.material = m;
+  s.t = transform(scaling(-1, 1, -1), identity(), identity());
   for (int y = 0;y < canvas_pixel_y - 1;++y) {
     double world_y = half_y - pixel_size_y * y; 
     for (int x = 0;x < canvas_pixel_x - 1;++x) {

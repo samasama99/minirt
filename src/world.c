@@ -12,9 +12,10 @@ t_world add_sphere(const t_world w, const t_sphere s)
 {
   t_world new_w;
 
-  panic(w.amount_of_spheres == 1024,
-        "reached the maximum amount of spheres",
-        __func__,__FILE__,__LINE__);
+  // panic(w.amount_of_spheres == 1024,
+  //       "reached the maximum amount of spheres",
+  //       __func__,__FILE__,__LINE__);
+  new_w = world();
   new_w = w;
   new_w.spheres[w.amount_of_spheres] = s;
   ++new_w.amount_of_spheres;
@@ -44,8 +45,8 @@ t_world default_world()
       color(1, 1, 1)
   );
 
+  w = world();
   s1 = sphere();
-  s1.material = material();
   s1.material.color = color(0.8, 1.0, 0.6);
   s1.material.diffuse = 0.7;
   s1.material.specular = 0.2;
@@ -128,5 +129,13 @@ t_hit intersect_world(t_world w, t_ray r)
   return h;
 }
 
-// int main() {
-// }
+t_rgb color_at(t_world w, t_ray r)
+{
+  const t_hit h = intersect_world(w, r);
+  const t_intersection i = hit(h);
+  
+  if (i.t < 0)
+    return color(0, 0 ,0);
+  t_comp comp = prepare_computations(i, r);
+  return (shade_hit(w, comp));
+}

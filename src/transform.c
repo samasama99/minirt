@@ -75,8 +75,17 @@ t_matrix4 identity() {
 }
 
 
+t_transform view_transform(t_pos from, t_pos to, t_vec up)
+{
+  const t_vec forward = vec_normalize(vec_sub(to, from), sqrt);
+  const t_vec left = vec_normalize(vec_cross_product(forward, vec_normalize(up, sqrt)), sqrt);
+  const t_vec true_up = vec_cross_product(left, forward);
+  const t_transform orientation = {
+    left.x, left.y, left.z, 0,
+    true_up.x, true_up.y, true_up.z, 0,
+    -forward.x, -forward.y, -forward.z, 0,
+    0, 0, 0, 0,
+  };
 
-
-
-
-
+  return mat4_mult(orientation, translation(-from.x, -from.y, -from.z));
+}

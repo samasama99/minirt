@@ -222,6 +222,7 @@ t_light point_light(t_pos position, t_rgb color);
 t_rgb lighting(t_material m, t_light l, t_pos point, t_vec eyev, t_vec normalv);
 t_material material();
 t_comp prepare_computations(t_intersection i, t_ray r);
+t_transform view_transform(t_pos from, t_pos to, t_vec up);
 
 // THE WORLD
 typedef struct s_world {
@@ -235,4 +236,6 @@ t_world world();
 t_world add_sphere(const t_world w, const t_sphere s);
 t_world default_world();
 t_hit intersect_world(t_world w, t_ray r);
+t_rgb shade_hit(t_world w, t_comp comps);
+t_rgb color_at(t_world w, t_ray r);
 #endif

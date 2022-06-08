@@ -156,8 +156,6 @@ t_image create_image(t_res res) {
       (int *)mlx_get_data_addr(img.img, &pixel_bits, &line_bytes, &endian);
   while (y < res.height) {
     while (x < res.width) {
-      // printf ("index (line bytes %d) bytes : %d\n", line_bytes,x + (y *
-      // (line_bytes / 4)));
       img.buffer[x + (y * (line_bytes / 4))] = 0x00000000;
       x++;
     }

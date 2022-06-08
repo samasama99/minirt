@@ -812,11 +812,101 @@ int main() {
     }
     {
       t_ray r = ray(point(0, 0, -5), vector(0, 0, 1));     
+      t_ray r2= ray(point(0, 0, 0), vector(0, 0, 1));     
       t_sphere s = sphere();
       t_intersection i = {.sphere = s, .t = 4};
+      t_intersection i2 = {.sphere = s, .t = 1};
       t_comp comps = prepare_computations(i, r);
+      assert(comps.object.sphere.id == s.id);
+      assert(vec_is_equal(point(0, 0, -1), comps.point));
+      assert(vec_is_equal(vector(0, 0, -1), comps.eyev));
+      assert(vec_is_equal(vector(0, 0, -1), comps.normalv));
+      assert(comps.inside == false);
+      comps = prepare_computations(i2, r2);
+      assert(comps.inside == true);
+      assert(vec_is_equal(point(0, 0, 1), comps.point));
+      assert(vec_is_equal(vector(0, 0, -1), comps.eyev));
+      assert(vec_is_equal(vector(0, 0, -1), comps.normalv));
     }
-      // t_world add_sphere(const t_world w, const t_sphere s);
+    {
+      t_world w = default_world();
+      t_ray r = ray(point(0, 0, -5), vector(0, 0, 1));
+      t_sphere s = w.spheres[0];
+      t_intersection i = {4, s};
+      t_comp comps = prepare_computations(i, r);
+      t_rgb c = shade_hit(w, comps);
+      assert(rgb_is_equal(color(0.38066, 0.47583, 0.2855), c));
+    }
+    {
+      t_world w = default_world();
+      w.lights[0] = (t_light) {point(0, 0.25, 0), color(1, 1, 1)};
+      t_ray r = ray(point(0, 0, 0), vector(0, 0, 1));
+      t_sphere s = w.spheres[1];
+      t_intersection i = {0.5, s};
+      t_comp comps = prepare_computations(i, r);
+      t_rgb c = shade_hit(w, comps);
+      assert(rgb_is_equal(color(0.90498, 0.90498, 0.90498), c));
+    }
+    {
+      t_world w = default_world();
+      t_ray r = ray(point(0, 0, -5), vector(0, 1, 0));
+      t_rgb c = color_at(w, r);
+      assert(rgb_is_equal(c, color(0, 0 ,0)));
+    }
+    {
+      t_world w = default_world();
+      t_ray r = ray(point(0, 0, -5), vector(0, 0, 1));
+      t_rgb c = color_at(w, r);
+      assert(rgb_is_equal(c, color(0.38066, 0.47583 , 2.855)));
+    }
+    {
+      t_world w = world();
+      t_sphere outer = w.spheres[0];
+      outer.material.ambient = 1;
+      t_sphere inner = w.spheres[1];
+      inner.material.ambient = 1;
+      t_ray r = ray(point(0, 0, 0.75), vector(0, 0, -1));
+      t_rgb c = color_at(w, r);
+      assert(rgb_is_equal(c, inner.material.color));
+    }
+    {
+      t_pos from = point(0, 0 ,0);
+      t_pos to = point(0, 0, -1);
+      t_pos up = vector(0, 1, 0);
+      t_transform t = view_transform(from, to, up);
+      printf ("%f %f %f %f\n", t.l1_c1, t.l1_c2, t.l1_c3, t.l1_c4);
+      printf ("%f %f %f %f\n", t.l2_c1, t.l2_c2, t.l2_c3, t.l2_c4);
+      printf ("%f %f %f %f\n", t.l3_c1, t.l3_c2, t.l3_c3, t.l3_c4);
+      printf ("%f %f %f %f\n", t.l4_c1, t.l4_c2, t.l4_c3, t.l4_c4);
+      assert(mat4_is_equal(identity(), t));
+    }
+    {
+      t_pos from = point(0, 0 ,0); 
+      t_pos to = point(0, 0, 1);
+      t_pos up = vector(0, 1, 0);
+      t_transform t = view_transform(from, to, up);
+      assert(mat4_is_equal(scaling(-1, 1, -1), t));
+    }
+    {
+      t_pos from = point(0, 0, 8); 
+      t_pos to = point(0, 0, 0);
+      t_pos up = vector(0, 1, 0);
+      t_transform t = view_transform(from, to, up);
+      assert(mat4_is_equal(translation(0, 0, -8), t));
+    }
+    {
+      t_pos from = point(1, 3, 2); 
+      t_pos to = point(4, -2, 8);
+      t_pos up = vector(1, 1, 0);
+      t_transform t = view_transform(from, to, up);
+      printf ("%f %f %f %f\n", t.l1_c1, t.l1_c2, t.l1_c3, t.l1_c4);
+      assert(mat4_is_equal((t_matrix4) {
+        -0.50709, 0.50709, 0.67612, -2.36643,
+        0.76772, 0.60609, 0.12122, -2.82843,
+        -0.35857, 0.59761, -0.71714, 0.00000,
+        0.00000, 0.00000, 0.00000, 1.00000
+      }, t));
+    }
   }
   return 0;
 }

@@ -17,21 +17,20 @@ t_pos ray_position(t_ray r, double t)
 t_sphere make_sphere(t_pos origin, double radius)
 {
   static int id;
-  t_sphere sphere;
-
-  sphere = (t_sphere) {
-    id,
+  const t_sphere sphere = {
+    ++id,
     origin,
     radius,
     identity(),
+    material(),
   };
-  ++id;
+
   return sphere;
 }
 
 t_sphere sphere()
 {
-  return make_sphere((t_pos){0, 0}, 1);
+  return make_sphere((t_pos){0, 0, 0, 1}, 1);
 }
 
 // e is the origin of the ray and d is the direction
@@ -170,8 +169,26 @@ t_comp prepare_computations(t_intersection i, t_ray r)
     comp.point = ray_position(r, comp.t);
     comp.eyev = vec_opose(r.direction);
     comp.normalv = normal_at(comp.object.sphere, comp.point);
+    if (vec_dot_product(comp.normalv, comp.eyev) < 0)
+    {
+      comp.inside = true;
+      comp.normalv = vec_opose(comp.normalv);
+    } 
+    else
+      comp.inside = false;
     return comp;
 };
+
+t_rgb shade_hit(t_world w, t_comp comps)
+{
+  return lighting(
+    comps.object.sphere.material,
+    w.lights[0],
+    comps.point,
+    comps.eyev,
+    comps.normalv
+  );
+}
 // function normal_at(sphere, world_point)
 // object_point ← inverse(sphere.transform) * world_point 
 // object_normal ← object_point - point(0, 0, 0)
