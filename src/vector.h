@@ -157,6 +157,7 @@ double	dot(t_vec a, t_vec b);
 
 t_vec vector(double x, double y, double z);
 t_point point(double x, double y, double z);
+t_pair pair(double x, double y);
 
 void	print_tupil(char *vec_name, t_vec a);
 

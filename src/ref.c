@@ -35,6 +35,7 @@ int main()
   init_mlx(res, center);
   t_image canvas = create_image(res);;
   t_world w = default_world();
+  w.spheres[0].material.color = color(229 / 255.999, 184 / 255.999, 11 / 255.999);
   draw_in_canvas(canvas, w);
   start_mlx();
 }

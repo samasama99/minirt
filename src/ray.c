@@ -144,17 +144,17 @@ t_rgb lighting(t_material m, t_light l, t_point p, t_vec eyev, t_vec normalv)
   const t_rgb ambient = rgb_scalar(effective_color, m.ambient);
   const double light_dot_normal = dot(lightv, normalv);
   if (light_dot_normal < 0) {
-   diffuse = (t_rgb){0 ,0 ,0}; 
-   specular = (t_rgb){0 ,0 ,0}; 
+   diffuse = black();
+   specular = black();
   } else {
     diffuse = rgb_scalar(effective_color, m.diffuse * light_dot_normal);
     reflectv = reflect(opose(lightv), normalv);
     reflect_dot_eye = dot(reflectv, eyev);
     if (reflect_dot_eye <= 0) {
-      specular = (t_rgb) {0, 0, 0};
+      specular = black();
     } else {
       factor = pow(reflect_dot_eye, m.shininess);
-      specular =  rgb_scalar(l.intensity, m.specular * factor);
+      specular = rgb_scalar(l.intensity, m.specular * factor);
     }
   }
   return rgb_sum(ambient, rgb_sum(diffuse, specular));

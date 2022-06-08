@@ -10,7 +10,7 @@ const double pixel_size_x = wall_size_x / canvas_pixel_x;
 const double pixel_size_y = wall_size_y / canvas_pixel_y;
 const double half_x = wall_size_x / 2;
 const double half_y = wall_size_y / 2;
-const t_pos ray_origin = {0, 0, -15, 1};
+const t_point ray_origin = {0, 0, -15, 1};
 const t_res res = {canvas_pixel_x, canvas_pixel_y }; 
 const t_pair center = {0, 0}; 
 
@@ -55,8 +55,8 @@ int f(void *ptr) {
     double world_y = half_y - pixel_size_y * y; 
     for (int x = 0;x < canvas_pixel_x - 1;++x) {
       double world_x = -half_x + pixel_size_x * x;
-      t_pos position = {world_x, world_y, wall_z, 1};
-      t_ray r = {ray_origin, vec_normalize(vec_sub(position, ray_origin), sqrt)};
+      t_point position = {world_x, world_y, wall_z, 1};
+      t_ray r = {ray_origin, normalize(sub(position, ray_origin))};
       t_hit h = intersect_sphere(s1, r);
       t_hit h2 = intersect_sphere(s2, r);
       t_hit h3 = {{hit(h), hit(h2)}, 2};
@@ -64,31 +64,31 @@ int f(void *ptr) {
       t_hit h5 = {{hit(h3), hit(h4)}, 2};
       t_intersection inter = hit(h5);
       if (inter.sphere.id == 0 && inter.t > 0) {
-          t_pos p = ray_position(r, inter.t);
+          t_point p = ray_position(r, inter.t);
           t_norm normal = normal_at(inter.sphere, p);
-          t_vec eye = vec_opose(r.direction);
+          t_vec eye = opose(r.direction);
           t_rgb color = lighting(inter.sphere.material, light, p, eye, normal);
           t_rgb color2 = lighting(inter.sphere.material, light2, p, eye, normal);
           color = rgb_sum(color, color2);
-          put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, color);
+          put_pixel_to_image(canvas, pair(x, y), color);
       } else if (inter.sphere.id == 1 && inter.t > 0) {
-          t_pos p = ray_position(r, inter.t);
+          t_point p = ray_position(r, inter.t);
           t_norm normal = normal_at(inter.sphere, p);
-          t_vec eye = vec_opose(r.direction);
+          t_vec eye = opose(r.direction);
           t_rgb color = lighting(inter.sphere.material, light, p, eye, normal);
           t_rgb color2 = lighting(inter.sphere.material, light2, p, eye, normal);
           color = rgb_sum(color, color2);
-          put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, color);
+          put_pixel_to_image(canvas, pair(x, y), color);
       } else if (inter.sphere.id == 2 && inter.t > 0) {
-          t_pos p = ray_position(r, inter.t);
+          t_point p = ray_position(r, inter.t);
           t_norm normal = normal_at(inter.sphere, p);
-          t_vec eye = vec_opose(r.direction);
+          t_vec eye = opose(r.direction);
           t_rgb color = lighting(inter.sphere.material, light, p, eye, normal);
           t_rgb color2 = lighting(inter.sphere.material, light2, p, eye, normal);
           color = rgb_sum(color, color2);
-          put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, color);
+          put_pixel_to_image(canvas, pair(x, y), color);
       } else
-          put_pixel_to_image(canvas, (t_pos) {x, y, 0, 1}, (t_rgb) {0, 0, 0});
+          put_pixel_to_image(canvas, pair(x, y), black());
         
     }
   }

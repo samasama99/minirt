@@ -103,6 +103,7 @@ t_rgb	rgb_scalar(t_rgb a, double k);
 bool rgb_is_equal(t_rgb v1, t_rgb v2);
 t_rgb rgb_hadamard_product(t_rgb c1, t_rgb c2);
 t_rgb color(float r, float g, float b);
+t_rgb black();
 
 /******* MLX *******/
 
