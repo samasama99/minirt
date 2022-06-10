@@ -92,7 +92,7 @@ t_ray ray_transform(t_ray ray, t_matrix4 m)
         .origin = apply_transformation(m, ray.origin),
         .direction = apply_transformation(m, ray.direction),
   };
-};
+}
 
 t_vec normal_at(t_sphere s, t_point world_point)
 {
@@ -177,7 +177,7 @@ t_comp prepare_computations(t_intersection i, t_ray r)
     else
       comp.inside = false;
     return comp;
-};
+}
 
 t_rgb shade_hit(t_world w, t_comp comps)
 {

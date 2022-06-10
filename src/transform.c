@@ -9,7 +9,7 @@ t_matrix4 translation(double x, double y, double z) {
     0, 0, 1, z,
     0, 0, 0, 1,
   };
-};
+}
 
 t_matrix4 scaling(double x, double y, double z) {
   return (t_matrix4) {
@@ -18,7 +18,7 @@ t_matrix4 scaling(double x, double y, double z) {
     0, 0, z, 0,
     0, 0, 0, 1,
   };
-};
+}
 
 t_rad radians(t_deg deg) {
   return (deg / 180) * M_PI;

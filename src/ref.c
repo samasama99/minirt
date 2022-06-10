@@ -35,7 +35,12 @@ int main()
   init_mlx(res, center);
   t_image canvas = create_image(res);;
   t_world w = default_world();
+  w.lights[0].position = point(0, 10, 0);
   w.spheres[0].material.color = color(229 / 255.999, 184 / 255.999, 11 / 255.999);
+  w.spheres[0].t = transform(scaling(0.5, 0.5, 1), translation(0, -0.5, 0), identity());
+  w.spheres[0].center = point(0, 0, 0);
+  w.spheres[1].t = transform(scaling(0.5, 0.5, 0.5), translation(0, 0.5, 0), identity());
+  w.spheres[1].center = point(0, 0, 0);
   draw_in_canvas(canvas, w);
   start_mlx();
 }

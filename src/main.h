@@ -231,4 +231,19 @@ t_world default_world();
 t_hit intersect_world(t_world w, t_ray r);
 t_rgb shade_hit(t_world w, t_comp comps);
 t_rgb color_at(t_world w, t_ray r);
+
+typedef struct s_camera {
+  double hsize;
+  double vsize;
+  double pixel_size;
+  double aspect;
+  double half_view;
+  double half_width;
+  double half_height;
+  t_rad fov;
+  t_transform transform;
+} t_camera;
+
+t_camera camera(const double hsize, const double vsize, const t_rad fov);
+t_ray ray_for_pixel(t_camera c, int px, int py);
 #endif

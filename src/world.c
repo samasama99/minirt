@@ -6,7 +6,7 @@ t_world world()
     .amount_of_spheres = 0,
     .amount_of_lights = 0,
   });
-};
+}
 
 t_world add_sphere(const t_world w, const t_sphere s)
 {

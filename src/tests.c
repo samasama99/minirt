@@ -127,7 +127,7 @@ int main() {
       t_point gravity;
       t_vec wind;
     } t_environment;
-    t_projectile proj = {(t_point){0, 1, 0},
+    t_projectile proj = {point(0, 1, 0),
                          normalize((t_vec){1, 1, 0})};
     t_environment env = {(t_vec){0, -0.1, 0}, (t_vec){-0.01, 0, 0}};
     int ticks = 0;
@@ -407,18 +407,18 @@ int main() {
   {
       t_matrix4 m = {
           6,4,4,4,
-          5,5,7,6, 
-          4,-9, 3,-7, 
+          5,5,7,6,
+          4,-9, 3,-7,
           9, 1, 7,-6
       };
       t_matrix4 n = {
           -4, 2,-2,-3,
-          9,6,2,6, 
-          0,-5, 1,-5, 
+          9,6,2,6,
+          0,-5, 1,-5,
           0,0,0,0,
       };
-      assert(mat4_is_invertible(m) == true); 
-      assert(mat4_is_invertible(n) == false); 
+      assert(mat4_is_invertible(m) == true);
+      assert(mat4_is_invertible(n) == false);
     printf("checking the invertibility of a 4x4 matrix : ✔\n");
   }
   {
@@ -438,16 +438,16 @@ int main() {
 
     t_matrix4 a = {
           3,-9, 7, 3,
-          3,-8, 2,-9, 
+          3,-8, 2,-9,
           -4, 4, 4, 1,
           -6, 5,-1, 1,
     };
     t_matrix4 b = {
            8,2,2,2,
-           3,-1, 7, 0, 
+           3,-1, 7, 0,
            7,0,5,4,
            6,-2, 0, 5,
-    }; 
+    };
     t_matrix4 c = mat4_mult(a, b);
     assert(matrix_is_equal(mat4_mult(c, inverse(b)), a));
     printf("inversing a 4x4 matrix : ✔\n");
@@ -587,7 +587,7 @@ int main() {
     assert(is_equal_double(hit.intersection[1].t, 1));
   }
   {
-    t_ray ray = (t_ray) { point(0, 0, 5), (t_vec) {0, 0, 1}};
+    t_ray ray = (t_ray) {point(0, 0, 5), (t_vec) {0, 0, 1}};
     t_sphere sp = sphere();
     t_hit hit = intersect_sphere(sp, ray);
     assert(hit.count == 2);
@@ -846,6 +846,7 @@ int main() {
       t_comp comps = prepare_computations(i, r);
       t_rgb c = shade_hit(w, comps);
       assert(rgb_is_equal(color(0.90498, 0.90498, 0.90498), c));
+      printf("prepare comps and shade_hit : ✔\n");
     }
     {
       t_world w = default_world();
@@ -868,6 +869,7 @@ int main() {
       t_ray r = ray(point(0, 0, 0.75), vector(0, 0, -1));
       t_rgb c = color_at(w, r);
       assert(rgb_is_equal(c, inner.material.color));
+      printf("color_at function : ✔\n");
     }
     {
       t_point from = point(0, 0 ,0);
@@ -901,7 +903,37 @@ int main() {
         -0.35857, 0.59761, -0.71714, 0.00000,
         0.00000, 0.00000, 0.00000, 1.00000
       }, t));
+      printf("view transformation : ✔\n");
     }
+  }
+  {
+    t_camera c = camera(200, 125, M_PI_2);
+    assert(is_equal_double(c.pixel_size, 0.01));
+  }
+  {
+    t_camera c = camera(125, 200, M_PI_2);
+    assert(is_equal_double(c.pixel_size, 0.01));
+      printf("camera : ✔\n");
+  }
+  {
+    t_camera c = camera(201, 101, M_PI_2);
+    t_ray r = ray_for_pixel(c, 100, 50);
+    assert(vec_is_equal(r.origin, point(0, 0, 0)));
+    assert(vec_is_equal(r.direction, vector(0, 0, -1)));
+  }
+  {
+    t_camera c = camera(201, 101, M_PI_2);
+    t_ray r = ray_for_pixel(c, 0, 0);
+    assert(vec_is_equal(r.origin, point(0, 0, 0)));
+    assert(vec_is_equal(r.direction, vector(0.66519, 0.33259, -0.66851)));
+  }
+  {
+    t_camera c = camera(201, 101, M_PI_2);
+    c.transform = transform(rotation_y(M_PI_4), translation(0, -2, 5), identity());
+    t_ray r = ray_for_pixel(c, 100, 50);
+    printf ("%f %f %f\n", r.direction.x, r.direction.y, r.direction.z);
+    assert(vec_is_equal(r.origin, point(0, 2, -5)));
+    assert(vec_is_equal(r.direction, vector(sqrt(2) / 2, 0, -sqrt(2) / 2)));
   }
   return 0;
 }

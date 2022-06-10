@@ -125,11 +125,11 @@ t_matrix2 mat3_submatrix(t_matrix3 m, int row, int col)
   j2 = 0;
   panic(row < 0 || row > 2 || col < 0 || col > 2, "out of bound params"
         , __func__, __FILE__, __LINE__);
-  while (j < 3)
+  while (j < 3 && j2 < 3)
   {
     if (j == row)
       ++j;
-    while (i < 3 && j < 3)
+    while (i < 3 && j < 3 && i2 < 3 && j2 < 3)
     {
         if (i == col)
           ++i;
@@ -203,7 +203,7 @@ double mat3_determinant(t_matrix3 m)
   return (m.l1_c1 * mat3_cofactor(m, 0, 0)
           + m.l1_c2 * mat3_cofactor(m, 0, 1)
           +  m.l1_c3 * mat3_cofactor(m, 0, 2));
-};
+}
 
 double mat4_minor(t_matrix4 m, int row, int col)
 {
@@ -223,7 +223,7 @@ double mat4_cofactor(t_matrix4 m, int row, int col)
   };
 
   return x.m[row][col] * mat4_minor(m, row, col);
-};
+}
 
 double mat4_determinant(t_matrix4 m)
 {
@@ -231,7 +231,7 @@ double mat4_determinant(t_matrix4 m)
           + m.l1_c2 * mat4_cofactor(m, 0, 1)
           +  m.l1_c3 * mat4_cofactor(m, 0, 2)
           +  m.l1_c4 * mat4_cofactor(m, 0, 3));
-};
+}
 
 bool mat4_is_invertible(t_matrix4 m)
 {
