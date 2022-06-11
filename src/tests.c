@@ -929,9 +929,8 @@ int main() {
   }
   {
     t_camera c = camera(201, 101, M_PI_2);
-    c.transform = transform(rotation_y(M_PI_4), translation(0, -2, 5), identity());
+    c.transform = mat4_mult(rotation_y(M_PI_4), translation(0, -2, 5));
     t_ray r = ray_for_pixel(c, 100, 50);
-    printf ("%f %f %f\n", r.direction.x, r.direction.y, r.direction.z);
     assert(vec_is_equal(r.origin, point(0, 2, -5)));
     assert(vec_is_equal(r.direction, vector(sqrt(2) / 2, 0, -sqrt(2) / 2)));
   }

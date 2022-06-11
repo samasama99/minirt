@@ -100,6 +100,9 @@ void put_pixel_to_image(t_image img, t_pair p, t_rgb color) {
 }
 
 
+int pixel_at(t_image img, t_pair p) {
+    return img.buffer[p.x + (p.y * img.res.x)];
+}
 // void fill_image_con(t_image img, t_rgb color, bool (*functor)(t_pos p)) {
 //   const t_mlx m = get_mlx_info(NULL);
 //   int x;

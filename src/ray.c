@@ -22,7 +22,7 @@ t_sphere make_sphere(t_point origin, double radius)
     origin,
     radius,
     identity(),
-    material(),
+    .material = material(),
   };
 
   return sphere;

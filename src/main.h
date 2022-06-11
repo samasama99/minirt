@@ -146,6 +146,7 @@ void full_fill_image(t_image img, t_rgb color);
 void fill_image_con(t_image img, t_rgb color, bool (*functor)(t_point p));
 void loop_hook(int (*funct_ptr)(), void *param);
 void clear_window();
+int pixel_at(t_image img, t_pair p);
 void start_mlx();
 
 // RAY TRACING
@@ -246,4 +247,5 @@ typedef struct s_camera {
 
 t_camera camera(const double hsize, const double vsize, const t_rad fov);
 t_ray ray_for_pixel(t_camera c, int px, int py);
+t_image render(t_camera c, t_world w);
 #endif
