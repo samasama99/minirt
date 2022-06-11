@@ -47,7 +47,14 @@
 # define LEFT_ARROW 123
 # define RIGHT_ARROW 124
 
+#define EPSILON 0.00001
+
+#ifdef D
 #define DEBUG(f_, ...) printf((f_), __VA_ARGS__)
+#else
+#define DEBUG(f_, ...) 
+#endif
+
 
 typedef void* mlx_ptr;
 typedef void* win_ptr;
@@ -196,6 +203,7 @@ typedef struct s_comp {
     double t;
     t_object object;
     t_point point; 
+    t_point over_point;
     t_vec eyev;
     t_vec normalv;
     bool inside;
@@ -213,7 +221,7 @@ bool is_hit(const t_sphere sp, const t_ray r);
 t_vec normal_at(t_sphere s, t_point p);
 t_vec reflect(t_vec in, t_vec norm);
 t_light point_light(t_point position, t_rgb color);
-t_rgb lighting(t_material m, t_light l, t_point point, t_vec eyev, t_vec normalv);
+t_rgb lighting(t_material m, t_light l, t_point point, t_vec eyev, t_vec normalv, bool shadowd);
 t_material material();
 t_comp prepare_computations(t_intersection i, t_ray r);
 t_transform view_transform(t_point from, t_point to, t_vec up);
@@ -228,10 +236,12 @@ typedef struct s_world {
 
 t_world world();
 t_world add_sphere(const t_world w, const t_sphere s);
+t_world add_light(const t_world w, const t_light l);
 t_world default_world();
 t_hit intersect_world(t_world w, t_ray r);
 t_rgb shade_hit(t_world w, t_comp comps);
 t_rgb color_at(t_world w, t_ray r);
+bool is_shadowed(t_world w, t_point p);
 
 typedef struct s_camera {
   double hsize;

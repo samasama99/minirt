@@ -105,10 +105,10 @@ t_vec	normalize(t_vec v)
 	{
 		invertLenght = 1 / len;
 		nv = (t_vec) {
-			v.x * invertLenght,
-			v.y * invertLenght,
-			v.z * invertLenght,
-			v.w * invertLenght,
+			.x = v.x * invertLenght,
+			.y = v.y * invertLenght,
+			.z = v.z * invertLenght,
+			.w = v.w * invertLenght,
 		};
 	}
 	else
@@ -194,39 +194,3 @@ t_pair pair(double x, double y)
 {
   return ((t_pair){x, y});
 }
-
-// int main()
-// {
-	 // t_pos a = vec_init(4, 3, 0);
-	 // t_pos b = vec_init(2, 1, 0);
-	 // t_pos a = vec_init(1, 0, 0);
-	 // t_pos b = vec_init(0, 1, 0);
-//
-	 // double distance = vec_distance(a, b, sqrtf);
-	 // vec_print("a", a);
-	 // vec_print("b", b);
-	 // printf ("distance :: %f\n", distance);
-	 // vec_print("c", vec_scalar(vec_sum(a, b), 0.5));
-	// t_vec a = vec_init(10, 20, -30);
-	// t_vec b = vec_init(60, -50, 0);
-	// t_vec c = vec_init(10, 20, 0);
-	// t_vec d = vec_init(60, 30, 0);
-	// vec_print("A", a);
-	// vec_print("B", b);
-	// vec_print("X", vec_sum(a, b));
-	// vec_print("Y", vec_sub(a, b));
-	// vec_print("Z", vec_cross_product(c, d));
-	// vec_print("NZ", vec_cross_product(
-				// vec_normalize(c, sqrtf)
-				// , vec_normalize(d, sqrtf)));
-	// vec_print("NNZ",
-			// vec_normalize(
-					// (vec_cross_product(
-					// vec_normalize(c, sqrtf)
-					// , vec_normalize(d, sqrtf)))
-				// , sqrtf
-				// ));
-	// printf("A.B = %.2f\n", vec_dot_product(a, b));
-	// printf("|A| = %.2f\n", vec_lenght(a, sqrtf));
-	// vec_print("NA", vec_normalize(a, sqrtf));
-// }

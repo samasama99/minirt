@@ -18,10 +18,10 @@ t_sphere make_sphere(t_point origin, double radius)
 {
   static int id;
   const t_sphere sphere = {
-    ++id,
-    origin,
-    radius,
-    identity(),
+    .id = ++id,
+    .center = origin,
+    .radius = radius,
+    .t = identity(),
     .material = material(),
   };
 
@@ -72,18 +72,20 @@ t_hit intersect_sphere(const t_sphere sp, const t_ray r) {
 
 t_intersection hit(t_hit h)
 {
-  if (h.intersection[0].t >= 0 && h.intersection[1].t >=0
-      && h.count > 0)
-  {
-    if (h.intersection[0].t <= h.intersection[1].t)
-      return h.intersection[0];
-    return h.intersection[1];
+  DEBUG("ttt %f %f %d\n", h.intersection[0].t, h.intersection[1].t, h.count);
+  int i = 1;
+  t_intersection min_positive = h.intersection[0];
+  while(i < h.count) {
+    if (min_positive.t < 0 && h.intersection[i].t >= 0)
+      min_positive = h.intersection[i];
+    if (h.intersection[i].t >= 0 && h.intersection[i].t < min_positive.t) {
+      min_positive = h.intersection[i];
+    }
+    ++i;
   }
-  if (h.intersection[0].t >= 0 && h.count > 0)
-    return h.intersection[0];
-  if (h.intersection[1].t >= 0 && h.count > 0)
-    return h.intersection[1];
-  return (t_intersection) {-1, (t_sphere) {.id = -1}};
+  if (min_positive.t < 0)
+    return (t_intersection) {.t = -1, (t_sphere){.id = -1}};
+  return min_positive;
 }
 
 t_ray ray_transform(t_ray ray, t_matrix4 m)
@@ -97,9 +99,9 @@ t_ray ray_transform(t_ray ray, t_matrix4 m)
 t_vec normal_at(t_sphere s, t_point world_point)
 {
   const t_point object_point = apply_transformation(inverse(s.t), world_point);
-  const t_vec object_normal =  normalize(sub(object_point, s.center));
+  const t_vec object_normal =  sub(object_point, s.center);
   t_vec world_normal = apply_transformation(transpose(inverse(s.t)), object_normal);
-  world_normal.w = 0;
+  world_normal.w = 0.0;
   return normalize(world_normal);
 }
 
@@ -114,8 +116,8 @@ t_vec reflect(t_vec in, t_vec norm)
 t_light point_light(t_point position, t_rgb intensity)
 {
   return (t_light) {
-    position,
-    intensity,
+    .position = position,
+    .intensity = intensity,
   };
 }
 
@@ -130,19 +132,20 @@ t_material material()
   });
 }
 
-
-t_rgb lighting(t_material m, t_light l, t_point p, t_vec eyev, t_vec normalv)
+t_rgb lighting(t_material m, t_light l, t_point p, t_vec eyev, t_vec normalv, bool shadowed)
 {
   t_rgb diffuse;
   t_rgb specular;
   t_vec reflectv;
   double reflect_dot_eye;
   double factor;
-
   const t_rgb effective_color = rgb_hadamard_product(m.color, l.intensity);
   const t_vec lightv = normalize(sub(l.position, p));
   const t_rgb ambient = rgb_scalar(effective_color, m.ambient);
   const double light_dot_normal = dot(lightv, normalv);
+
+  if (shadowed == true)
+    return ambient;
   if (light_dot_normal < 0) {
    diffuse = black();
    specular = black();
@@ -176,16 +179,20 @@ t_comp prepare_computations(t_intersection i, t_ray r)
     } 
     else
       comp.inside = false;
+    comp.over_point = sum(comp.point, scalar(comp.normalv, EPSILON));
     return comp;
 }
 
 t_rgb shade_hit(t_world w, t_comp comps)
 {
+  const bool shadowed = is_shadowed(w, comps.over_point);
+
   return lighting(
     comps.object.sphere.material,
     w.lights[0],
-    comps.point,
+    comps.over_point,
     comps.eyev,
-    comps.normalv
+    comps.normalv,
+    shadowed
   );
 }

@@ -15,7 +15,6 @@ t_world add_sphere(const t_world w, const t_sphere s)
   // panic(w.amount_of_spheres == 1024,
   //       "reached the maximum amount of spheres",
   //       __func__,__FILE__,__LINE__);
-  new_w = world();
   new_w = w;
   new_w.spheres[w.amount_of_spheres] = s;
   ++new_w.amount_of_spheres;
@@ -26,9 +25,9 @@ t_world add_light(const t_world w, const t_light l)
 {
   t_world new_w;
 
-  panic(w.amount_of_spheres == 1024,
-        "reached the maximum amount of lights",
-        __func__,__FILE__,__LINE__);
+  // panic(w.amount_of_spheres == 1024,
+  //       "reached the maximum amount of lights",
+  //       __func__,__FILE__,__LINE__);
   new_w = w;
   new_w.lights[w.amount_of_lights] = l;
   ++new_w.amount_of_lights;
@@ -45,16 +44,18 @@ t_world default_world()
       color(1, 1, 1)
   );
 
-  w = world();
+  // w = world();
+  w.amount_of_lights = 0;
+  w.amount_of_spheres = 0;
   s1 = sphere();
   s1.material.color = color(0.8, 1.0, 0.6);
   s1.material.diffuse = 0.7;
   s1.material.specular = 0.2;
   s2 = sphere();
   s2.t = scaling(0.5, 0.5, 0.5);
+  w = add_light(w, light);
   w = add_sphere(w, s1);
   w = add_sphere(w, s2);
-  w = add_light(w, light);
   return w;
 }
 
@@ -74,7 +75,7 @@ t_world default_world()
 //   return min;
 // }
 
-void sort(t_intersection inters[], int size)
+static void sort(t_intersection inters[], int size)
 {
   int i;
   int j;
@@ -113,6 +114,7 @@ t_hit intersect_world(t_world w, t_ray r)
 
   i = 0;
   h.count = 0;
+  // printf ("amount_of_spheres %d\n", w.amount_of_spheres);
   while (i < w.amount_of_spheres)
   {
     tmp = intersect_sphere(w.spheres[i], r); 
@@ -122,10 +124,13 @@ t_hit intersect_world(t_world w, t_ray r)
       h.intersection[h.count + 1] = tmp.intersection[1];
       h.count += tmp.count;
     }
+    DEBUG("sphere : %d %f\n", w.spheres[i].id, tmp.intersection[0].t);
     ++i;
   }
   if (h.count > 2)
     sort(h.intersection, h.count);
+  if (h.count == 0)
+    return (t_hit) {.intersection = {-1, -1}, .count =  0};
   return h;
 }
 
@@ -138,4 +143,26 @@ t_rgb color_at(t_world w, t_ray r)
     return color(0, 0 ,0);
   t_comp comp = prepare_computations(i, r);
   return (shade_hit(w, comp));
+}
+
+bool is_shadowed(t_world w, t_point p)
+{
+  const t_vec v = sub(w.lights[0].position, p);
+  const double d = magnitude(v);
+  // const double d = distance(w.lights->position, v);
+  const t_vec direction = normalize(v);
+  // print_tupil("direction", v);
+  // print_tupil("direction norm", direction);
+  const t_ray r = ray(p, direction);
+  DEBUG("shadow %s\n", "");
+  const t_hit i = intersect_world(w, r);
+  const t_intersection h = hit(i);
+
+  DEBUG("inter %f %f\n", i.intersection[0].t, i.intersection[1].t);
+  DEBUG("inter2 %f\n", h.t);
+  DEBUG("trash %f \n", d);
+  if (h.t >= 0 && h.t < d) {
+    return true;
+  }
+  return false;
 }
