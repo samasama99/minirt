@@ -175,7 +175,13 @@ typedef struct s_material {
   double shininess;
 }               t_material;
 
+typedef enum e_shape_type {
+  Sphere,
+  Plane,
+} t_shape_type;
+
 typedef struct s_sphere {
+    t_shape_type type;
     int id;
     t_point center;
     double radius;
@@ -184,6 +190,8 @@ typedef struct s_sphere {
 }               t_sphere;
 // 1. The t value of the intersection
 // 2. The object that was intersected
+
+
 typedef struct s_intersection {
   double t;
   t_sphere sphere;
@@ -195,6 +203,7 @@ typedef struct s_hit {
 }               t_hit;
 
 typedef union u_object {
+  t_shape_type type;
   t_sphere sphere;
 }             t_object;
 

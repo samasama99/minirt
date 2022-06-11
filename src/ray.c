@@ -14,24 +14,6 @@ t_point ray_position(t_ray r, double t)
   return sum(r.origin, scalar(r.direction, t));
 }
 
-t_sphere make_sphere(t_point origin, double radius)
-{
-  static int id;
-  const t_sphere sphere = {
-    .id = ++id,
-    .center = origin,
-    .radius = radius,
-    .t = identity(),
-    .material = material(),
-  };
-
-  return sphere;
-}
-
-t_sphere sphere()
-{
-  return make_sphere(point(0, 0, 0), 1);
-}
 
 // e is the origin of the ray and d is the direction
 // p(t) = e + td
@@ -72,7 +54,6 @@ t_hit intersect_sphere(const t_sphere sp, const t_ray r) {
 
 t_intersection hit(t_hit h)
 {
-  DEBUG("ttt %f %f %d\n", h.intersection[0].t, h.intersection[1].t, h.count);
   int i = 1;
   t_intersection min_positive = h.intersection[0];
   while(i < h.count) {
@@ -99,7 +80,8 @@ t_ray ray_transform(t_ray ray, t_matrix4 m)
 t_vec normal_at(t_sphere s, t_point world_point)
 {
   const t_point object_point = apply_transformation(inverse(s.t), world_point);
-  const t_vec object_normal =  sub(object_point, s.center);
+  // const t_vec object_normal =  sub(object_point, s.center);
+  const t_vec object_normal =  sub(object_point, point(0, 0, 0));
   t_vec world_normal = apply_transformation(transpose(inverse(s.t)), object_normal);
   world_normal.w = 0.0;
   return normalize(world_normal);
@@ -109,7 +91,7 @@ t_vec reflect(t_vec in, t_vec norm)
 {
   return sub(
     in,
-    scalar(norm, 2 * dot(in, norm))
+    scalar(norm, 2.0 * dot(in, norm))
   );
 }
 
@@ -159,6 +141,25 @@ t_rgb lighting(t_material m, t_light l, t_point p, t_vec eyev, t_vec normalv, bo
       factor = pow(reflect_dot_eye, m.shininess);
       specular = rgb_scalar(l.intensity, m.specular * factor);
     }
+  }
+  // if (reflect_dot_eye < -0.8) {
+  //   printf ("%f %f\n", reflect_dot_eye, light_dot_normal);
+  //   return color(1, 0, 0);
+  // }
+  t_rgb s = rgb_sum(ambient, rgb_sum(diffuse, specular));
+  if (reflect_dot_eye > 0.975 && reflect_dot_eye < 0.995) {
+    // printf ("%f %f\n", reflect_dot_eye, light_dot_normal);
+    // printf("effective_color %f %f %f\n", effective_color.red, effective_color.green, effective_color.blue);
+    // printf("diffuse %f %f %f\n", diffuse.red, diffuse.green, diffuse.blue);
+    // printf("specular %f %f %f\n", specular.red, specular.green, specular.blue);
+    // printf("ambient %f %f %f\n", ambient.red, ambient.green, ambient.blue);
+    // printf("sum %f %f %f\n", s.red, s.green, s.blue);
+  }
+  if (s.blue < 0 || s.green < 0 || s.red < 0) {
+    printf("sum %f %f %f\n", s.red, s.green, s.blue);
+  }
+  if (s.blue > 1 || s.green > 1 || s.red > 1) {
+    printf("sum %f %f %f\n", s.red, s.green, s.blue);
   }
   return rgb_sum(ambient, rgb_sum(diffuse, specular));
 }

@@ -45,19 +45,19 @@ t_vec	sub(t_vec a, t_vec b)
 	return (x);
 }
 
-double	distance(t_vec a, t_vec b)
-{
-	double	n1;
-	double	n2;
-	double	n3;
-	double	d;
+// double	distance(t_vec a, t_vec b)
+// {
+// 	double	n1;
+// 	double	n2;
+// 	double	n3;
+// 	double	d;
 
-	n1 = (a.x - b.x) * (a.x - b.x);
-	n2 = (a.y - b.y) * (a.y - b.y);
-	n3 = (a.z - b.z) * (a.z - b.z);
-	d = sqrt(n1 + n2 + n3);
-	return (d);
-}
+// 	n1 = (a.x - b.x) * (a.x - b.x);
+// 	n2 = (a.y - b.y) * (a.y - b.y);
+// 	n3 = (a.z - b.z) * (a.z - b.z);
+// 	d = sqrt(n1 + n2 + n3);
+// 	return (d);
+// }
 
 double	dot(t_vec a, t_vec b)
 {

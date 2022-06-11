@@ -124,7 +124,6 @@ t_hit intersect_world(t_world w, t_ray r)
       h.intersection[h.count + 1] = tmp.intersection[1];
       h.count += tmp.count;
     }
-    DEBUG("sphere : %d %f\n", w.spheres[i].id, tmp.intersection[0].t);
     ++i;
   }
   if (h.count > 2)
@@ -154,13 +153,9 @@ bool is_shadowed(t_world w, t_point p)
   // print_tupil("direction", v);
   // print_tupil("direction norm", direction);
   const t_ray r = ray(p, direction);
-  DEBUG("shadow %s\n", "");
   const t_hit i = intersect_world(w, r);
   const t_intersection h = hit(i);
 
-  DEBUG("inter %f %f\n", i.intersection[0].t, i.intersection[1].t);
-  DEBUG("inter2 %f\n", h.t);
-  DEBUG("trash %f \n", d);
   if (h.t >= 0 && h.t < d) {
     return true;
   }

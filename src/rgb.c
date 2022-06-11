@@ -12,9 +12,9 @@ t_rgb	rgb_sum(t_rgb a, t_rgb b)
 	t_rgb	x;
 
 	x = (t_rgb) {
-		.blue = a.blue + b.blue,
-		.green = a.green + b.green,
 		.red = a.red + b.red,
+		.green = a.green + b.green,
+		.blue = a.blue + b.blue,
 	};
 	return (x);
 }
@@ -24,9 +24,9 @@ t_rgb	rgb_sub(t_rgb a, t_rgb b)
 	t_rgb	x;
 
 	x = (t_rgb) {
-		.blue = a.blue - b.blue,
-		.green = a.green - b.green,
 		.red = a.red - b.red,
+		.green = a.green - b.green,
+		.blue = a.blue - b.blue,
 	};
 	return (x);
 }
@@ -36,9 +36,9 @@ t_rgb	rgb_scalar(t_rgb a, double k)
 	t_rgb	x;
 
 	x = (t_rgb){
-		.blue = a.blue * k,
-		.green = a.green * k,
 		.red = a.red * k,
+		.green = a.green * k,
+		.blue = a.blue * k,
 	};
 	return (x);
 }

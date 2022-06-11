@@ -983,7 +983,6 @@ int main() {
     t_ray r = ray(point(0, 0, 5), vector(0, 0, 1));
     t_intersection i = (t_intersection) {4, s2};
     t_rgb c = shade_hit(w, prepare_computations(i, r));
-    DEBUG("%f %f %f\n", c.red, c.green, c.blue);
     assert(rgb_is_equal(color(0.1, 0.1, 0.1), c));
   }
   {

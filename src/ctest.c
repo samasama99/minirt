@@ -2,7 +2,8 @@
 
 int main()
 {
-  init_mlx(pair(2000, 1000), pair(0, 0));
+  const t_res res = pair(1500, 750);
+  init_mlx(res, pair(0, 0));
 
   t_sphere floor = sphere();
   floor.material = material();
@@ -54,7 +55,7 @@ int main()
 
   t_world w = world();
   t_light light = point_light(point(-10, 10, -10), color(1, 1, 1));
-  t_camera c = camera(2000, 1000, M_PI / 3);
+  t_camera c = camera(res.x, res.y, M_PI / 3);
   c.transform = view_transform(point(0, 1.5, -5),
                                point(0, 1, 0),
                                vector(0, 1, 0));

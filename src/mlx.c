@@ -65,6 +65,18 @@ t_mlx init_mlx(t_res resolution, t_res center) {
 int make_color(t_rgb c, float alpha) {
   t_color color;
 
+  if (c.blue > 1)
+    c.blue = 1;
+  if (c.blue < 0)
+    c.blue = 0;
+  if (c.green > 1)
+    c.green = 1;
+  if (c.green < 0)
+    c.green = 0;
+  if (c.red > 1)
+    c.red = 1;
+  if (c.red < 0)
+    c.red = 0;
   color.blue = c.blue * 255.999;
   color.green = c.green * 255.999;
   color.red = c.red * 255.999;
