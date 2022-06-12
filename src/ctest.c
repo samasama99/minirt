@@ -2,7 +2,7 @@
 
 int main()
 {
-  const t_res res = pair(1500, 750);
+  const t_res res = pair(600, 300);
   init_mlx(res, pair(0, 0));
 
   t_sphere floor = sphere();

@@ -77,7 +77,7 @@ t_ray ray_transform(t_ray ray, t_matrix4 m)
   };
 }
 
-t_vec normal_at(t_sphere s, t_point world_point)
+t_vec normal_at(t_shape s, t_point world_point)
 {
   const t_point object_point = apply_transformation(inverse(s.t), world_point);
   // const t_vec object_normal =  sub(object_point, s.center);
@@ -142,25 +142,6 @@ t_rgb lighting(t_material m, t_light l, t_point p, t_vec eyev, t_vec normalv, bo
       specular = rgb_scalar(l.intensity, m.specular * factor);
     }
   }
-  // if (reflect_dot_eye < -0.8) {
-  //   printf ("%f %f\n", reflect_dot_eye, light_dot_normal);
-  //   return color(1, 0, 0);
-  // }
-  t_rgb s = rgb_sum(ambient, rgb_sum(diffuse, specular));
-  if (reflect_dot_eye > 0.975 && reflect_dot_eye < 0.995) {
-    // printf ("%f %f\n", reflect_dot_eye, light_dot_normal);
-    // printf("effective_color %f %f %f\n", effective_color.red, effective_color.green, effective_color.blue);
-    // printf("diffuse %f %f %f\n", diffuse.red, diffuse.green, diffuse.blue);
-    // printf("specular %f %f %f\n", specular.red, specular.green, specular.blue);
-    // printf("ambient %f %f %f\n", ambient.red, ambient.green, ambient.blue);
-    // printf("sum %f %f %f\n", s.red, s.green, s.blue);
-  }
-  if (s.blue < 0 || s.green < 0 || s.red < 0) {
-    printf("sum %f %f %f\n", s.red, s.green, s.blue);
-  }
-  if (s.blue > 1 || s.green > 1 || s.red > 1) {
-    printf("sum %f %f %f\n", s.red, s.green, s.blue);
-  }
   return rgb_sum(ambient, rgb_sum(diffuse, specular));
 }
 
@@ -169,10 +150,10 @@ t_comp prepare_computations(t_intersection i, t_ray r)
     t_comp comp;
 
     comp.t = i.t;
-    comp.object.sphere = i.sphere;
+    comp.shape = i.shape;
     comp.point = ray_position(r, comp.t);
     comp.eyev = opose(r.direction);
-    comp.normalv = normal_at(comp.object.sphere, comp.point);
+    comp.normalv = normal_at(comp.shape, comp.point);
     if (dot(comp.normalv, comp.eyev) < 0)
     {
       comp.inside = true;
@@ -196,4 +177,19 @@ t_rgb shade_hit(t_world w, t_comp comps)
     comps.normalv,
     shadowed
   );
+}
+
+t_intersection intersection(double t, t_shape shape)
+{
+  return (t_intersection) {.t = t, .shape = shape};
+}
+
+t_hit intersect_plane(t_plane p, t_ray r)
+{
+  double t;
+
+  if (abs(r.direction.y < EPSILON))
+    return (t_hit) {{-1, -1}, 0};
+  t = -r.origin.y / r.direction.y;
+  return intersection(t, p);
 }

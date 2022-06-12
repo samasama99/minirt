@@ -188,13 +188,29 @@ typedef struct s_sphere {
     t_matrix4 t;
     t_material material;
 }               t_sphere;
+
+typedef struct s_plane {
+    t_shape_type type;
+    int id;
+    t_matrix4 t;
+    t_material material;
+    t_point position;
+    t_norm normal;
+}               t_plane;
+
+typedef union u_shape {
+  t_shape_type type;
+  t_sphere sphere;
+  t_plane plane;
+}             t_shape;
+
 // 1. The t value of the intersection
 // 2. The object that was intersected
 
 
 typedef struct s_intersection {
   double t;
-  t_sphere sphere;
+  t_shape shape;
 } t_intersection;
 
 typedef struct s_hit {
@@ -202,15 +218,11 @@ typedef struct s_hit {
     int count;
 }               t_hit;
 
-typedef union u_object {
-  t_shape_type type;
-  t_sphere sphere;
-}             t_object;
 
 
 typedef struct s_comp {
     double t;
-    t_object object;
+    t_shape shape;
     t_point point; 
     t_point over_point;
     t_vec eyev;

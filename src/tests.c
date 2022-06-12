@@ -994,5 +994,20 @@ int main() {
     assert(comps.over_point.z < -EPSILON/2);
     assert(comps.point.z > comps.over_point.z);
   }
+  {
+    t_plane p = plane();
+    t_vec n1 = normal_at(p, point(0, 0, 0));
+    t_vec n2 = normal_at(p, point(10, 0, -10));
+    t_vec n3 = normal_at(p, point(-5 ,0, 150));
+    assert(vec_is_equal(vector(0, 1, 0), n1));
+    assert(vec_is_equal(vector(0, 1, 0), n2));
+    assert(vec_is_equal(vector(0, 1, 0), n3));
+  }
+  {
+    t_plane p = plane();
+    t_ray r = ray(point(0, 10, 0), vector(0, 0, 1));
+    t_hit h = intersect(p, r);
+    assert(h.count ==  0);
+  }
   return 0;
 }
