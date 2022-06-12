@@ -567,76 +567,87 @@ int main() {
     t_sphere sp = sphere();
     t_hit hit = intersect_sphere(sp, ray);
     assert(hit.count == 2);
-    assert(is_equal_double(hit.intersection[0].t, 4.0));
-    assert(is_equal_double(hit.intersection[1].t, 6.0));
+    assert(is_equal_double(hit.intersections[0].t, 4.0));
+    assert(is_equal_double(hit.intersections[1].t, 6.0));
   }
   {
     t_ray ray = (t_ray) { point(0, 1, -5), (t_vec) {0, 0, 1}};
     t_sphere sp = sphere();
     t_hit hit = intersect_sphere(sp, ray);
     assert(hit.count == 2);
-    assert(is_equal_double(hit.intersection[0].t, 5.0));
-    assert(is_equal_double(hit.intersection[1].t, 5.0));
+    assert(is_equal_double(hit.intersections[0].t, 5.0));
+    assert(is_equal_double(hit.intersections[1].t, 5.0));
   }
   {
     t_ray ray = (t_ray) { point(0, 0, 0), (t_vec) {0, 0, 1}};
     t_sphere sp = sphere();
     t_hit hit = intersect_sphere(sp, ray);
     assert(hit.count == 2);
-    assert(is_equal_double(hit.intersection[0].t, -1));
-    assert(is_equal_double(hit.intersection[1].t, 1));
+    assert(is_equal_double(hit.intersections[0].t, -1));
+    assert(is_equal_double(hit.intersections[1].t, 1));
   }
   {
     t_ray ray = (t_ray) {point(0, 0, 5), (t_vec) {0, 0, 1}};
     t_sphere sp = sphere();
     t_hit hit = intersect_sphere(sp, ray);
     assert(hit.count == 2);
-    assert(is_equal_double(hit.intersection[0].t, -6));
-    assert(is_equal_double(hit.intersection[1].t, -4));
+    assert(is_equal_double(hit.intersections[0].t, -6));
+    assert(is_equal_double(hit.intersections[1].t, -4));
     printf("intersect sphere : ✔\n");
   }
   {
     t_sphere s = sphere();
-    t_intersection i = {3.5, s};
-    assert(i.sphere.id == s.id);
+    t_intersection i = {3.5, .shape.sphere = s};
+    assert(i.shape.sphere.id == s.id);
     assert(i.t == 3.5);
   }
   {
     t_sphere s = sphere();
-    t_intersection i1 = {1, s};
-    t_intersection i2 = {2, s};
+    t_intersection i1 = {1, .shape.sphere = s};
+    // t_intersection i2 = {2, s};
+    t_intersection i2 = intersection(2, (t_shape) {.sphere = s});
     t_hit h = {{i1, i2}, 2};
-    assert(hit(h).t == 1 && hit(h).sphere.id == s.id);
+    assert(hit(h).t == 1 && hit(h).shape.sphere.id == s.id);
   }
   {
     t_sphere s = sphere();
-    t_intersection i1 = {-1, s};
-    t_intersection i2 = {1, s};
+    // t_intersection i1 = {-1, s};
+    t_intersection i1 = intersection(-1, (t_shape) {.sphere = s});
+    // t_intersection i2 = {1, s};
+    t_intersection i2 = intersection(1, sphere_shape(s));
     t_hit h = {{i1, i2}, 2};
-    assert(hit(h).t == 1 && hit(h).sphere.id == s.id);
+    assert(hit(h).t == 1 && hit(h).shape.sphere.id == s.id);
   }
   {
     t_sphere s = sphere();
-    t_intersection i1 = {-2, s};
-    t_intersection i2 = {-1, s};
+    // t_intersection i1 = {-2, s};
+    t_intersection i1 = intersection(-2, sphere_shape(s));
+    // t_intersection i2 = {-1, s};
+    t_intersection i2 = intersection(-1, sphere_shape(s));
     t_hit h = {{i1, i2}, 2};
-    assert(hit(h).t == -1 && hit(h).sphere.id == -1);
+    printf("%f %f\n", i1.t, i2.t);
+    printf("%f\n", hit(h).t);
+    assert(hit(h).t == -1 && hit(h).shape.type == Error);
   }
   {
     t_sphere s = sphere();
-    t_intersection i1 = {5, s};
-    t_intersection i2 = {7, s};
-    t_intersection i3 = {-3, s};
-    t_intersection i4 = {2, s};
+    // t_intersection i1 = {5, s};
+    t_intersection i1 = intersection(5, sphere_shape(s));
+    // t_intersection i2 = {7, s};
+    t_intersection i2 = intersection(7, sphere_shape(s));
+    // t_intersection i3 = {-3, s};
+    t_intersection i3 = intersection(-3, sphere_shape(s));
+    // t_intersection i4 = {2, s};
+    t_intersection i4 = intersection(2, sphere_shape(s));
     t_hit h = {{i1, i2}, 2};
     t_hit h2 = {{i3, i4}, 2};
     t_intersection this = hit(h);
-    assert(this.t == 5 && hit(h).sphere.id == s.id);
+    assert(this.t == 5 && hit(h).shape.sphere.id == s.id);
     t_intersection this2 = hit(h2);
-    assert(this2.t == 2 && hit(h2).sphere.id == s.id);
+    assert(this2.t == 2 && hit(h2).shape.sphere.id == s.id);
     t_hit h3 = {{this, this2}, 2};
     t_intersection i5 = hit(h3);
-    assert(i5.t == i4.t && i5.sphere.id == s.id && i5.sphere.id == i4.sphere.id);
+    assert(i5.t == i4.t && i5.shape.sphere.id == s.id && i5.shape.sphere.id == i4.shape.sphere.id);
     printf("getting the hit on sphere : ✔\n");
   }
   {
@@ -663,7 +674,7 @@ int main() {
     t_sphere s = sphere();
     s.t = scaling(2, 2, 2);
     t_hit h = intersect_sphere(s, r);
-    assert(h.intersection[0].t == 3 && h.intersection[1].t == 7);
+    assert(h.intersections[0].t == 3 && h.intersections[1].t == 7);
   }
   {
     t_ray r = {point(0, 0, -5), vector(0, 0, 1)};
@@ -675,22 +686,22 @@ int main() {
   }
   {
     t_sphere s = sphere();
-    t_vec v = normal_at(s, point(1, 0, 0));
+    t_vec v = normal_at(sphere_shape(s), point(1, 0, 0));
     assert(vec_is_equal(v, vector(1, 0, 0)));
   }
   {
     t_sphere s = sphere();
-    t_vec v = normal_at(s, point(0, 1, 0));
+    t_vec v = normal_at(sphere_shape(s), point(0, 1, 0));
     assert(vec_is_equal(v, vector(0, 1, 0)));
   }
   {
     t_sphere s = sphere();
-    t_vec v = normal_at(s, point(0, 0, 1));
+    t_vec v = normal_at(sphere_shape(s), point(0, 0, 1));
     assert(vec_is_equal(v, vector(0, 0, 1)));
   }
   {
     t_sphere s = sphere();
-    t_vec v = normal_at(s, point(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3));
+    t_vec v = normal_at(sphere_shape(s), point(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3));
     assert(vec_is_equal(v, vector(sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3)));
     assert(vec_is_equal(normalize(v), v));
     printf("calc normal in sphere : ✔\n");
@@ -698,13 +709,13 @@ int main() {
   {
     t_sphere s = sphere();
     s.t = translation(0, 1, 0);
-    t_vec n = normal_at(s, point(0, 1.70711, -0.70711));
+    t_vec n = normal_at(sphere_shape(s), point(0, 1.70711, -0.70711));
     assert(vec_is_equal(n, vector(0, 0.70711, -0.70711)));
   }
   {
     t_sphere s = sphere();
     s.t = scaling(1, 0.5, 1);
-    t_vec n = normal_at(s, point(0, M_SQRT2 / 2, -M_SQRT2 / 2));
+    t_vec n = normal_at(sphere_shape(s), point(0, M_SQRT2 / 2, -M_SQRT2 / 2));
     assert(vec_is_equal(n, vector(0, 0.97014, -0.24254)));
   }
   {
@@ -794,34 +805,34 @@ int main() {
     //   assert(w.amount_of_spheres == 0);
     //   assert(w.amount_of_lights == 0);
     // }
-    {
-      t_world w = default_world();
-      assert(w.amount_of_lights == 1);
-      assert(w.amount_of_spheres == 2);
-      assert(w.spheres[0].material.shininess == 200);
-      assert(matrix_is_equal(w.spheres[1].t, scaling(0.5, 0.5, 0.5)));
-      assert(vec_is_equal(w.lights[0].position, point(-10, 10, -10)));
-      printf("create the world default functions : ✔\n");
-    }
+    // {
+    //   t_world w = default_world();
+    //   assert(w.amount_of_lights == 1);
+    //   assert(w.amount_of_spheres == 2);
+    //   assert(w.spheres[0].material.shininess == 200);
+    //   assert(matrix_is_equal(w.spheres[1].t, scaling(0.5, 0.5, 0.5)));
+    //   assert(vec_is_equal(w.lights[0].position, point(-10, 10, -10)));
+    //   printf("create the world default functions : ✔\n");
+    // }
     {
       t_world w = default_world();
       const t_ray r = ray(point(0, 0, -5), vector(0, 0, 1));
       t_hit i = intersect_world(w, r);  
       assert(i.count == 4);
-      assert(is_equal_double(i.intersection[0].t, 4));
-      assert(is_equal_double(i.intersection[1].t, 4.5));
-      assert(is_equal_double(i.intersection[2].t, 5.5));
-      assert(is_equal_double(i.intersection[3].t, 6));
+      assert(is_equal_double(i.intersections[0].t, 4));
+      assert(is_equal_double(i.intersections[1].t, 4.5));
+      assert(is_equal_double(i.intersections[2].t, 5.5));
+      assert(is_equal_double(i.intersections[3].t, 6));
       printf("world intersection : ✔\n");
     }
     {
       t_ray r = ray(point(0, 0, -5), vector(0, 0, 1));     
       t_ray r2= ray(point(0, 0, 0), vector(0, 0, 1));     
       t_sphere s = sphere();
-      t_intersection i = {.sphere = s, .t = 4};
-      t_intersection i2 = {.sphere = s, .t = 1};
+      t_intersection i = {.shape = (t_shape)s, .t = 4};
+      t_intersection i2 = {.shape = (t_shape)s, .t = 1};
       t_comp comps = prepare_computations(i, r);
-      assert(comps.object.sphere.id == s.id);
+      assert(comps.shape.sphere.id == s.id);
       assert(vec_is_equal(point(0, 0, -1), comps.point));
       assert(vec_is_equal(vector(0, 0, -1), comps.eyev));
       assert(vec_is_equal(vector(0, 0, -1), comps.normalv));
@@ -973,32 +984,35 @@ int main() {
     t_point p = point(-2, 2, -2);
     assert(is_shadowed(w, p) == false);
   }
-  {
-    t_world w = world();
-    w = add_light(w, point_light(point(0, 0, -10), color(1, 1, 1)));
-    w = add_sphere(w, sphere());
-    t_sphere s2 = sphere();
-    s2.t = translation(0, 0, 10);
-    w = add_sphere(w, s2);
-    t_ray r = ray(point(0, 0, 5), vector(0, 0, 1));
-    t_intersection i = (t_intersection) {4, s2};
-    t_rgb c = shade_hit(w, prepare_computations(i, r));
-    assert(rgb_is_equal(color(0.1, 0.1, 0.1), c));
-  }
+  // {
+  //   t_world w = world();
+  //   w = add_light(w, point_light(point(0, 0, -10), color(1, 1, 1)));
+  //   w = add_sphere(w, sphere());
+  //   t_sphere s2 = sphere();
+  //   s2.t = translation(0, 0, 10);
+  //   w = add_sphere(w, s2);
+  //   t_ray r = ray(point(0, 0, 5), vector(0, 0, 1));
+  //   // t_intersection i = (t_intersection) {4, s2};
+  //   t_intersection i = intersection(4, sphere_shape(s2));
+  //   t_rgb c = shade_hit(w, prepare_computations(i, r));
+  //   assert(rgb_is_equal(color(0.1, 0.1, 0.1), c));
+  // }
   {
     t_ray r = ray(point(0, 0, -5), vector(0, 0, 1));
     t_sphere s = sphere();
     s.t = translation(0, 0, 1);
-    t_intersection i = {4, s};
+    // t_intersection i = {4, s};
+    // t_intersection i = intersection(4, sphere_shape(s));
+    t_intersection i = intersection(4, (t_shape)s);
     t_comp comps = prepare_computations(i, r);
     assert(comps.over_point.z < -EPSILON/2);
     assert(comps.point.z > comps.over_point.z);
   }
   {
     t_plane p = plane();
-    t_vec n1 = normal_at(p, point(0, 0, 0));
-    t_vec n2 = normal_at(p, point(10, 0, -10));
-    t_vec n3 = normal_at(p, point(-5 ,0, 150));
+    t_vec n1 = normal_at((t_shape)p, point(0, 0, 0));
+    t_vec n2 = normal_at((t_shape)p, point(10, 0, -10));
+    t_vec n3 = normal_at((t_shape)p, point(-5 ,0, 150));
     assert(vec_is_equal(vector(0, 1, 0), n1));
     assert(vec_is_equal(vector(0, 1, 0), n2));
     assert(vec_is_equal(vector(0, 1, 0), n3));
@@ -1006,8 +1020,17 @@ int main() {
   {
     t_plane p = plane();
     t_ray r = ray(point(0, 10, 0), vector(0, 0, 1));
-    t_hit h = intersect(p, r);
+    t_hit h = intersect((t_shape)p, r);
     assert(h.count ==  0);
+  }
+  {
+    t_plane p = plane();
+    t_ray r = ray(point(0, 1, 0), vector(0, -1, 0));
+    t_hit h = intersect((t_shape)p, r);
+    printf ("%f %d %d\n", h.intersections->t, h.count, h.intersections->shape.super.id);
+    assert(h.count ==  1);
+    assert(h.intersections[0].t == 1);
+    assert(h.intersections[0].shape.super.id == p.id);
   }
   return 0;
 }

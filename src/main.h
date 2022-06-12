@@ -176,17 +176,26 @@ typedef struct s_material {
 }               t_material;
 
 typedef enum e_shape_type {
+  Error,
   Sphere,
   Plane,
 } t_shape_type;
 
+typedef struct s_super_shape
+{
+    t_shape_type type;
+    int id;
+    t_matrix4 t;
+    t_material material;
+} t_super_shape;
+
 typedef struct s_sphere {
     t_shape_type type;
     int id;
-    t_point center;
-    double radius;
     t_matrix4 t;
     t_material material;
+    t_point center;
+    double radius;
 }               t_sphere;
 
 typedef struct s_plane {
@@ -200,12 +209,10 @@ typedef struct s_plane {
 
 typedef union u_shape {
   t_shape_type type;
+  t_super_shape super;
   t_sphere sphere;
   t_plane plane;
 }             t_shape;
-
-// 1. The t value of the intersection
-// 2. The object that was intersected
 
 
 typedef struct s_intersection {
@@ -214,11 +221,9 @@ typedef struct s_intersection {
 } t_intersection;
 
 typedef struct s_hit {
-    t_intersection intersection[1024];
+    t_intersection intersections[1024];
     int count;
 }               t_hit;
-
-
 
 typedef struct s_comp {
     double t;
@@ -230,7 +235,6 @@ typedef struct s_comp {
     bool inside;
 }               t_comp;
 
-
 t_ray ray(t_point origin, t_vec direction);
 t_point ray_position(t_ray r, double t);
 t_sphere make_sphere(t_point origin, double radius);
@@ -239,24 +243,29 @@ t_hit intersect_sphere(const t_sphere sphere, const t_ray r);
 t_intersection hit(t_hit h);
 t_ray ray_transform(t_ray ray, t_matrix4 m);
 bool is_hit(const t_sphere sp, const t_ray r);
-t_vec normal_at(t_sphere s, t_point p);
+t_vec normal_at(t_shape shape, t_point world_point);
 t_vec reflect(t_vec in, t_vec norm);
 t_light point_light(t_point position, t_rgb color);
 t_rgb lighting(t_material m, t_light l, t_point point, t_vec eyev, t_vec normalv, bool shadowd);
 t_material material();
 t_comp prepare_computations(t_intersection i, t_ray r);
 t_transform view_transform(t_point from, t_point to, t_vec up);
+t_intersection intersection(double t, t_shape shape);
+t_shape sphere_shape(t_sphere s);
+t_shape plane_shape(t_plane s);
+t_plane plane();
+t_hit intersect(t_shape shape, t_ray r);
 
 // THE WORLD
 typedef struct s_world {
-  t_sphere spheres[1024];
+  t_shape shapes[1024];
   t_light lights[1024];
-  int amount_of_spheres;
+  int amount_of_shapes;
   int amount_of_lights;
 }               t_world;
 
 t_world world();
-t_world add_sphere(const t_world w, const t_sphere s);
+t_world add_shape(const t_world w, const t_shape s);
 t_world add_light(const t_world w, const t_light l);
 t_world default_world();
 t_hit intersect_world(t_world w, t_ray r);

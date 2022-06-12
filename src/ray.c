@@ -14,22 +14,21 @@ t_point ray_position(t_ray r, double t)
   return sum(r.origin, scalar(r.direction, t));
 }
 
+t_intersection intersection(double t, t_shape shape)
+{
+  return (t_intersection) {.t = t, .shape = shape};
+}
 
-// e is the origin of the ray and d is the direction
-// p(t) = e + td
-// (p - c).(p - c) - R^2 = 0
-// (d.d)t^2 + 2d.(e - c)t + (e - c).(e - c) - R^2 = 0
-// discriminant  = B^2 - 4AC if there is a solution then discriminant >= 0
-bool is_hit(const t_sphere sp, const t_ray r) {
-    const t_ray ray = ray_transform(r, inverse(sp.t));
-    t_vec e_c = sub(ray.origin, sp.center); // e - c
-    double a = dot(ray.direction, ray.direction);
-    double b = 2.0 * dot(e_c, ray.direction);
-    double c = dot(e_c, e_c) - sp.radius * sp.radius;
-    double discriminant = b * b - 4 * a * c;
-    if (discriminant  < 0)
-        return false;
-    return true;
+t_hit intersect_plane(t_plane p, t_ray r)
+{
+  double t;
+  t_shape pl;
+
+  pl.plane = p;
+  if (fabs(r.direction.y) < EPSILON)
+    return (t_hit) {{-1, -1}, 0};
+  t = -r.origin.y / r.direction.y;
+  return (t_hit) {intersection(t, pl), .count = 1};
 }
 
 t_hit intersect_sphere(const t_sphere sp, const t_ray r) {
@@ -40,32 +39,43 @@ t_hit intersect_sphere(const t_sphere sp, const t_ray r) {
     double c = dot(e_c, e_c) - sp.radius * sp.radius;
     double discriminant = b * b - 4 * a * c;
     if (discriminant  < 0)
-        return (t_hit) {(t_intersection) {.t = -1, sp}, .count = 0};
+        return (t_hit) {(t_intersection) {.t = -1, .shape = Error}, .count = 0};
     if (discriminant == 0)
     {
         const double root = (-1 * b) / (2 * a);
-        return ((t_hit) {{{.t = root, sp}, {.t = root, sp}}, 2});
+        return ((t_hit) {{{.t = root, .shape.sphere = sp}, {.t = root, .shape.sphere = sp}}, 2});
     }
     const double sqrt_dis =  sqrt(discriminant);
     const double root1 = ((-1 * b) - sqrt_dis) / (2 * a);
     const double root2 = ((-1 * b) + sqrt_dis) / (2 * a);
-    return ((t_hit) {{{.t = root1, sp}, {.t = root2, sp}}, 2});
+    return ((t_hit) {{{.t = root1, .shape.sphere = sp}, {.t = root2, .shape.sphere = sp}}, 2});
+}
+
+t_hit intersect(t_shape shape, t_ray r)
+{
+  if (shape.type == Sphere)
+    return intersect_sphere(shape.sphere, r);
+  if (shape.type == Plane) {
+    printf ("yes\n");
+    return intersect_plane(shape.plane, r);
+  }
+  return (t_hit) {intersection(-1, (t_shape){.type = Error}), .count = 0};
 }
 
 t_intersection hit(t_hit h)
 {
   int i = 1;
-  t_intersection min_positive = h.intersection[0];
+  t_intersection min_positive = h.intersections[0];
   while(i < h.count) {
-    if (min_positive.t < 0 && h.intersection[i].t >= 0)
-      min_positive = h.intersection[i];
-    if (h.intersection[i].t >= 0 && h.intersection[i].t < min_positive.t) {
-      min_positive = h.intersection[i];
+    if (min_positive.t < 0 && h.intersections[i].t >= 0)
+      min_positive = h.intersections[i];
+    if (h.intersections[i].t >= 0 && h.intersections[i].t < min_positive.t) {
+      min_positive = h.intersections[i];
     }
     ++i;
   }
   if (min_positive.t < 0)
-    return (t_intersection) {.t = -1, (t_sphere){.id = -1}};
+    return (intersection(-1, (t_shape) {.type = Error}));
   return min_positive;
 }
 
@@ -77,14 +87,25 @@ t_ray ray_transform(t_ray ray, t_matrix4 m)
   };
 }
 
-t_vec normal_at(t_shape s, t_point world_point)
+t_vec normal_at_sphere(t_sphere s, t_point world_point)
 {
   const t_point object_point = apply_transformation(inverse(s.t), world_point);
-  // const t_vec object_normal =  sub(object_point, s.center);
-  const t_vec object_normal =  sub(object_point, point(0, 0, 0));
+  const t_vec object_normal =  sub(object_point, s.center);
+  // const t_vec object_normal =  sub(object_point, point(0, 0, 0));
   t_vec world_normal = apply_transformation(transpose(inverse(s.t)), object_normal);
   world_normal.w = 0.0;
   return normalize(world_normal);
+}
+
+t_vec normal_at(t_shape shape, t_point world_point)
+{
+  if (shape.type == Plane)
+    return shape.plane.normal;
+  if (shape.type == Sphere)
+    return normal_at_sphere(shape.sphere, world_point);
+  if (shape.type == Error)
+    exit(1);
+  return vector(0, 0, 0);
 }
 
 t_vec reflect(t_vec in, t_vec norm)
@@ -168,9 +189,10 @@ t_comp prepare_computations(t_intersection i, t_ray r)
 t_rgb shade_hit(t_world w, t_comp comps)
 {
   const bool shadowed = is_shadowed(w, comps.over_point);
+  t_material m;
 
   return lighting(
-    comps.object.sphere.material,
+    comps.shape.super.material,
     w.lights[0],
     comps.over_point,
     comps.eyev,
@@ -179,17 +201,20 @@ t_rgb shade_hit(t_world w, t_comp comps)
   );
 }
 
-t_intersection intersection(double t, t_shape shape)
-{
-  return (t_intersection) {.t = t, .shape = shape};
-}
 
-t_hit intersect_plane(t_plane p, t_ray r)
-{
-  double t;
-
-  if (abs(r.direction.y < EPSILON))
-    return (t_hit) {{-1, -1}, 0};
-  t = -r.origin.y / r.direction.y;
-  return intersection(t, p);
-}
+// e is the origin of the ray and d is the direction
+// p(t) = e + td
+// (p - c).(p - c) - R^2 = 0
+// (d.d)t^2 + 2d.(e - c)t + (e - c).(e - c) - R^2 = 0
+// discriminant  = B^2 - 4AC if there is a solution then discriminant >= 0
+// bool is_hit(const t_sphere sp, const t_ray r) {
+//     const t_ray ray = ray_transform(r, inverse(sp.t));
+//     t_vec e_c = sub(ray.origin, sp.center); // e - c
+//     double a = dot(ray.direction, ray.direction);
+//     double b = 2.0 * dot(e_c, ray.direction);
+//     double c = dot(e_c, e_c) - sp.radius * sp.radius;
+//     double discriminant = b * b - 4 * a * c;
+//     if (discriminant  < 0)
+//         return false;
+//     return true;
+// }
