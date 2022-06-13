@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
-#include <math.h>
+#include "linear_algebra.h"
 
 void	print_tupil(char *vec_name, t_vec a)
 {

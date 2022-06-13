@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-#include "main.h"
-#include "vector.h"
+#include "linear_algebra.h"
 
 double mat2_determinant(t_matrix2 m)
 {
@@ -123,8 +121,8 @@ t_matrix2 mat3_submatrix(t_matrix3 m, int row, int col)
   j = 0;
   i2 = 0;
   j2 = 0;
-  panic(row < 0 || row > 2 || col < 0 || col > 2, "out of bound params"
-        , __func__, __FILE__, __LINE__);
+  // panic(row < 0 || row > 2 || col < 0 || col > 2, "out of bound params"
+  //       , __func__, __FILE__, __LINE__);
   while (j < 3 && j2 < 3)
   {
     if (j == row)
@@ -157,8 +155,8 @@ t_matrix3 mat4_submatrix(t_matrix4 m, int row, int col)
   j = 0;
   i2 = 0;
   j2 = 0;
-  panic(row < 0 || row > 3 || col < 0 || col > 3, "out of bound params"
-        , __func__, __FILE__, __LINE__);
+  // panic(row < 0 || row > 3 || col < 0 || col > 3, "out of bound params"
+  //       , __func__, __FILE__, __LINE__);
   while (j < 4)
   {
     if (j == row)

@@ -32,10 +32,9 @@ t_hit intersect_plane(t_plane p, t_ray r)
 }
 
 t_hit intersect_sphere(const t_sphere sp, const t_ray r) {
-    const t_ray ray = ray_transform(r, inverse(sp.t)); 
-    t_vec e_c = sub(ray.origin, sp.center); // e - c
-    double a = dot(ray.direction, ray.direction);
-    double b = 2.0 * dot(e_c, ray.direction);
+    t_vec e_c = sub(r.origin, sp.center); // e - c
+    double a = dot(r.direction, r.direction);
+    double b = 2.0 * dot(e_c, r.direction);
     double c = dot(e_c, e_c) - sp.radius * sp.radius;
     double discriminant = b * b - 4 * a * c;
     if (discriminant  < 0)
@@ -51,14 +50,13 @@ t_hit intersect_sphere(const t_sphere sp, const t_ray r) {
     return ((t_hit) {{{.t = root1, .shape.sphere = sp}, {.t = root2, .shape.sphere = sp}}, 2});
 }
 
-t_hit intersect(t_shape shape, t_ray r)
+t_hit intersect(const t_shape shape, const t_ray r)
 {
+  const t_ray tr = ray_transform(r, inverse(shape.super.t));
   if (shape.type == Sphere)
-    return intersect_sphere(shape.sphere, r);
-  if (shape.type == Plane) {
-    printf ("yes\n");
-    return intersect_plane(shape.plane, r);
-  }
+    return intersect_sphere(shape.sphere, tr);
+  if (shape.type == Plane)
+    return intersect_plane(shape.plane, tr);
   return (t_hit) {intersection(-1, (t_shape){.type = Error}), .count = 0};
 }
 
@@ -87,25 +85,42 @@ t_ray ray_transform(t_ray ray, t_matrix4 m)
   };
 }
 
-t_vec normal_at_sphere(t_sphere s, t_point world_point)
+t_vec normal_at_plane(t_plane p)
 {
-  const t_point object_point = apply_transformation(inverse(s.t), world_point);
-  const t_vec object_normal =  sub(object_point, s.center);
-  // const t_vec object_normal =  sub(object_point, point(0, 0, 0));
-  t_vec world_normal = apply_transformation(transpose(inverse(s.t)), object_normal);
-  world_normal.w = 0.0;
-  return normalize(world_normal);
+  return p.normal;
 }
+
+t_vec normal_at_sphere(t_sphere s, t_point local_point)
+{
+  return sub(local_point, s.center);
+}
+
+// t_vec normal_at_super(shape.plane)
+// {
+//   const t_ray dr = ray() 
+// }
 
 t_vec normal_at(t_shape shape, t_point world_point)
 {
+  const t_transform shape_transform = shape.super.t;
+  const t_point local_point = apply_transformation(inverse(shape_transform), world_point);
+  t_vec local_normal;
+
+  if (shape.type == SuperShape)
+    local_normal = vector(local_point.x,
+                          local_point.y,
+                          local_point.z);
   if (shape.type == Plane)
-    return shape.plane.normal;
+    local_normal = normal_at_plane(shape.plane);
   if (shape.type == Sphere)
-    return normal_at_sphere(shape.sphere, world_point);
+    local_normal =  normal_at_sphere(shape.sphere, local_point);
   if (shape.type == Error)
-    exit(1);
-  return vector(0, 0, 0);
+    panic(true, "unknown shape type",  __func__, __FILE__, __LINE__);
+
+  t_vec world_normal = apply_transformation(transpose(inverse(shape_transform)),
+                                            local_normal);
+  world_normal.w = 0;
+  return normalize(world_normal);
 }
 
 t_vec reflect(t_vec in, t_vec norm)
@@ -217,4 +232,4 @@ t_rgb shade_hit(t_world w, t_comp comps)
 //     if (discriminant  < 0)
 //         return false;
 //     return true;
-// }
+// 

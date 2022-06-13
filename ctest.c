@@ -80,7 +80,7 @@ int main()
   w = add_shape(w, (t_shape)middle);
   w = add_shape(w, (t_shape)right);
   w = add_shape(w, (t_shape)left);
-  printf("num of spheres %d num of lights %d\n", w.amount_of_shapes, w.amount_of_lights);
+  printf("num of shapes %d num of lights %d\n", w.amount_of_shapes, w.amount_of_lights);
   t_image canvas = render(c, w);
   put_image(pair(0, 0), canvas);
   start_mlx();

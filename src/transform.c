@@ -1,4 +1,4 @@
-#include "vector.h"
+#include "linear_algebra.h"
 #include <math.h>
 
 

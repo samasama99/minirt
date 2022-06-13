@@ -673,14 +673,14 @@ int main() {
     t_ray r = {point(0, 0, -5), {0, 0, 1}};
     t_sphere s = sphere();
     s.t = scaling(2, 2, 2);
-    t_hit h = intersect_sphere(s, r);
+    t_hit h = intersect((t_shape)s, r);
     assert(h.intersections[0].t == 3 && h.intersections[1].t == 7);
   }
   {
     t_ray r = {point(0, 0, -5), vector(0, 0, 1)};
     t_sphere s = sphere();
     s.t = translation(5, 0, 0);
-    t_hit h = intersect_sphere(s, r);
+    t_hit h = intersect((t_shape)s, r);
     assert(h.count == 0);
     printf("transforming a sphere : ✔\n");
   }
@@ -1027,10 +1027,29 @@ int main() {
     t_plane p = plane();
     t_ray r = ray(point(0, 1, 0), vector(0, -1, 0));
     t_hit h = intersect((t_shape)p, r);
-    printf ("%f %d %d\n", h.intersections->t, h.count, h.intersections->shape.super.id);
     assert(h.count ==  1);
     assert(h.intersections[0].t == 1);
     assert(h.intersections[0].shape.super.id == p.id);
+  }
+  {
+    t_shape s = {.super.type = SuperShape, .super.t = translation(0, 1, 0)};
+    t_norm n = normal_at(s, point(0, 1.70711, -0.70711));
+    assert(vec_is_equal(vector(0, 0.70711, -0.70711), n));
+  }
+  {
+    t_shape s = {.super.type = SuperShape,
+                .super.t = mat4_mult(scaling(1, 0.5, 1), rotation_z(M_PI / 5))};
+    t_norm n = normal_at(s, point(0, M_SQRT2 / 2, -M_SQRT2 / 2));
+    assert(vec_is_equal(vector(0, 0.97014, -0.24254), n));
+  }
+  {
+    t_plane p = plane();
+    t_norm n1 = normal_at((t_shape)p, point(0, 0, 0));
+    t_norm n2 = normal_at((t_shape)p, point(-10, 0, 10));
+    t_norm n3 = normal_at((t_shape)p, point(-5, 0, 150));
+    assert(vec_is_equal(n1, vector(0, 1, 0)));
+    assert(vec_is_equal(n2, vector(0, 1, 0)));
+    assert(vec_is_equal(n3, vector(0, 1, 0)));
   }
   return 0;
 }

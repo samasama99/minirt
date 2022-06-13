@@ -13,7 +13,7 @@
 #ifndef MAIN_H
 # define MAIN_H
 # include "../libft/libft.h"
-# include "vector.h"
+# include "linear_algebra.h"
 
 // # include <mlx.h>
 # include </usr/local/include/mlx.h>
@@ -177,6 +177,7 @@ typedef struct s_material {
 
 typedef enum e_shape_type {
   Error,
+  SuperShape,
   Sphere,
   Plane,
 } t_shape_type;
@@ -255,6 +256,8 @@ t_shape sphere_shape(t_sphere s);
 t_shape plane_shape(t_plane s);
 t_plane plane();
 t_hit intersect(t_shape shape, t_ray r);
+t_vec normal_at_plane(t_plane p);
+t_vec normal_at_sphere(t_sphere s, t_point local_point);
 
 // THE WORLD
 typedef struct s_world {

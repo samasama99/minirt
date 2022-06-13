@@ -114,12 +114,9 @@ t_hit intersect_world(t_world w, t_ray r)
 
   i = 0;
   h.count = 0;
-  // printf ("amount_of_spheres %d\n", w.amount_of_spheres);
   while (i < w.amount_of_shapes)
   {
     tmp = intersect(w.shapes[i], r); 
-      if (w.shapes[i].type == Plane && tmp.count)
-        printf("%d %d\n", w.shapes[i].type, tmp.count);
     if (tmp.count != 0)
     {
       h.intersections[h.count] = tmp.intersections[0];
@@ -143,7 +140,6 @@ t_rgb color_at(t_world w, t_ray r)
   
   if (i.t < 0)
     return color(0, 0 ,0);
-  printf ("%f %d\n", i.t, i.shape.super.id);
   t_comp comp = prepare_computations(i, r);
   return (shade_hit(w, comp));
 }
@@ -153,8 +149,6 @@ bool is_shadowed(t_world w, t_point p)
   const t_vec v = sub(w.lights[0].position, p);
   const double d = magnitude(v);
   const t_vec direction = normalize(v);
-  // print_tupil("direction", v);
-  // print_tupil("direction norm", direction);
   const t_ray r = ray(p, direction);
   const t_hit i = intersect_world(w, r);
   const t_intersection h = hit(i);
