@@ -62,21 +62,21 @@ t_mlx init_mlx(t_res resolution, t_res center) {
   return (mlx_info);
 }
 
+float clamp(float n)
+{
+  if (n > 1)
+    n = 1;
+  if (n < 0)
+    n = 0;
+  return n;
+}
+
 int make_color(t_rgb c, float alpha) {
   t_color color;
 
-  if (c.blue > 1)
-    c.blue = 1;
-  if (c.blue < 0)
-    c.blue = 0;
-  if (c.green > 1)
-    c.green = 1;
-  if (c.green < 0)
-    c.green = 0;
-  if (c.red > 1)
-    c.red = 1;
-  if (c.red < 0)
-    c.red = 0;
+  c.blue = clamp(c.blue);
+  c.green = clamp(c.green);
+  c.red = clamp(c.red);
   color.blue = c.blue * 255.999;
   color.green = c.green * 255.999;
   color.red = c.red * 255.999;
@@ -92,8 +92,6 @@ void put_pixel(t_pair pos, t_rgb rgb) {
 
 void put_image(t_pair pos, t_image img) {
   const t_mlx m = get_mlx_info(NULL);
-  // mlx_put_image_to_window(m.mlx, m.win, img.img, pos.x + m.center.x,
-  //                         pos.y + m.center.y);
   mlx_put_image_to_window(m.mlx, m.win, img.img, pos.x, pos.y);
 }
 
