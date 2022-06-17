@@ -1,5 +1,5 @@
-#include "main.h"
-#include "vector.h"
+#include "src/main.h"
+#include "src/linear_algebra.h"
 #include <assert.h>
 #include <stdio.h>
 

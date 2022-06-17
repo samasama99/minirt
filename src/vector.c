@@ -65,14 +65,12 @@ double	dot(t_vec a, t_vec b)
 
 t_vec	cross(t_vec a, t_vec b)
 {
-	t_vec	x;
-
-	x = (t_vec){{
+	return (t_vec){{
 		(a.y * b.z) - (a.z * b.y),
 		(a.z * b.x) - (a.x * b.z),
 		(a.x * b.y) - (a.y * b.x),
+    0,
 	}};
-	return (x);
 }
 
 double	magnitude(t_vec a)
@@ -82,33 +80,29 @@ double	magnitude(t_vec a)
 
 t_vec	scalar(t_vec a, double k)
 {
-	t_vec	x;
-
-	x = (t_vec){{
+	return (t_vec){{
 		a.x * k,
 		a.y * k,
 		a.z * k,
 		a.w * k,
 	}};
-	return (x);
 }
 
 t_vec	normalize(t_vec v)
 {
 	t_vec	nv;
-	double	len;
+	const double	len = magnitude(v);
 	double	invertLenght;
 
-	len = magnitude(v);
 	if (len > 0 && len != 1)
 	{
 		invertLenght = 1 / len;
-		nv = (t_vec) {
+		nv = (t_vec) {{
 			.x = v.x * invertLenght,
 			.y = v.y * invertLenght,
 			.z = v.z * invertLenght,
 			.w = v.w * invertLenght,
-		};
+		}};
 	}
 	else
 		nv = v;
@@ -127,28 +121,6 @@ t_vec	opose(t_vec v)
 	}};
 	return (o);
 }
-
-// t_vec	vec_mid(t_vec a, t_vec b)
-// {
-// 	t_vec	o;
-
-// 	o = sum(a, b);
-// 	o = vec_scalar(o, 0.5);
-// 	return (o);
-// }
-
-// t_vec	vec_centroid(t_vec a, t_vec b, t_vec c)
-// {
-// 	t_vec	centroid;
-
-// 	centroid = (t_pos){{
-// 			a.x + b.x + c.x,
-// 			a.y + b.y + c.y,
-// 			a.z + b.z + c.z,
-// 	}};
-// 	centroid = vec_scalar (centroid, (double)1 / 3);
-// 	return (centroid);
-// }
 
 bool  is_equal_float(float x, float y)
 {
@@ -174,22 +146,20 @@ bool vec_is_equal(t_vec v1, t_vec v2)
     return false;
   if (is_equal_double(v1.z, v2.z) == false) 
     return false;
-  // if (is_equal_double(v1.w, v2.w) == false) 
-  //   return false;
   return true;
 }
 
 t_vec vector(double x, double y, double z)
 {
-  return ((t_vec){x, y, z, 0});
+  return ((t_vec){{x, y, z, 0}});
 }
 
 t_point point(double x, double y, double z)
 {
-  return ((t_point){x, y, z, 1});
+  return ((t_point){{x, y, z, 1}});
 }
 
 t_pair pair(double x, double y)
 {
-  return ((t_pair){x, y});
+  return ((t_pair){{x, y}});
 }

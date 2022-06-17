@@ -12,8 +12,7 @@
 
 #include "linear_algebra.h"
 
-double mat2_determinant(t_matrix2 m)
-{
+double mat2_determinant(t_matrix2 m) {
   return (m.l1_c1 * m.l2_c2 - m.l1_c2 * m.l2_c1);
 }
 
@@ -62,16 +61,14 @@ t_matrix4 mat4_mult(t_matrix4 mat1, t_matrix4 mat2) {
   return (mult);
 }
 
-t_point apply_transformation(t_transform mat, t_point p)
-{
-    return ((t_point){
-        p.x * mat.l1_c1 + p.y * mat.l1_c2 + p.z * mat.l1_c3 + p.w * mat.l1_c4,
-        p.x * mat.l2_c1 + p.y * mat.l2_c2 + p.z * mat.l2_c3 + p.w * mat.l2_c4,
-        p.x * mat.l3_c1 + p.y * mat.l3_c2 + p.z * mat.l3_c3 + p.w * mat.l3_c4,
-        p.x * mat.l4_c1 + p.y * mat.l4_c2 + p.z * mat.l4_c3 + p.w * mat.l4_c4,
-    });
+t_point apply_transformation(t_transform mat, t_point p) {
+  return ((t_point){{
+      p.x * mat.l1_c1 + p.y * mat.l1_c2 + p.z * mat.l1_c3 + p.w * mat.l1_c4,
+      p.x * mat.l2_c1 + p.y * mat.l2_c2 + p.z * mat.l2_c3 + p.w * mat.l2_c4,
+      p.x * mat.l3_c1 + p.y * mat.l3_c2 + p.z * mat.l3_c3 + p.w * mat.l3_c4,
+      p.x * mat.l4_c1 + p.y * mat.l4_c2 + p.z * mat.l4_c3 + p.w * mat.l4_c4,
+  }});
 }
-
 
 bool matrix_is_equal(t_matrix4 m, t_matrix4 n) {
   int i;
@@ -109,8 +106,7 @@ t_matrix4 transpose(t_matrix4 m) {
   return (t);
 }
 
-t_matrix2 mat3_submatrix(t_matrix3 m, int row, int col)
-{
+t_matrix2 mat3_submatrix(t_matrix3 m, int row, int col) {
   int i;
   int j;
   int i2;
@@ -123,17 +119,15 @@ t_matrix2 mat3_submatrix(t_matrix3 m, int row, int col)
   j2 = 0;
   // panic(row < 0 || row > 2 || col < 0 || col > 2, "out of bound params"
   //       , __func__, __FILE__, __LINE__);
-  while (j < 3 && j2 < 3)
-  {
+  while (j < 3 && j2 < 3) {
     if (j == row)
       ++j;
-    while (i < 3 && j < 3 && i2 < 3 && j2 < 3)
-    {
-        if (i == col)
-          ++i;
-        n.m[j2][i2] = m.m[j][i];
+    while (i < 3 && j < 3 && i2 < 3 && j2 < 3) {
+      if (i == col)
         ++i;
-        ++i2;
+      n.m[j2][i2] = m.m[j][i];
+      ++i;
+      ++i2;
     }
     i = 0;
     i2 = 0;
@@ -143,8 +137,7 @@ t_matrix2 mat3_submatrix(t_matrix3 m, int row, int col)
   return n;
 }
 
-t_matrix3 mat4_submatrix(t_matrix4 m, int row, int col)
-{
+t_matrix3 mat4_submatrix(t_matrix4 m, int row, int col) {
   int i;
   int j;
   int i2;
@@ -157,17 +150,15 @@ t_matrix3 mat4_submatrix(t_matrix4 m, int row, int col)
   j2 = 0;
   // panic(row < 0 || row > 3 || col < 0 || col > 3, "out of bound params"
   //       , __func__, __FILE__, __LINE__);
-  while (j < 4)
-  {
+  while (j < 4) {
     if (j == row)
       ++j;
-    while (i < 4)
-    {
-        if (i == col)
-          ++i;
-        n.m[j2][i2] = m.m[j][i];
+    while (i < 4) {
+      if (i == col)
         ++i;
-        ++i2;
+      n.m[j2][i2] = m.m[j][i];
+      ++i;
+      ++i2;
     }
     i = 0;
     i2 = 0;
@@ -175,116 +166,61 @@ t_matrix3 mat4_submatrix(t_matrix4 m, int row, int col)
     ++j2;
   }
   return n;
-
 }
 
-double mat3_minor(t_matrix3 m, int row, int col)
-{
+double mat3_minor(t_matrix3 m, int row, int col) {
   t_matrix2 n;
 
   n = mat3_submatrix(m, row, col);
   return mat2_determinant(n);
 }
 
-double mat3_cofactor(t_matrix3 m, int row, int col)
-{
-  t_matrix3 s = (t_matrix3) {
-    1, -1, 1,
-    -1, 1, -1,
-    1, -1, 1,
-  };
+double mat3_cofactor(t_matrix3 m, int row, int col) {
+  t_matrix3 s = (t_matrix3){{
+      1, -1, 1,
+      -1, 1, -1,
+      1, -1, 1,
+  }};
   return s.m[row][col] * mat3_minor(m, row, col);
 }
 
-double mat3_determinant(t_matrix3 m)
-{
-  return (m.l1_c1 * mat3_cofactor(m, 0, 0)
-          + m.l1_c2 * mat3_cofactor(m, 0, 1)
-          +  m.l1_c3 * mat3_cofactor(m, 0, 2));
+double mat3_determinant(t_matrix3 m) {
+  return (m.l1_c1 * mat3_cofactor(m, 0, 0) + m.l1_c2 * mat3_cofactor(m, 0, 1) +
+          m.l1_c3 * mat3_cofactor(m, 0, 2));
 }
 
-double mat4_minor(t_matrix4 m, int row, int col)
-{
+double mat4_minor(t_matrix4 m, int row, int col) {
   t_matrix3 x;
 
   x = mat4_submatrix(m, row, col);
   return mat3_determinant(x);
 }
 
-double mat4_cofactor(t_matrix4 m, int row, int col)
-{
-  t_matrix4 x = {
-    1, -1, 1, -1, 
-    -1, 1, -1, 1, 
-    1, -1, 1, -1, 
-    -1, 1, -1, 1, 
-  };
+double mat4_cofactor(t_matrix4 m, int row, int col) {
+  t_matrix4 x = {{
+      1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, -1, -1, 1, -1, 1,
+  }};
 
   return x.m[row][col] * mat4_minor(m, row, col);
 }
 
-double mat4_determinant(t_matrix4 m)
-{
-  return (m.l1_c1 * mat4_cofactor(m, 0, 0)
-          + m.l1_c2 * mat4_cofactor(m, 0, 1)
-          +  m.l1_c3 * mat4_cofactor(m, 0, 2)
-          +  m.l1_c4 * mat4_cofactor(m, 0, 3));
+double mat4_determinant(t_matrix4 m) {
+  return (m.l1_c1 * mat4_cofactor(m, 0, 0) + m.l1_c2 * mat4_cofactor(m, 0, 1) +
+          m.l1_c3 * mat4_cofactor(m, 0, 2) + m.l1_c4 * mat4_cofactor(m, 0, 3));
 }
 
-bool mat4_is_invertible(t_matrix4 m)
-{
-  return mat4_determinant(m);
-}
+bool mat4_is_invertible(t_matrix4 m) { return mat4_determinant(m); }
 
-t_matrix4 inverse(t_matrix4 m)
-{
-  const double determinant = mat4_determinant(m);
+t_matrix4 inverse(t_matrix4 m) {
   const double id = 1 / mat4_determinant(m);
-  return (t_matrix4) {
-    mat4_cofactor(m, 0, 0) *  id, mat4_cofactor(m, 1, 0) *  id, mat4_cofactor(m, 2, 0) *  id, mat4_cofactor(m, 3, 0) *  id, 
-    mat4_cofactor(m, 0, 1) *  id, mat4_cofactor(m, 1, 1) *  id, mat4_cofactor(m, 2, 1) *  id, mat4_cofactor(m, 3, 1) *  id, 
-    mat4_cofactor(m, 0, 2) *  id, mat4_cofactor(m, 1, 2) *  id, mat4_cofactor(m, 2, 2) *  id, mat4_cofactor(m, 3, 2) *  id, 
-    mat4_cofactor(m, 0, 3) *  id, mat4_cofactor(m, 1, 3) *  id, mat4_cofactor(m, 2, 3) *  id, mat4_cofactor(m, 3, 3) *  id, 
-  };
+  return (t_matrix4){{
+      mat4_cofactor(m, 0, 0) * id, mat4_cofactor(m, 1, 0) * id,
+      mat4_cofactor(m, 2, 0) * id, mat4_cofactor(m, 3, 0) * id,
+      mat4_cofactor(m, 0, 1) * id, mat4_cofactor(m, 1, 1) * id,
+      mat4_cofactor(m, 2, 1) * id, mat4_cofactor(m, 3, 1) * id,
+      mat4_cofactor(m, 0, 2) * id, mat4_cofactor(m, 1, 2) * id,
+      mat4_cofactor(m, 2, 2) * id, mat4_cofactor(m, 3, 2) * id,
+      mat4_cofactor(m, 0, 3) * id, mat4_cofactor(m, 1, 3) * id,
+      mat4_cofactor(m, 2, 3) * id, mat4_cofactor(m, 3, 3) * id,
+  }};
 }
-
-
-// int main()
-// {
-// t_matrix3 matrix;
-// t_matrix3 matrix2;
-// t_matrix3 mult;
-//
-// matrix = (t_matrix3){{
-// 1, 2, 3,
-// 4, 5, 6,
-// 7, 8, 9
-// }};
-// matrix2 = (t_matrix3){{
-// 1, 99, 3,
-// 4, 10, 6,
-// 5.20, 8.10, 9
-// }};
-// mult = mat3_mult(matrix ,matrix2);
-//
-// mat3_print(matrix);
-// printf ("************\n");
-// mat3_print(matrix2);
-// printf ("************\n");
-// mat3_print(mult);
-// t_pos	pos = vec_init(1, 1, 1);
-// t_matrix3 identity = (t_matrix3){{
-// 1, 0, 0,
-// 0, 1, 0,
-// 0, 0, 1
-// }};
-// t_matrix3 scale = (t_matrix3){{
-// 2, 0, 0,
-// 0, 2, 0,
-// 0, 0, 2
-// }};
-// vec_print("p", pos);
-// mat3_print(identity);
-// vec_print("new_pos", pos3_multi_mat3(pos, identity));
-// vec_print("new_pos", pos3_multi_mat3(pos, scale));
-// }

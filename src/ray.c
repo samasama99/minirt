@@ -19,16 +19,21 @@ t_intersection intersection(double t, t_shape shape)
   return (t_intersection) {.t = t, .shape = shape};
 }
 
+t_hit no_intersection()
+{
+    return (t_hit) {{intersection(-1, (t_shape) {Error})},
+                      .count = 0};
+}
+
 t_hit intersect_plane(t_plane p, t_ray r)
 {
   double t;
-  t_shape pl;
+  const t_shape pl = {.plane = p};
 
-  pl.plane = p;
   if (fabs(r.direction.y) < EPSILON)
-    return (t_hit) {{-1, -1}, 0};
+    return no_intersection();
   t = -r.origin.y / r.direction.y;
-  return (t_hit) {intersection(t, pl), .count = 1};
+  return (t_hit) {{intersection(t, pl)}, .count = 1};
 }
 
 t_hit intersect_sphere(const t_sphere sp, const t_ray r) {
@@ -38,16 +43,12 @@ t_hit intersect_sphere(const t_sphere sp, const t_ray r) {
     double c = dot(e_c, e_c) - sp.radius * sp.radius;
     double discriminant = b * b - 4 * a * c;
     if (discriminant  < 0)
-        return (t_hit) {(t_intersection) {.t = -1, .shape = Error}, .count = 0};
-    if (discriminant == 0)
-    {
-        const double root = (-1 * b) / (2 * a);
-        return ((t_hit) {{{.t = root, .shape.sphere = sp}, {.t = root, .shape.sphere = sp}}, 2});
-    }
+        return no_intersection();
     const double sqrt_dis =  sqrt(discriminant);
     const double root1 = ((-1 * b) - sqrt_dis) / (2 * a);
     const double root2 = ((-1 * b) + sqrt_dis) / (2 * a);
-    return ((t_hit) {{{.t = root1, .shape.sphere = sp}, {.t = root2, .shape.sphere = sp}}, 2});
+    return ((t_hit) {{intersection(root1, (t_shape)sp),
+                      intersection(root2, (t_shape)sp)}, 2});
 }
 
 t_hit intersect(const t_shape shape, const t_ray r)
@@ -57,7 +58,7 @@ t_hit intersect(const t_shape shape, const t_ray r)
     return intersect_sphere(shape.sphere, tr);
   if (shape.type == Plane)
     return intersect_plane(shape.plane, tr);
-  return (t_hit) {intersection(-1, (t_shape){.type = Error}), .count = 0};
+  return no_intersection();
 }
 
 t_intersection hit(t_hit h)
@@ -94,11 +95,6 @@ t_vec normal_at_sphere(t_sphere s, t_point local_point)
 {
   return sub(local_point, s.center);
 }
-
-// t_vec normal_at_super(shape.plane)
-// {
-//   const t_ray dr = ray() 
-// }
 
 t_vec normal_at(t_shape shape, t_point world_point)
 {
@@ -204,7 +200,6 @@ t_comp prepare_computations(t_intersection i, t_ray r)
 t_rgb shade_hit(t_world w, t_comp comps)
 {
   const bool shadowed = is_shadowed(w, comps.over_point);
-  t_material m;
 
   return lighting(
     comps.shape.super.material,

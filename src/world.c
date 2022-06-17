@@ -129,7 +129,8 @@ t_hit intersect_world(t_world w, t_ray r)
   if (h.count > 2)
     sort(h.intersections, h.count);
   if (h.count == 0)
-    return (t_hit) {.intersections = {-1, -1}, .count =  0};
+    return (t_hit) {{intersection(-1, (t_shape) {.type = Error})},
+                    .count =  0};
   return h;
 }
 

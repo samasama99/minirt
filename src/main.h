@@ -82,9 +82,9 @@ char		**add_element_2d_array(char **array, char *elem, size_t index);
 
 /******* GAME_DATA *******/
 
-typedef struct s_assets {
-	image imgs[1024];
-}	t_assets;
+// typedef struct s_assets {
+// 	image imgs[1024];
+// }	t_assets;
 
 /*rgb*/
 
@@ -123,10 +123,10 @@ typedef struct s_mlx {
 	t_res		center;
 }	t_mlx;
 
-typedef struct s_data {
-	t_mlx			mlx_info;
-	t_assets		assets;
-}	t_data;
+// typedef struct s_data {
+// 	t_mlx			mlx_info;
+// 	t_assets		assets;
+// }	t_data;
 
 // typedef struct s_object {
 // 	size_t		size;
@@ -140,9 +140,9 @@ typedef struct s_image {
   int *buffer;
 } t_image;
 
-t_data *my_data(t_data *data);
+// t_data *my_data(t_data *data);
 t_mlx	init_mlx(t_res resolution, t_res center);
-void	handling_events(t_data *data);
+// void	handling_events(t_data *data);
 int make_color(t_rgb c, float alpha);
 void put_pixel(t_pair pos, t_rgb rgb);
 void put_image(t_pair pos, t_image img);
