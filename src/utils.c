@@ -48,3 +48,13 @@ bool	is_equal_str(const char *s1, const char *s2)
 		return (false);
 	return (ft_strncmp(s1, s2, s1_len) == 0);
 }
+
+float clamp(float n, float min, float max)
+{
+  if (n > max)
+    n = 1;
+  if (n < min)
+    n = 0;
+  return n;
+}
+

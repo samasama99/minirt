@@ -62,25 +62,16 @@ t_mlx init_mlx(t_res resolution, t_res center) {
   return (mlx_info);
 }
 
-float clamp(float n)
-{
-  if (n > 1)
-    n = 1;
-  if (n < 0)
-    n = 0;
-  return n;
-}
-
 int make_color(t_rgb c, float alpha) {
   t_color color;
 
-  c.blue = clamp(c.blue);
-  c.green = clamp(c.green);
-  c.red = clamp(c.red);
-  color.blue = c.blue * 255.999;
-  color.green = c.green * 255.999;
-  color.red = c.red * 255.999;
-  color.alpha = alpha * 255.999;
+  c.blue = clamp(c.blue, 0, 1);
+  c.green = clamp(c.green, 0, 1);
+  c.red = clamp(c.red, 0, 1);
+  color.blue = c.blue * 255.0;
+  color.green = c.green * 255.0;
+  color.red = c.red * 255.0;
+  color.alpha = alpha * 255.0;
   return color.color;
 }
 

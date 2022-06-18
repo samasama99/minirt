@@ -2,7 +2,7 @@
 
 int main()
 {
-  const t_res res = pair(200, 100);
+  const t_res res = pair(1200, 600);
   init_mlx(res, pair(0, 0));
 
   t_plane floor = plane();
@@ -49,13 +49,14 @@ int main()
   left.material.diffuse = 0.7;
   left.material.specular = 0.3;
 
-  t_world w = world();
+  t_world w = set_amount_of_shapes(6);
+  
   t_light light = point_light(point(-10, 10, -10), color(1, 1, 1));
   t_camera c = camera(res.x, res.y, M_PI / 3);
   c.transform = view_transform(point(0, 1.5, -5),
                                point(0, 1, 0),
                                vector(0, 1, 0));
-  w = add_light(w, light);
+  w.light = light;
 
   w = add_shape(w, (t_shape)floor);
   w = add_shape(w, (t_shape)left_wall);
@@ -64,7 +65,7 @@ int main()
   w = add_shape(w, (t_shape)middle);
   w = add_shape(w, (t_shape)right);
   w = add_shape(w, (t_shape)left);
-  printf("num of shapes %d num of lights %d\n", w.amount_of_shapes, w.amount_of_lights);
+  printf("num of shapes %d\n", w.amount_of_shapes);
   // t_image canvas = render(c, w);
   render(c, w);
   // put_image(pair(0, 0), canvas);

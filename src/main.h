@@ -69,6 +69,7 @@ char		*ft_strjoin_free(char *s1, char *s2);
 void	panic(bool con, const char *msg, const char *func, const char *file, const int line);
 // void		panic(bool con, const char *msg, const char *func);
 bool		is_equal_str(const char *s1, const char *s2);
+float clamp(float n, float min, float max);
 long time_now();
 
 /******* 2D_ARRAY *******/
@@ -106,16 +107,15 @@ typedef union u_color {
 } t_color;
 
 t_rgb	rgb_sum(t_rgb a, t_rgb b);
+t_rgb	rgb_sums(t_rgb a, t_rgb b, t_rgb c);
 t_rgb	rgb_sub(t_rgb a, t_rgb b);
 t_rgb	rgb_scalar(t_rgb a, double k);
 bool rgb_is_equal(t_rgb v1, t_rgb v2);
-t_rgb rgb_hadamard_product(t_rgb c1, t_rgb c2);
+t_rgb rgb_product(t_rgb c1, t_rgb c2);
 t_rgb color(float r, float g, float b);
 t_rgb black();
 
 /******* MLX *******/
-
-// typedef t_pair t_pos;
 
 typedef struct s_mlx {
 	mlx_ptr	mlx;
@@ -223,7 +223,7 @@ typedef struct s_intersection {
 } t_intersection;
 
 typedef struct s_hit {
-    t_intersection intersections[1024];
+    t_intersection intersections[2];
     int count;
 }               t_hit;
 
@@ -248,7 +248,7 @@ bool is_hit(const t_sphere sp, const t_ray r);
 t_vec normal_at(t_shape shape, t_point world_point);
 t_vec reflect(t_vec in, t_vec norm);
 t_light point_light(t_point position, t_rgb color);
-t_rgb lighting(t_material m, t_light l, t_point point, t_vec eyev, t_vec normalv, bool shadowd);
+t_rgb	lighting(t_material m, t_light l, double light_norm, double reflect_eye);
 t_material material();
 t_comp prepare_computations(t_intersection i, t_ray r);
 t_transform view_transform(t_point from, t_point to, t_vec up);
@@ -263,15 +263,15 @@ t_hit no_intersection();
 
 // THE WORLD
 typedef struct s_world {
-  t_shape shapes[1024];
-  t_light lights[1024];
+  t_shape *shapes;
+  t_light light;
   int amount_of_shapes;
-  int amount_of_lights;
 }               t_world;
 
 t_world world();
+t_world set_amount_of_shapes(size_t amount);
 t_world add_shape(const t_world w, const t_shape s);
-t_world add_light(const t_world w, const t_light l);
+// t_world add_light(const t_world w, const t_light l);
 t_world default_world();
 t_hit intersect_world(t_world w, t_ray r);
 t_rgb shade_hit(t_world w, t_comp comps);
@@ -292,5 +292,5 @@ typedef struct s_camera {
 
 t_camera camera(const double hsize, const double vsize, const t_rad fov);
 t_ray ray_for_pixel(t_camera c, int px, int py);
-t_image render(t_camera c, t_world w);
+void render(t_camera c, t_world w);
 #endif

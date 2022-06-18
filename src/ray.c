@@ -127,14 +127,6 @@ t_vec reflect(t_vec in, t_vec norm)
   );
 }
 
-t_light point_light(t_point position, t_rgb intensity)
-{
-  return (t_light) {
-    .position = position,
-    .intensity = intensity,
-  };
-}
-
 t_material material()
 {
   return ((t_material){
@@ -144,39 +136,6 @@ t_material material()
     .specular = 0.9,
     .shininess = 200.0,
   });
-}
-
-t_rgb lighting(t_material m, t_light l, t_point p, t_vec eyev, t_vec normalv, bool shadowed)
-{
-  // const long start = time_now();
-  t_rgb diffuse;
-  t_rgb specular;
-  t_vec reflectv;
-  double reflect_dot_eye;
-  double factor;
-  const t_rgb effective_color = rgb_hadamard_product(m.color, l.intensity);
-  const t_vec lightv = normalize(sub(l.position, p));
-  const t_rgb ambient = rgb_scalar(effective_color, m.ambient);
-  const double light_dot_normal = dot(lightv, normalv);
-
-  if (shadowed == true)
-    return ambient;
-  if (light_dot_normal < 0) {
-   diffuse = black();
-   specular = black();
-  } else {
-    diffuse = rgb_scalar(effective_color, m.diffuse * light_dot_normal);
-    reflectv = reflect(opose(lightv), normalv);
-    reflect_dot_eye = dot(reflectv, eyev);
-    if (reflect_dot_eye <= 0) {
-      specular = black();
-    } else {
-      factor = pow(reflect_dot_eye, m.shininess);
-      specular = rgb_scalar(l.intensity, m.specular * factor);
-    }
-  }
-  // printf("lighting : %ldms\n", time_now() - start);
-  return rgb_sum(ambient, rgb_sum(diffuse, specular));
 }
 
 t_comp prepare_computations(t_intersection i, t_ray r)
@@ -197,20 +156,6 @@ t_comp prepare_computations(t_intersection i, t_ray r)
       comp.inside = false;
     comp.over_point = sum(comp.point, scalar(comp.normalv, EPSILON));
     return comp;
-}
-
-t_rgb shade_hit(t_world w, t_comp comps)
-{
-  const bool shadowed = is_shadowed(w, comps.over_point);
-
-  return lighting(
-    comps.shape.super.material,
-    w.lights[0],
-    comps.over_point,
-    comps.eyev,
-    comps.normalv,
-    shadowed
-  );
 }
 
 

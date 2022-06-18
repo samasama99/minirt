@@ -9,6 +9,15 @@ t_rgb	rgb_sum(t_rgb a, t_rgb b)
 	};
 }
 
+t_rgb	rgb_sums(t_rgb a, t_rgb b, t_rgb c)
+{
+	return (t_rgb) {
+		.red = a.red + b.red + c.red,
+		.green = a.green + b.green + c.green,
+		.blue = a.blue + b.blue + c.blue,
+	};
+}
+
 t_rgb	rgb_sub(t_rgb a, t_rgb b)
 {
 	return (t_rgb) {
@@ -27,7 +36,7 @@ t_rgb	rgb_scalar(t_rgb a, double k)
 	};
 }
 
-t_rgb rgb_hadamard_product(t_rgb c1, t_rgb c2)
+t_rgb rgb_product(t_rgb c1, t_rgb c2)
 {
   return (t_rgb) {
 		.blue = c1.blue * c2.blue,
