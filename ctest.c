@@ -2,7 +2,7 @@
 
 int main()
 {
-  const t_res res = pair(400, 200);
+  const t_res res = pair(200, 100);
   init_mlx(res, pair(0, 0));
 
   t_plane floor = plane();

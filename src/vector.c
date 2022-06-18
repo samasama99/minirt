@@ -20,28 +20,22 @@ void	print_tupil(char *vec_name, t_vec a)
 
 t_vec	sum(t_vec a, t_vec b)
 {
-	t_vec	x;
-
-	x = (t_vec){{
+	return (t_vec){{
 		a.x + b.x,
 		a.y + b.y,
 		a.z + b.z,
 		a.w + b.w,
 	}};
-	return (x);
 }
 
 t_vec	sub(t_vec a, t_vec b)
 {
-	t_vec	x;
-
-	x = (t_vec){{
+	return (t_vec){{
 		a.x - b.x,
 		a.y - b.y,
 		a.z - b.z,
 		a.w - b.w,
 	}};
-	return (x);
 }
 
 // double	distance(t_vec a, t_vec b)
@@ -58,12 +52,12 @@ t_vec	sub(t_vec a, t_vec b)
 // 	return (d);
 // }
 
-double	dot(t_vec a, t_vec b)
+inline double	dot(t_vec a, t_vec b)
 {
 	  return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
 }
 
-t_vec	cross(t_vec a, t_vec b)
+inline t_vec	cross(t_vec a, t_vec b)
 {
 	return (t_vec){{
 		(a.y * b.z) - (a.z * b.y),
@@ -111,15 +105,12 @@ t_vec	normalize(t_vec v)
 
 t_vec	opose(t_vec v)
 {
-	t_vec	o;
-
-	o = (t_vec){{
+	return (t_vec){{
 			v.x * -1,
 			v.y * -1,
 			v.z * -1,
 			v.w * -1,
 	}};
-	return (o);
 }
 
 bool  is_equal_float(float x, float y)

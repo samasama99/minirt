@@ -61,15 +61,6 @@ t_matrix4 mat4_mult(t_matrix4 mat1, t_matrix4 mat2) {
   return (mult);
 }
 
-t_point apply_transformation(t_transform mat, t_point p) {
-  return ((t_point){{
-      p.x * mat.l1_c1 + p.y * mat.l1_c2 + p.z * mat.l1_c3 + p.w * mat.l1_c4,
-      p.x * mat.l2_c1 + p.y * mat.l2_c2 + p.z * mat.l2_c3 + p.w * mat.l2_c4,
-      p.x * mat.l3_c1 + p.y * mat.l3_c2 + p.z * mat.l3_c3 + p.w * mat.l3_c4,
-      p.x * mat.l4_c1 + p.y * mat.l4_c2 + p.z * mat.l4_c3 + p.w * mat.l4_c4,
-  }});
-}
-
 bool matrix_is_equal(t_matrix4 m, t_matrix4 n) {
   int i;
   int j;
@@ -197,8 +188,11 @@ double mat4_minor(t_matrix4 m, int row, int col) {
 }
 
 double mat4_cofactor(t_matrix4 m, int row, int col) {
-  t_matrix4 x = {{
-      1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, -1, -1, 1, -1, 1,
+  static t_matrix4 x = {{
+      1, -1, 1, -1,
+      -1, 1, -1, 1,
+      1, -1, 1, -1,
+      -1, 1, -1, 1,
   }};
 
   return x.m[row][col] * mat4_minor(m, row, col);

@@ -148,6 +148,7 @@ t_material material()
 
 t_rgb lighting(t_material m, t_light l, t_point p, t_vec eyev, t_vec normalv, bool shadowed)
 {
+  // const long start = time_now();
   t_rgb diffuse;
   t_rgb specular;
   t_vec reflectv;
@@ -174,6 +175,7 @@ t_rgb lighting(t_material m, t_light l, t_point p, t_vec eyev, t_vec normalv, bo
       specular = rgb_scalar(l.intensity, m.specular * factor);
     }
   }
+  // printf("lighting : %ldms\n", time_now() - start);
   return rgb_sum(ambient, rgb_sum(diffuse, specular));
 }
 

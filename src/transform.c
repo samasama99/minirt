@@ -51,14 +51,14 @@ t_matrix4 rotation_z(t_rad deg) {
   }};
 }
 
-t_matrix4 shearing(t_point x, t_point y, t_point z) {
-return (t_matrix4) {{
-    1, y.x, z.x, 0,
-    x.y, 1, z.y, 0,
-    x.z, y.z, 1, 0,
-    0, 0, 0, 1,
-  }};
-}
+// t_matrix4 shearing(t_point x, t_point y, t_point z) {
+// return (t_matrix4) {{
+//     1, y.x, z.x, 0,
+//     x.y, 1, z.y, 0,
+//     x.z, y.z, 1, 0,
+//     0, 0, 0, 1,
+//   }};
+// }
 
 t_matrix4 transform(t_matrix4 a, t_matrix4 b, t_matrix4 c) {
   const t_transform f = mat4_mult(b, a);
@@ -89,3 +89,13 @@ t_transform view_transform(t_point from, t_point to, t_vec up)
 
   return mat4_mult(orientation, translation(-from.x, -from.y, -from.z));
 }
+
+inline t_point apply_transformation(t_transform mat, t_point p) {
+  return ((t_point){{
+      p.x * mat.l1_c1 + p.y * mat.l1_c2 + p.z * mat.l1_c3 + p.w * mat.l1_c4,
+      p.x * mat.l2_c1 + p.y * mat.l2_c2 + p.z * mat.l2_c3 + p.w * mat.l2_c4,
+      p.x * mat.l3_c1 + p.y * mat.l3_c2 + p.z * mat.l3_c3 + p.w * mat.l3_c4,
+      p.x * mat.l4_c1 + p.y * mat.l4_c2 + p.z * mat.l4_c3 + p.w * mat.l4_c4,
+  }});
+}
+

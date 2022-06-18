@@ -1,15 +1,13 @@
 #include "main.h"
 
-t_world world()
-{
+t_world world() {
   return ((t_world){
-    .amount_of_shapes = 0,
-    .amount_of_lights = 0,
+      .amount_of_shapes = 0,
+      .amount_of_lights = 0,
   });
 }
 
-t_world add_shape(const t_world w, const t_shape s)
-{
+t_world add_shape(const t_world w, const t_shape s) {
   t_world new_w;
 
   // panic(w.amount_of_spheres == 1024,
@@ -21,8 +19,7 @@ t_world add_shape(const t_world w, const t_shape s)
   return new_w;
 }
 
-t_world add_light(const t_world w, const t_light l)
-{
+t_world add_light(const t_world w, const t_light l) {
   t_world new_w;
 
   // panic(w.amount_of_spheres == 1024,
@@ -34,15 +31,11 @@ t_world add_light(const t_world w, const t_light l)
   return new_w;
 }
 
-t_world default_world()
-{
+t_world default_world() {
   t_world w;
   t_sphere s1;
   t_sphere s2;
-  const t_light light = point_light(
-      point(-10, 10, -10),
-      color(1, 1, 1)
-  );
+  const t_light light = point_light(point(-10, 10, -10), color(1, 1, 1));
 
   // w = world();
   w.amount_of_lights = 0;
@@ -75,8 +68,7 @@ t_world default_world()
 //   return min;
 // }
 
-static void sort(t_intersection inters[], int size)
-{
+static void sort(t_intersection inters[], int size) {
   int i;
   int j;
   int index;
@@ -85,14 +77,11 @@ static void sort(t_intersection inters[], int size)
 
   i = 0;
   j = 0;
-  while (j < size)
-  {
+  while (j < size) {
     min_inter = inters[j];
     index = j;
-    while (i < size)
-    {
-      if (min_inter.t > inters[i].t)
-      {
+    while (i < size) {
+      if (min_inter.t > inters[i].t) {
         min_inter = inters[i];
         index = i;
       }
@@ -106,47 +95,84 @@ static void sort(t_intersection inters[], int size)
   }
 }
 
-t_hit intersect_world(t_world w, t_ray r)
-{
-  t_hit h;
-  t_hit tmp;
+// t_hit intersect_world(t_world w, t_ray r)
+// {
+//   t_hit h;
+//   t_hit tmp;
+//   int i;
+
+//   i = 0;
+//   h.count = 0;
+//   while (i < w.amount_of_shapes)
+//   {
+//     tmp = intersect(w.shapes[i], r);
+//     if (tmp.count != 0)
+//     {
+//       h.intersections[h.count] = tmp.intersections[0];
+//       if (tmp.count == 2)
+//         h.intersections[h.count + 1] = tmp.intersections[1];
+//       h.count += tmp.count;
+//     }
+//     ++i;
+//   }
+//   if (h.count > 2)
+//     sort(h.intersections, h.count);
+//   if (h.count == 0)
+//     return (t_hit) {{intersection(-1, (t_shape) {.type = Error})},
+//                     .count =  0};
+//   return h;
+// }
+
+// double intersect_world_min_t(t_ray r, t_world w, double t, int
+// amount_of_shapes)
+// {
+//   if (amount_of_shapes == 0)
+//     return t;
+//   const t_hit h = intersect(w.shapes[amount_of_shapes - 1], r);
+//   if ((t == - 1) || (h.count && hit(h).t > t))
+//     return intersect_world_min_t(r, w, hit(h).t, amount_of_shapes - 1);
+//   return intersect_world_min_t(r, w, t, amount_of_shapes - 1);
+// }
+
+t_hit intersect_world(t_world w, t_ray r) {
+  t_intersection min;
+  t_intersection tmp;
   int i;
 
-  i = 0;
-  h.count = 0;
-  while (i < w.amount_of_shapes)
-  {
-    tmp = intersect(w.shapes[i], r); 
-    if (tmp.count != 0)
-    {
-      h.intersections[h.count] = tmp.intersections[0];
-      if (tmp.count == 2) 
-        h.intersections[h.count + 1] = tmp.intersections[1];
-      h.count += tmp.count;
+  i = 1;
+  min = hit(intersect(w.shapes[0], r));
+  while (i < w.amount_of_shapes) {
+    tmp = hit(intersect(w.shapes[i], r));
+    if ((tmp.t > 0 && tmp.t < min.t) || min.t < 0) {
+      min = tmp;
     }
     ++i;
   }
-  if (h.count > 2)
-    sort(h.intersections, h.count);
-  if (h.count == 0)
-    return (t_hit) {{intersection(-1, (t_shape) {.type = Error})},
-                    .count =  0};
-  return h;
+  if (min.t < 0)
+    return no_intersection();
+  return (t_hit){{min}, 1};
 }
 
-t_rgb color_at(t_world w, t_ray r)
-{
+t_rgb color_at(t_world w, t_ray r) {
+  // const long start1 = time_now();
   const t_hit h = intersect_world(w, r);
+  // printf ("intersect_world : %ldms\n", time_now() - start1);
+  // const long start2 = time_now();
+  if (h.count == 0)
+    return black();
+
   const t_intersection i = hit(h);
-  
+  // printf ("hit : %ldms\n", time_now() - start2);
+
   if (i.t < 0)
-    return color(0, 0 ,0);
+    return color(0, 0, 0);
+  // const long start3 = time_now();
   t_comp comp = prepare_computations(i, r);
+  // printf ("prepare_computations : %ldms\n", time_now() - start3);
   return (shade_hit(w, comp));
 }
 
-bool is_shadowed(t_world w, t_point p)
-{
+bool is_shadowed(t_world w, t_point p) {
   const t_vec v = sub(w.lights[0].position, p);
   const double d = magnitude(v);
   const t_vec direction = normalize(v);

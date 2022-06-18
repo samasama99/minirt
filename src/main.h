@@ -69,6 +69,7 @@ char		*ft_strjoin_free(char *s1, char *s2);
 void	panic(bool con, const char *msg, const char *func, const char *file, const int line);
 // void		panic(bool con, const char *msg, const char *func);
 bool		is_equal_str(const char *s1, const char *s2);
+long time_now();
 
 /******* 2D_ARRAY *******/
 
@@ -258,6 +259,7 @@ t_plane plane();
 t_hit intersect(t_shape shape, t_ray r);
 t_vec normal_at_plane(t_plane p);
 t_vec normal_at_sphere(t_sphere s, t_point local_point);
+t_hit no_intersection();
 
 // THE WORLD
 typedef struct s_world {
