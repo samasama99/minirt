@@ -116,41 +116,35 @@ t_vec	opose(t_vec v)
 bool  is_equal_float(float x, float y)
 {
   const float EPSILON = 0.00001;
-  if (fabsf(x - y) < EPSILON)
-    return true;
-  return false;
+
+  return (fabsf(x - y) < EPSILON);
 }
 
 bool  is_equal_double(double x, double y)
 {
   const double EPSILON = 0.00001;
-  if (fabs(x - y) < EPSILON)
-    return true;
-  return false;
+
+  return (fabs(x - y) < EPSILON);
 }
 
 bool vec_is_equal(t_vec v1, t_vec v2)
 {
-  if (is_equal_double(v1.x, v2.x) == false) 
-    return false;
-  if (is_equal_double(v1.y, v2.y) == false) 
-    return false;
-  if (is_equal_double(v1.z, v2.z) == false) 
-    return false;
-  return true;
+  return (is_equal_double(v1.x, v2.x)
+		  && is_equal_double(v1.y, v2.y)
+		  && is_equal_double(v1.z, v2.z)); 
 }
 
-t_vec vector(double x, double y, double z)
+inline t_vec vector(double x, double y, double z)
 {
   return ((t_vec){{x, y, z, 0}});
 }
 
-t_point point(double x, double y, double z)
+inline t_point point(double x, double y, double z)
 {
   return ((t_point){{x, y, z, 1}});
 }
 
-t_pair pair(double x, double y)
+inline t_pair pair(double x, double y)
 {
   return ((t_pair){{x, y}});
 }

@@ -1,16 +1,5 @@
 #include "main.h"
 
-bool	is_shadowed(t_world w, t_point p)
-{
-	const t_vec				v = sub(w.light.position, p);
-	const double			d = magnitude(v);
-	const t_vec				direction = normalize(v);
-	const t_ray				r = ray(p, direction);
-	const t_intersection	i = intersect_world(w, r).intersections[0];
-
-	return ((i.t >= 0 && i.t < d) == true);
-}
-
 t_light	point_light(t_point position, t_rgb intensity)
 {
 	return ((t_light){
@@ -49,25 +38,4 @@ t_rgb	lighting(t_material m, t_light l, double light_norm, double reflect_eye)
 			ambient(m, l),
 			diffuse(m, l, light_norm),
 			specular(m, l, reflect_eye)));
-}
-
-t_rgb	shade_hit(t_world w, t_comp comps)
-{
-	const t_material	m = comps.shape.super.material;
-	const t_vec			lightv = normalize(
-			sub(w.light.position, comps.over_point));
-	const double		light_dot_normal = dot(lightv, comps.normalv);
-	t_vec				reflectv;
-	double				reflect_dot_eye;
-
-	if (is_shadowed(w, comps.over_point) == true
-		|| light_dot_normal < 0)
-		return (ambient(m, w.light));
-	reflectv = reflect(opose(lightv), comps.normalv);
-	reflect_dot_eye = dot(reflectv, comps.eyev);
-	return (lighting(
-			m,
-			w.light,
-			light_dot_normal,
-			reflect_dot_eye));
 }

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #ifndef VECTOR_H
 # define VECTOR_H
-#define _USE_MATH_DEFINES
+// #define _USE_MATH_DEFINES
 # include <math.h>
 # include <stdio.h>
 # include <stdbool.h>
@@ -122,7 +122,7 @@ typedef union u_matrix4
 		double		l4_c3;
 		double		l4_c4;
 	};
-	double		n[16];
+	// double		n[16];
 	double		m[4][4];
 }	t_matrix4;
 
@@ -189,8 +189,9 @@ t_matrix4 identity();
 t_matrix4 rotation_x(t_rad deg);
 t_matrix4 rotation_y(t_rad deg);
 t_matrix4 rotation_z(t_rad deg);
-t_matrix4 shearing(t_point x, t_point y, t_point z);
+// t_matrix4 shearing(t_point x, t_point y, t_point z);
+// t_point transform(t_transform mat, t_point p);
 t_matrix4 transform(t_matrix4 r, t_matrix4 s, t_matrix4 t);
-t_point apply_transformation(t_transform mat, t_point p);
+t_point apply(t_transform mat, t_point p);
 
 #endif

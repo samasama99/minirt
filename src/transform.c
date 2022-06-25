@@ -90,7 +90,7 @@ t_transform view_transform(t_point from, t_point to, t_vec up)
   return mat4_mult(orientation, translation(-from.x, -from.y, -from.z));
 }
 
-inline t_point apply_transformation(t_transform mat, t_point p) {
+inline t_point apply(t_transform mat, t_point p) {
   return ((t_point){{
       p.x * mat.l1_c1 + p.y * mat.l1_c2 + p.z * mat.l1_c3 + p.w * mat.l1_c4,
       p.x * mat.l2_c1 + p.y * mat.l2_c2 + p.z * mat.l2_c3 + p.w * mat.l2_c4,

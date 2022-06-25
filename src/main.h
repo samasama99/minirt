@@ -66,8 +66,7 @@ typedef bool error;
 /******* GENERAL  UTILS ********/
 
 char		*ft_strjoin_free(char *s1, char *s2);
-void	panic(bool con, const char *msg, const char *func, const char *file, const int line);
-// void		panic(bool con, const char *msg, const char *func);
+void		panic(bool con, const char *msg, const char *func);
 bool		is_equal_str(const char *s1, const char *s2);
 float clamp(float n, float min, float max);
 long time_now();
@@ -242,6 +241,7 @@ t_point ray_position(t_ray r, double t);
 t_sphere make_sphere(t_point origin, double radius);
 t_sphere sphere();
 t_hit intersect_sphere(const t_sphere sphere, const t_ray r);
+t_hit	intersect_plane(t_plane p, t_ray r);
 t_intersection hit(t_hit h);
 t_ray ray_transform(t_ray ray, t_matrix4 m);
 bool is_hit(const t_sphere sp, const t_ray r);
@@ -268,7 +268,6 @@ typedef struct s_world {
   int amount_of_shapes;
 }               t_world;
 
-t_world world();
 t_world set_amount_of_shapes(size_t amount);
 t_world add_shape(const t_world w, const t_shape s);
 // t_world add_light(const t_world w, const t_light l);
@@ -282,11 +281,8 @@ typedef struct s_camera {
   double hsize;
   double vsize;
   double pixel_size;
-  double aspect;
-  double half_view;
   double half_width;
   double half_height;
-  t_rad fov;
   t_transform transform;
 } t_camera;
 

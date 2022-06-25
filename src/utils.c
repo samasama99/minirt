@@ -28,11 +28,11 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	return (tmp);
 }
 
-void	panic(bool con, const char *msg, const char *func, const char *file, const int line)
+void	panic(bool con, const char *msg, const char *func)
 {
 	if (con == true)
 	{
-		printf ("\033[31mPanic [%s,%s,%d] : %s\033[0m\n", file,func, line, msg);
+		printf ("\033[31mPanic [%s] : %s\033[0m\n", func, msg);
 		exit (1);
 	}
 }

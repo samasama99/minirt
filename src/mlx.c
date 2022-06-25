@@ -36,11 +36,10 @@ win_ptr init_win(mlx_ptr mlx, t_res resolution) {
     exit(1);
   }
   win = mlx_new_window(mlx, resolution.width, resolution.height, "mlx");
-  if (win == NULL) {
-    {
+  if (win == NULL)
+  {
       perror("Error ");
       exit(1);
-    }
   }
   return (win);
 }
@@ -135,7 +134,6 @@ void fill_image(t_image img, t_pair start, t_pair finish, t_rgb color) {
   y = start.y + m.center.y;
   while (y < finish.height && y < img.res.height) {
     while (x < finish.width && x < img.res.width) {
-      // printf ("index %d %d\n", canvas.res.x * 4,x + (y * (canvas.res.x)));
       img.buffer[x + (y * (img.res.x))] = c;
       x++;
     }
