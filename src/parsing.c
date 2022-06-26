@@ -1,149 +1,73 @@
-#include "main.h"
+#include "parsing.h"
 #include <assert.h>
 
-typedef struct s_optional_material {
-  t_material material;
-  bool error;
-} t_optional_material;
-
-
-typedef struct s_optional_camera {
-  t_camera camera;
-  bool error;
-} t_optional_camera;
-
-typedef struct s_optional_point {
-  t_point point;
-  bool error;
-} t_optional_point;
-
-typedef struct s_optional_int {
-  int num;
-  bool error;
-} t_optional_int;
-
-typedef struct s_optional_rgb {
-  t_rgb color;
-  bool error;
-} t_optional_rgb;
-
-typedef struct s_optional_double {
-  double num;
-  bool error;
-} t_optional_double;
-
-typedef struct s_optional_light {
-  t_light light;
-  bool error;
-} t_optional_light;
-
-int count_char(char *str, char c)
-{
-  int i;
-  int count;
-
-  i = 0;
-  count = 0;
-  while (str[i]) {
-    if (str[i] == c)
-      ++count;
-    ++i;
-  }
-  return count;
-}
-
-size_t array_len(char **array)
-{
-  size_t i;
-
-  i = 0;
-  while (array[i])
-    ++i;
-  return i;
-}
-
-char get_type(char *target)
+t_optional_char get_type(const char *target)
 {
   if (target == NULL)
-    return -1;
+    return (t_optional_char){.error = true};
   if (ft_strlen(target) != 1)
-    return -1;
+    return (t_optional_char){.error = true};
   if (ft_isalpha(target[0]) != 1)
-    return -1;
-  if (target[0] != 'A'
-      && target[0] != 'C'
-      && target[0] != 'L')
-    return -1;
-  return target[0];
+    return (t_optional_char){.error = true};
+  return (t_optional_char) {
+    .c = target[0],
+    .error = false,
+  };
 }
 
-int get_digit(char *d)
+t_optional_int get_digit(const char *d)
 {
   if (d == NULL || d[0] == '\0')
-    return -1;
+    return (t_optional_int){.error = true};
   if (ft_strlen(d) != 1)
-    return -1;
+    return (t_optional_int){.error = true};
   if (ft_isdigit(d[0]) != 1)
-    return -1;
-  return ft_atoi(d);
+    return (t_optional_int){.error = true};
+  return (t_optional_int) {
+    .num = ft_atoi(d),
+    .error = false,
+  };
 }
 
-float get_ratio(char *target)
+t_optional_double get_ratio(const char *target)
 {
   char    **f;
-  double  whole;
-  double  fractional;
+  t_optional_int  whole;
+  t_optional_int  fractional;
 
-  printf ("Here ??\n");
-  if (target == NULL)
-    return -1;
-  if (ft_strlen(target) != 3)
-    return -1;
+  if (target == NULL || ft_strlen(target) != 3)
+    return (t_optional_double){.error = true};
   f = ft_split(target, '.');
   whole = get_digit(f[0]);
-  if (f[1] == NULL)
-    return -1;
-  if (!is_equal_double(whole, 0.0)
-    && !is_equal_double(whole, 1.0))
-    return -1;
-  fractional = get_digit(f[1]) / 10.0;
-  if (fractional > 1.0 || fractional < 0.0)
-    return -1;
-  if (fractional + whole > 1.0
-      || fractional + whole < 0.0)
-    return -1;
-  return whole + fractional;
+  fractional = get_digit(f[1]);
+  if (whole.error || whole.error)
+    return (t_optional_double){.error = true};
+  if (fractional.num / 10. + whole.num > 1.0
+      || fractional.num / 10. + whole.num < 0.0)
+    return (t_optional_double){.error = true};
+  return (t_optional_double) {
+    .num = whole.num + fractional.num / 10.,
+    .error = false,
+  };
 }
-
-bool ft_isnumber(char *num)
-{
-  size_t i;
-
-  i = 0;
-  while (num[i])
-  {
-    if (ft_isdigit(num[i]) != 1)
-        return false;
-    ++i;
-  }
-  return true;
-}
-
-double get_color_ratio(char *target)
+t_optional_double get_color_ratio(const char *target)
 {
   int num;
 
   if (target == NULL)
-    return -1;
+    return (t_optional_double){.error = true};
   if (ft_isnumber(target) == false)
-    return -1;
+    return (t_optional_double){.error = true};
   num = ft_atoi(target);
   if (num < 0 || num > 255)
-    return -1;
-  return num / 255.0;
+    return (t_optional_double){.error = true};
+  return (t_optional_double) {
+      .num = num / 255.0,
+      .error = false,
+  };
 }
 
-t_optional_int get_int(char *target)
+t_optional_int get_int(const char *target)
 {
   int i;
 
@@ -160,20 +84,7 @@ t_optional_int get_int(char *target)
   }; 
 }
 
-size_t int_len(int num)
-{
-  int i;
-
-  i = 0;
-  while (num)
-  {
-    num = num / 10;
-    ++i;
-  }
-  return i;
-}
-
-t_optional_double get_double(char *target)
+t_optional_double get_double(const char *target)
 {
   char    **f;
   t_optional_int  whole;
@@ -202,10 +113,10 @@ t_optional_double get_double(char *target)
   };
 }
 
-t_optional_rgb get_rgb(char *target)
+t_optional_rgb get_rgb(const char *target)
 {
   char **splited;
-  double *colors;
+  t_optional_double *colors;
 
   if (target == NULL)
     return (t_optional_rgb) {.error = true};
@@ -214,48 +125,50 @@ t_optional_rgb get_rgb(char *target)
   splited = ft_split(target, ',');
   if (array_len(splited) != 3)
     return (t_optional_rgb) {.error = true};
-  colors = (double [3]) {
+  colors = (t_optional_double [3]) {
     get_color_ratio(splited[0]),
     get_color_ratio(splited[1]),
     get_color_ratio(splited[2])
   };
-  if (colors[0] == -1
-      || colors[1] == -1
-      || colors[2] == -1)
+  if (colors[0].error
+      || colors[1].error
+      || colors[2].error)
     return (t_optional_rgb) {.error = true};
   return (t_optional_rgb){
-    .color = color(colors[0], colors[1], colors[2]),
+    .color = color(colors[0].num, colors[1].num, colors[2].num),
     .error = false,
   };
 }
 
-t_optional_material parse_ambient(char *line)
+t_optional_material parse_ambient(const char *line)
 {
   char **splited;
-  double ambient_ratio;
+  t_optional_double ambient_ratio;
   t_optional_rgb ambient_color;
+  t_optional_char type;
 
   splited = ft_split(line, ' ');
   if (array_len(splited) != 3)
       return (t_optional_material) {.error = true};
-  if (get_type(splited[0]) != 'A')
+  type = get_type(splited[0]);
+  if (type.error || type.c != 'A')
     return (t_optional_material) {.error = true};
   ambient_ratio = get_ratio(splited[1]);
-  if (is_equal_double(ambient_ratio, -1.0))
+  if (ambient_ratio.error || is_equal_double(ambient_ratio.num, -1.0))
     return (t_optional_material) {.error = true};
   ambient_color = get_rgb(splited[2]);
   if (ambient_color.error)
      return (t_optional_material) {.error = true,};
   return (t_optional_material) {
     .material = {
-      .ambient_ratio = ambient_ratio,
+      .ambient_ratio = ambient_ratio.num,
       .ambient_light_color = ambient_color.color,
     },
     .error = false,
   };
 }
 
-t_optional_point get_position(char *target)
+t_optional_point get_position(const char *target)
 {
   char **splited;
   t_optional_double *p;
@@ -282,7 +195,7 @@ t_optional_point get_position(char *target)
   };
 }
 
-t_optional_double get_fov(char *target)
+t_optional_double get_fov(const char *target)
 {
   t_optional_int deg;
 
@@ -297,18 +210,20 @@ t_optional_double get_fov(char *target)
   };
 }
 
-t_optional_camera parse_camera(char *line, t_res res)
+t_optional_camera parse_camera(const char *line, const t_res res)
 {
   char **splited;
   t_optional_point from;
   t_optional_point to;
   t_optional_double fov;
   t_camera cam;
+  t_optional_char type;
 
   splited = ft_split(line, ' ');
   if (array_len(splited) != 4)
       return (t_optional_camera) {.error = true};
-  if (get_type(splited[0]) != 'C')
+  type = get_type(splited[0]);
+  if (type.error || type.c != 'C')
     return (t_optional_camera) {.error = true};
   from = get_position(splited[1]);
   if (from.error)
@@ -327,54 +242,97 @@ t_optional_camera parse_camera(char *line, t_res res)
   };
 }
 
-t_optional_light parse_light(char *line)
+t_optional_light parse_light(const char *line)
 {
   char **splited;
   t_optional_point pos;
-  double brightness;
+  t_optional_double brightness;
   t_optional_rgb color;
+  t_optional_char type;
 
   if (line == NULL)
     return (t_optional_light) {.error = true};
   splited = ft_split(line, ' ');
-  if (get_type(splited[0]) != 'L')
+  type = get_type(splited[0]);
+  if (type.error ||  type.c != 'L')
     return (t_optional_light) {.error = true};
   pos = get_position(splited[1]);
   if (pos.error)
     return (t_optional_light) {.error = true};
   brightness = get_ratio(splited[2]);
-  if (brightness == -1)
+  if (brightness.error)
     return (t_optional_light) {.error = true};
   color = get_rgb(splited[3]);
   if (color.error)
     return (t_optional_light) {.error = true};
   return (t_optional_light) {
-    .light = point_light(pos.point, rgb_scalar(color.color, brightness)),
+    .light = point_light(pos.point, rgb_scalar(color.color, brightness.num)),
+    .error = false,
+  };
+}
+
+t_optional_plane parse_plane(const char *line)
+{
+  char **splited;
+  t_optional_point p;
+  t_optional_point  normal;
+  t_optional_rgb  c;
+
+  splited = ft_split(line, ' ');
+  if (!splited || array_len(splited) != 4 || !is_equal_str(splited[0], "cy"))
+    return (t_optional_plane){.error = true};
+  p = get_position(splited[1]);
+  normal = get_position(splited[2]);
+  c = get_rgb(splited[3]); 
+  if (p.error || normal.error || c.error)
+    return (t_optional_plane){.error = true};
+  return (t_optional_plane){
+    .plane = make_plane(p.point,
+          vector(normal.point.x, normal.point.y, normal.point.z)),
+    .error = false,
+  };
+}
+
+t_optional_sphere parse_sphere(const char *line)
+{
+  char **splited;
+  t_optional_point center;
+  t_optional_double  diameter;
+
+  splited = ft_split(line, ' ');
+  if (!splited || array_len(splited) != 4 || !is_equal_str(splited[0], "sp"))
+    return ((t_optional_sphere){.error = true});
+  center = get_position(splited[1]);
+  diameter = get_double(splited[2]);
+  if (center.error || diameter.error)
+    return (t_optional_sphere){.error = true};
+  return (t_optional_sphere){
+    .sphere = make_sphere(center.point, diameter.num / 2.0),
     .error = false,
   };
 }
 
 int main()
 {
-  assert(get_type(NULL) == -1);
-  assert(get_type("A") == 'A');
-  assert(get_type("AB") == -1);
+  assert(get_type(NULL).error);
+  assert(get_type("A").c == 'A');
+  assert(get_type("AB").error);
  
-  assert(get_digit(NULL) == -1);
-  assert(get_digit("1") == 1);
-  assert(get_digit("5.1") == -1);
+  assert(get_digit(NULL).error);
+  assert(get_digit("1").num == 1);
+  assert(get_digit("5.1").error);
 
-  assert(is_equal_double(get_ratio(NULL), -1));
-  assert(is_equal_double(get_ratio("1.0"), 1.0));
-  assert(is_equal_double(get_ratio("5.1"), -1));
-  assert(is_equal_double(get_ratio("0.5"), 0.5));
+  assert(get_ratio(NULL).error);
+  assert(is_equal_double(get_ratio("1.0").num, 1.0));
+  assert(get_ratio("5.1").error);
+  assert(is_equal_double(get_ratio("0.5").num, 0.5));
 
-  assert(is_equal_double(get_color_ratio(NULL), -1));
-  assert(is_equal_double(get_color_ratio("256"), -1));
-  assert(is_equal_double(get_color_ratio("10a"), -1));
-  assert(is_equal_double(get_color_ratio("200"), 200 / 255.0));
-  assert(is_equal_double(get_color_ratio("60"), 60 / 255.0));
-  assert(is_equal_double(get_color_ratio("0"), 0 / 255.0));
+  assert(get_color_ratio(NULL).error);
+  assert(get_color_ratio("256").error);
+  assert(get_color_ratio("10a").error);
+  assert(is_equal_double(get_color_ratio("200").num, 200 / 255.0));
+  assert(is_equal_double(get_color_ratio("60").num, 60 / 255.0));
+  assert(is_equal_double(get_color_ratio("0").num, 0 / 255.0));
 
   assert(get_rgb(NULL).error);
   assert(rgb_is_equal(color(1, 1, 1), get_rgb("255,255,255").color));
