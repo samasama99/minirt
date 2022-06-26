@@ -10,9 +10,9 @@ t_light	point_light(t_point position, t_rgb intensity)
 
 t_rgb	ambient(t_material m, t_light l)
 {
-	const t_rgb	effective_color = rgb_product(m.color, l.intensity);
+	const t_rgb	effective_color = rgb_product(m.ambient_light_color, l.intensity);
 
-	return (rgb_scalar(effective_color, m.ambient));
+	return (rgb_scalar(effective_color, m.ambient_ratio));
 }
 
 t_rgb	diffuse(t_material m, t_light l, double light_dot_normal)

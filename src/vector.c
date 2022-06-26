@@ -14,7 +14,7 @@
 
 void	print_tupil(char *vec_name, t_vec a)
 {
-	printf("vec %s\n|x = %f|\n|y = %f|\n|z = %f|w = %f|\n",
+	printf("vec %s\n|x = %f|\n|y = %f|\n|z = %f|\n|w = %f|\n",
 				vec_name, a.x, a.y, a.z, a.w);
 }
 

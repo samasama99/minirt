@@ -14,6 +14,7 @@
 # define MAIN_H
 # include "../libft/libft.h"
 # include "linear_algebra.h"
+# include "get_next_line.h"
 
 // # include <mlx.h>
 # include </usr/local/include/mlx.h>
@@ -32,15 +33,16 @@
 # include <stdbool.h>
 # include <sys/stat.h>
 
+# define BUFFER 1
 # define ESC 53
 
-# define MINUS_KEY 78
-# define PLUS_KEY 69
+// # define MINUS_KEY 78
+// # define PLUS_KEY 69
 
-# define W_KEY 13
-# define S_KEY 1
-# define D_KEY 2
-# define A_KEY 0
+// # define W_KEY 13
+// # define S_KEY 1
+// # define D_KEY 2
+// # define A_KEY 0
 
 # define UP_ARROW 126
 # define DOWN_ARROW 125
@@ -48,6 +50,8 @@
 # define RIGHT_ARROW 124
 
 #define EPSILON 0.00001
+#define HEIGHT 600
+#define WIDTH 600
 
 #ifdef D
 #define DEBUG(f_, ...) printf((f_), __VA_ARGS__)
@@ -65,7 +69,7 @@ typedef bool error;
 
 /******* GENERAL  UTILS ********/
 
-char		*ft_strjoin_free(char *s1, char *s2);
+// char		*ft_strjoin_free(char *s1, char *s2);
 void		panic(bool con, const char *msg, const char *func);
 bool		is_equal_str(const char *s1, const char *s2);
 float clamp(float n, float min, float max);
@@ -169,7 +173,8 @@ typedef struct s_light {
 
 typedef struct s_material {
   t_rgb color;
-  double ambient;
+  double ambient_ratio;
+  t_rgb ambient_light_color;
   double diffuse;
   double specular;
   double shininess;

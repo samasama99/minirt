@@ -19,14 +19,14 @@ void	safe_close(int fd)
 		close (fd);
 }
 
-char	*ft_strjoin_free(char *s1, char *s2)
-{
-	char	*tmp;
+// char	*ft_strjoin_free(char *s1, char *s2)
+// {
+// 	char	*tmp;
 
-	tmp = ft_strjoin(s1, s2);
-	free(s1);
-	return (tmp);
-}
+// 	tmp = ft_strjoin(s1, s2);
+// 	free(s1);
+// 	return (tmp);
+// }
 
 void	panic(bool con, const char *msg, const char *func)
 {
