@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+# include <stdio.h>
 
 typedef struct s_list {
 	void			*content;
@@ -65,5 +66,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 void	ft_lstadd_back(t_list **lst, t_list *new_node);
 void	ft_lstadd_front(t_list **lst, t_list *new_node);
+void *ft_malloc(size_t size);
+void ft_free(void);
 
 #endif

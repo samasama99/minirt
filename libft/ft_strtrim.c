@@ -41,7 +41,7 @@ char	*ft_strtrim(char const *s, char const *set)
 		return ((char *)s);
 	if (i >= j)
 	{	
-		temp = (char *)malloc(1);
+		temp = (char *)ft_malloc(1);
 		temp[0] = '\0';
 		return (temp);
 	}

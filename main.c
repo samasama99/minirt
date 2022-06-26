@@ -9,6 +9,7 @@ int main()
   floor.material = material();
   floor.material.color = color(1, 0.9, 0.9);
   floor.material.specular = 0;
+  floor.material.ambient_light_color = black();
   t_plane left_wall = plane();
   left_wall.material = material();
   left_wall.t = transform(
@@ -33,9 +34,8 @@ int main()
   middle.material.diffuse = 0.7;
   middle.material.specular = 0.3;
   middle.material.shininess = 10;
-  middle.material.ambient = 0;
-
-
+  middle.material.ambient_ratio = 0;
+  middle.material.ambient_light_color = black();
 
   t_sphere right = sphere();
   right.t = mat4_mult(translation(1.5, 0.5, -0.5),
@@ -44,6 +44,7 @@ int main()
   right.material.color = color(0.5, 1, 0.1);
   right.material.diffuse = 0.7;
   right.material.specular = 0.3;
+  right.material.ambient_light_color = black();
 
   t_sphere left = sphere();
   left.material = material();
@@ -52,6 +53,7 @@ int main()
   left.material.color = color(1, 0.8, 0.1);
   left.material.diffuse = 0.7;
   left.material.specular = 0.3;
+  left.material.ambient_light_color = black();
 
   t_world w = set_amount_of_shapes(6);
   
