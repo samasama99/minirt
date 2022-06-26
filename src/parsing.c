@@ -22,10 +22,20 @@ typedef struct s_optional_int {
   bool error;
 } t_optional_int;
 
+typedef struct s_optional_rgb {
+  t_rgb color;
+  bool error;
+} t_optional_rgb;
+
 typedef struct s_optional_double {
   double num;
   bool error;
 } t_optional_double;
+
+typedef struct s_optional_light {
+  t_light light;
+  bool error;
+} t_optional_light;
 
 int count_char(char *str, char c)
 {
@@ -84,6 +94,7 @@ float get_ratio(char *target)
   double  whole;
   double  fractional;
 
+  printf ("Here ??\n");
   if (target == NULL)
     return -1;
   if (ft_strlen(target) != 3)
@@ -191,18 +202,18 @@ t_optional_double get_double(char *target)
   };
 }
 
-t_rgb get_rgb(char *target)
+t_optional_rgb get_rgb(char *target)
 {
   char **splited;
   double *colors;
 
   if (target == NULL)
-    return color(-1, -1, -1);
+    return (t_optional_rgb) {.error = true};
   if (count_char(target, ',') != 2)
-    return color(-1, -1, -1);
+    return (t_optional_rgb) {.error = true};
   splited = ft_split(target, ',');
   if (array_len(splited) != 3)
-    return color(-1, -1, -1);
+    return (t_optional_rgb) {.error = true};
   colors = (double [3]) {
     get_color_ratio(splited[0]),
     get_color_ratio(splited[1]),
@@ -211,15 +222,18 @@ t_rgb get_rgb(char *target)
   if (colors[0] == -1
       || colors[1] == -1
       || colors[2] == -1)
-    return color(-1, -1, -1);
-  return color(colors[0], colors[1], colors[2]);
+    return (t_optional_rgb) {.error = true};
+  return (t_optional_rgb){
+    .color = color(colors[0], colors[1], colors[2]),
+    .error = false,
+  };
 }
 
 t_optional_material parse_ambient(char *line)
 {
   char **splited;
   double ambient_ratio;
-  t_rgb ambient_color;
+  t_optional_rgb ambient_color;
 
   splited = ft_split(line, ' ');
   if (array_len(splited) != 3)
@@ -230,12 +244,12 @@ t_optional_material parse_ambient(char *line)
   if (is_equal_double(ambient_ratio, -1.0))
     return (t_optional_material) {.error = true};
   ambient_color = get_rgb(splited[2]);
-  if (rgb_is_equal(ambient_color, color(-1, -1, -1)))
+  if (ambient_color.error)
      return (t_optional_material) {.error = true,};
   return (t_optional_material) {
     .material = {
       .ambient_ratio = ambient_ratio,
-      .ambient_light_color = ambient_color,
+      .ambient_light_color = ambient_color.color,
     },
     .error = false,
   };
@@ -268,11 +282,6 @@ t_optional_point get_position(char *target)
   };
 }
 
-// t_camera c = camera(res.x, res.y, M_PI / 3);
-// c.transform = view_transform(point(0, 1.5, -5),
-//                              point(0, 1, 0),
-//                              vector(0, 1, 0));
-
 t_optional_double get_fov(char *target)
 {
   t_optional_int deg;
@@ -301,37 +310,56 @@ t_optional_camera parse_camera(char *line, t_res res)
       return (t_optional_camera) {.error = true};
   if (get_type(splited[0]) != 'C')
     return (t_optional_camera) {.error = true};
-  from = get_position(splited[0]);
+  from = get_position(splited[1]);
   if (from.error)
     return (t_optional_camera) {.error = true};
-  to = get_position(splited[1]);
+  to = get_position(splited[2]);
   if (to.error)
     return (t_optional_camera) {.error = true};
-  fov = get_fov(splited[2]);
+  fov = get_fov(splited[3]);
   if (fov.error)
     return (t_optional_camera) {.error = true};
   cam = camera(res.height, res.width, fov.num);
-  cam.transform = view_transform(
-      from.point,
-      to.point,
-      vector(0, 1, 0)
-    );
+  cam.transform = view_transform(from.point, to.point, vector(0, 1, 0));
   return (t_optional_camera) {
     .camera = cam,
     .error = false,
   };
 }
 
-char get_type(char *target);
-int get_digit(char *d);
-float get_ratio(char *target);
+t_optional_light parse_light(char *line)
+{
+  char **splited;
+  t_optional_point pos;
+  double brightness;
+  t_optional_rgb color;
+
+  if (line == NULL)
+    return (t_optional_light) {.error = true};
+  splited = ft_split(line, ' ');
+  if (get_type(splited[0]) != 'L')
+    return (t_optional_light) {.error = true};
+  pos = get_position(splited[1]);
+  if (pos.error)
+    return (t_optional_light) {.error = true};
+  brightness = get_ratio(splited[2]);
+  if (brightness == -1)
+    return (t_optional_light) {.error = true};
+  color = get_rgb(splited[3]);
+  if (color.error)
+    return (t_optional_light) {.error = true};
+  return (t_optional_light) {
+    .light = point_light(pos.point, rgb_scalar(color.color, brightness)),
+    .error = false,
+  };
+}
 
 int main()
 {
   assert(get_type(NULL) == -1);
   assert(get_type("A") == 'A');
   assert(get_type("AB") == -1);
-  
+ 
   assert(get_digit(NULL) == -1);
   assert(get_digit("1") == 1);
   assert(get_digit("5.1") == -1);
@@ -348,11 +376,11 @@ int main()
   assert(is_equal_double(get_color_ratio("60"), 60 / 255.0));
   assert(is_equal_double(get_color_ratio("0"), 0 / 255.0));
 
-  assert(rgb_is_equal(color(-1, -1, -1), get_rgb(NULL)));
-  assert(rgb_is_equal(color(1, 1, 1), get_rgb("255,255,255")));
-  assert(rgb_is_equal(color(-1, -1, -1), get_rgb(",255,255,255")));
-  assert(rgb_is_equal(color(-1, -1, -1), get_rgb("255,255,255,")));
-  assert(rgb_is_equal(color(10/255., 15/255., 125/255.), get_rgb("10,15,125")));
+  assert(get_rgb(NULL).error);
+  assert(rgb_is_equal(color(1, 1, 1), get_rgb("255,255,255").color));
+  assert(get_rgb(",255,255,255").error);
+  assert(get_rgb("255,255,255,").error);
+  assert(rgb_is_equal(color(10/255., 15/255., 125/255.), get_rgb("10,15,125").color));
 
   {
     t_optional_material m = parse_ambient("A 0.2 255,255,255");
@@ -490,8 +518,7 @@ int main()
     printf("a0 %f\n", get_double("a0").num);
   else
     printf("Error\n");
-  // assert(is_equal_double(get_double("1.1").num, 1.1));
-  // get_position();
+
   print_tupil("test", get_position("-50.0,0,20").point);
   print_tupil("test", get_position("-40.0,50.0,0.0").point);
   assert(get_position("10,10,10,").error);
@@ -505,7 +532,7 @@ int main()
   printf ("cam %f\n", cam.camera.pixel_size);
   printf ("cam %f\n", cam.camera.transform.l1_c1);
   printf ("cam %f\n", cam.camera.vsize);
-  
+ 
   t_optional_camera cam2 = parse_camera("C 0.0,1.5,-5 0,1,0 60", pair(600, 600));
   assert(cam2.error == false);
   printf ("cam %f\n", cam2.camera.half_height);
@@ -524,4 +551,11 @@ int main()
   printf ("cam %f\n", ctest.pixel_size);
   printf ("cam %f\n", ctest.transform.l1_c1);
   printf ("cam %f\n", ctest.vsize);
+  t_optional_light l = parse_light("L -40.0,50.0,0.0 0.6 10,0,255");
+  assert(l.error == false);
+  print_tupil("light", l.light.position);
+  printf ("%f|", l.light.intensity.red);
+  printf ("%f|", l.light.intensity.green);
+  printf ("%f\n", l.light.intensity.blue);
+  system("leaks a.out");
 }

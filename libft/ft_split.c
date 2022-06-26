@@ -22,7 +22,7 @@ static char	**free_tab(char **tab, int size)
 	return (0);
 }
 
-static	char	**allocat_tab(char const *s, char c, int *total)
+static	char	**allocat_tab(char const *s, char c, size_t *total)
 {
 	int		i;
 	char	**tab;
@@ -38,9 +38,11 @@ static	char	**allocat_tab(char const *s, char c, int *total)
 		if (s[i - 1] != c)
 			(*total)++;
 	}
-	tab = (char **) malloc(sizeof(char *) * (*total + 1));
+  printf ("%zu\n", sizeof(char *) * (*total + 1));
+	tab = (char **) ft_malloc(sizeof(char *) * (*total + 1));
+  printf ("%p\n", tab);
 	if (!tab)
-		return (0);
+		return (NULL);
 	tab[*total] = 0;
 	return (tab);
 }
@@ -76,7 +78,7 @@ static char	**allocate_string(char	**tab, char const *s, char c, int total)
 char	**ft_split(char const *s, char c)
 {
 	char	**tab;
-	int		total;
+	size_t		total;
 
 	if (s == NULL)
 		return (0);

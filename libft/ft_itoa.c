@@ -25,7 +25,7 @@ static char	*ft_itoa_negative(long long n)
 		num = num / 10;
 		len++;
 	}
-	str = (char *)malloc (len + 1);
+	str = (char *)ft_malloc (len + 1);
 	if (!str)
 		return (0);
 	str[len] = '\0';
@@ -54,7 +54,7 @@ static char	*ft_itoa_positive(int n)
 		num = num / 10;
 		len++;
 	}
-	str = (char *)malloc (len + 1);
+	str = (char *)ft_malloc (len + 1);
 	if (!str)
 		return (0);
 	str[len] = '\0';
