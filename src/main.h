@@ -174,7 +174,7 @@ typedef struct s_light {
 typedef struct s_material {
   t_rgb color;
   double ambient_ratio;
-  t_rgb ambient_light_color;
+  t_rgb ambient_color;
   double diffuse;
   double specular;
   double shininess;

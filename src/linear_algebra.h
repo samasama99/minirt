@@ -122,7 +122,7 @@ typedef union u_matrix4
 		double		l4_c3;
 		double		l4_c4;
 	};
-	// double		n[16];
+	double		n[16];
 	double		m[4][4];
 }	t_matrix4;
 

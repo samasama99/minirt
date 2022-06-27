@@ -38,9 +38,7 @@ static	char	**allocat_tab(char const *s, char c, size_t *total)
 		if (s[i - 1] != c)
 			(*total)++;
 	}
-  printf ("%zu\n", sizeof(char *) * (*total + 1));
 	tab = (char **) ft_malloc(sizeof(char *) * (*total + 1));
-  printf ("%p\n", tab);
 	if (!tab)
 		return (NULL);
 	tab[*total] = 0;

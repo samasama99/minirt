@@ -14,7 +14,6 @@ void *ft_malloc(size_t size)
   static t_list *heap;
   void          *mem;
 
-  printf ("%p %p\n", &heap, heap);
   if (heap == NULL)
     get_heap(&heap); 
   mem = (void *)malloc(size);
