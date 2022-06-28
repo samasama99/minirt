@@ -12,7 +12,7 @@
 
 #ifndef MAIN_H
 # define MAIN_H
-# include "../libft/libft.h"
+// # include "../libft/libft.h"
 # include "linear_algebra.h"
 # include "get_next_line.h"
 
@@ -100,15 +100,16 @@ typedef struct s_rgb {
 }	t_rgb;
 
 typedef union u_color {
-  struct {
-    unsigned char blue;
-    unsigned char green;
-    unsigned char red;
-    unsigned char alpha;
-  };
-  int color;
+	struct {
+		unsigned char blue;
+		unsigned char green;
+		unsigned char red;
+		unsigned char alpha;
+	};
+	int color;
 } t_color;
 
+void	print_rgb(char *vec_name, t_rgb a);
 t_rgb	rgb_sum(t_rgb a, t_rgb b);
 t_rgb	rgb_sums(t_rgb a, t_rgb b, t_rgb c);
 t_rgb	rgb_sub(t_rgb a, t_rgb b);
@@ -139,9 +140,9 @@ typedef struct s_mlx {
 
 
 typedef struct s_image {
-  image img;
-  t_res res;
-  int *buffer;
+	image img;
+	t_res res;
+	int *buffer;
 } t_image;
 
 // t_data *my_data(t_data *data);
@@ -162,88 +163,88 @@ void start_mlx();
 
 // RAY TRACING
 typedef struct s_ray {
-    t_point origin;
-    t_vec direction;
+		t_point origin;
+		t_vec direction;
 }               t_ray;
 
 typedef struct s_light {
-    t_point position;
-    t_rgb intensity;
+		t_point position;
+		t_rgb intensity;
 }               t_light;
 
 typedef struct s_material {
-  t_rgb color;
-  double ambient_ratio;
-  t_rgb ambient_color;
-  double diffuse;
-  double specular;
-  double shininess;
+	t_rgb color;
+	double ambient_ratio;
+	t_rgb ambient_color;
+	double diffuse;
+	double specular;
+	double shininess;
 }               t_material;
 
 typedef enum e_shape_type {
-  Error,
-  SuperShape,
-  Sphere,
-  Plane,
+	Error,
+	SuperShape,
+	Sphere,
+	Plane,
 } t_shape_type;
 
 typedef struct s_super_shape
 {
-    t_shape_type type;
-    int id;
-    t_matrix4 t;
-    t_material material;
+		t_shape_type type;
+		int id;
+		t_matrix4 t;
+		t_material material;
 } t_super_shape;
 
 typedef struct s_sphere {
-    t_shape_type type;
-    int id;
-    t_matrix4 t;
-    t_material material;
-    t_point center;
-    double radius;
+		t_shape_type type;
+		int id;
+		t_matrix4 t;
+		t_material material;
+		t_point center;
+		double radius;
 }               t_sphere;
 
 typedef struct s_plane {
-    t_shape_type type;
-    int id;
-    t_matrix4 t;
-    t_material material;
-    t_point position;
-    t_norm normal;
+		t_shape_type type;
+		int id;
+		t_matrix4 t;
+		t_material material;
+		t_point position;
+		t_norm normal;
 }               t_plane;
 
 typedef union u_shape {
-  t_shape_type type;
-  t_super_shape super;
-  t_sphere sphere;
-  t_plane plane;
+	t_shape_type type;
+	t_super_shape super;
+	t_sphere sphere;
+	t_plane plane;
 }             t_shape;
 
 
 typedef struct s_intersection {
-  double t;
-  t_shape shape;
+	double t;
+	t_shape shape;
 } t_intersection;
 
 typedef struct s_hit {
-    t_intersection intersections[2];
-    int count;
+		t_intersection intersections[2];
+		int count;
 }               t_hit;
 
 typedef struct s_comp {
-    double t;
-    t_shape shape;
-    t_point point; 
-    t_point over_point;
-    t_vec eyev;
-    t_vec normalv;
-    bool inside;
+		double t;
+		t_shape shape;
+		t_point point; 
+		t_point over_point;
+		t_vec eyev;
+		t_vec normalv;
+		bool inside;
 }               t_comp;
 
 t_ray ray(t_point origin, t_vec direction);
 t_point ray_position(t_ray r, double t);
-t_sphere make_sphere(t_point origin, double radius);
+t_sphere make_sphere(t_point origin, double radius, t_rgb color);
 t_sphere sphere();
 t_hit intersect_sphere(const t_sphere sphere, const t_ray r);
 t_plane make_plane(t_point pos, t_norm norm);
@@ -271,9 +272,9 @@ t_hit no_intersection();
 
 // THE WORLD
 typedef struct s_world {
-  t_shape *shapes;
-  t_light light;
-  int amount_of_shapes;
+	t_shape *shapes;
+	t_light light;
+	int amount_of_shapes;
 }               t_world;
 
 t_world set_amount_of_shapes(size_t amount);
@@ -286,12 +287,12 @@ t_rgb color_at(t_world w, t_ray r);
 bool is_shadowed(t_world w, t_point p);
 
 typedef struct s_camera {
-  double hsize;
-  double vsize;
-  double pixel_size;
-  double half_width;
-  double half_height;
-  t_transform transform;
+	double hsize;
+	double vsize;
+	double pixel_size;
+	double half_width;
+	double half_height;
+	t_transform transform;
 } t_camera;
 
 t_camera camera(const double hsize, const double vsize, const t_rad fov);

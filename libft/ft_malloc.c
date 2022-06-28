@@ -27,17 +27,17 @@ void *ft_malloc(size_t size)
 
 void ft_free(void)
 {
-  t_list *heap;
+  t_list *head;
   t_list *next;
 
-  heap = get_heap(NULL);
-  while (heap)
+  head = get_heap(NULL);
+  while (head)
   {
-    free(heap->content);
-    heap->content = NULL;
-    next = heap->next;
-    free(heap);
-    heap = next;
+    free(head->content);
+    head->content = NULL;
+    next = head->next;
+    free(head);
+    head = next;
   }
 }
 

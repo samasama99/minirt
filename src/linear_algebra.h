@@ -129,6 +129,7 @@ typedef union u_matrix4
 typedef t_vec	t_point;
 typedef t_vec	t_tupil;
 typedef t_vec	t_norm;
+typedef t_vec2 t_fpair;
 typedef t_matrix4 t_transform;
 
 // UTILS //

@@ -11,12 +11,6 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-static void	free_null(char **p)
-{
-	free (*p);
-	*p = NULL;
-}
-
 static char	*read_line(int fd, char *current)
 {
 	char	buffer[BUFFER_SIZE + 1];
@@ -30,11 +24,10 @@ static char	*read_line(int fd, char *current)
 		read_bytes = read (fd, buffer, BUFFER_SIZE);
 		if (read_bytes < 0)
 		{
-			free_null (&current);
 			return (0);
 		}
 		buffer[read_bytes] = 0;
-		current = ft_strjoin_free(current, buffer);
+		current = ft_strjoin(current, buffer);
 	}
 	return (current);
 }
@@ -47,18 +40,15 @@ static char	*return_line(char **current)
 	if (ft_strlen(*current) && !ft_strchr (*current, '\n'))
 	{
 		temp = ft_strdup (*current);
-		free_null (current);
 		return (temp);
 	}
 	else if (ft_strchr (*current, '\n'))
 	{
 		temp = ft_substr(*current, 0, ft_strchr(*current, '\n') - *current + 1);
 		rest = ft_strdup(ft_strchr(*current, '\n') + 1);
-		free_null (current);
 		*current = rest;
 		return (temp);
 	}
-	free_null (current);
 	return (0);
 }
 

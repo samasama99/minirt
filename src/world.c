@@ -3,8 +3,8 @@
 t_world set_amount_of_shapes(size_t amount)
 {
   return ((t_world){
-    .amount_of_shapes = 0,
-    .shapes = malloc(sizeof(t_shape) * amount),
+	.amount_of_shapes = 0,
+	.shapes = malloc(sizeof(t_shape) * amount),
   });
 }
 
@@ -25,15 +25,15 @@ t_hit intersect_world(t_world w, t_ray r) {
   i = 1;
   min = hit(intersect(w.shapes[0], r));
   while (i < w.amount_of_shapes) {
-    tmp = hit(intersect(w.shapes[i], r));
-    if ((tmp.t > 0 && tmp.t < min.t) || min.t < 0)
-    {
-      min = tmp;
-    }
-    ++i;
+	tmp = hit(intersect(w.shapes[i], r));
+	if ((tmp.t > 0 && tmp.t < min.t) || min.t < 0)
+	{
+	  min = tmp;
+	}
+	++i;
   }
   if (min.t < 0)
-    return no_intersection();
+	return no_intersection();
   return (t_hit){{min}, 1};
 }
 

@@ -63,7 +63,7 @@ inline t_vec	cross(t_vec a, t_vec b)
 		(a.y * b.z) - (a.z * b.y),
 		(a.z * b.x) - (a.x * b.z),
 		(a.x * b.y) - (a.y * b.x),
-    0,
+	0,
 	}};
 }
 

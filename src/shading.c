@@ -27,10 +27,10 @@ t_rgb color_at(t_world w, t_ray r) {
   t_intersection i;
 
   if (h.count == 0)
-    return black();
+	return black();
   i = hit(h);
   if (i.t < 0)
-    return black();
+	return black();
   comp = prepare_computations(i, r);
   return (shade_hit(w, comp));
 }

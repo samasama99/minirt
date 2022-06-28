@@ -1,22 +1,24 @@
 #include "main.h"
 
-t_sphere	make_sphere(t_point origin, double radius)
+t_sphere	make_sphere(t_point origin, double radius, t_rgb color)
 {
 	static int	id;
+  t_material m = material();
 
+  m.color = color;
 	return ((t_sphere){
 		.type = Sphere,
 		.id = ++id,
 		.center = origin,
 		.radius = radius,
 		.t = identity(),
-		.material = material(),
+		.material = m,
 	});
 }
 
 t_sphere	sphere(void)
 {
-	return (make_sphere(point(0, 0, 0), 1));
+	return (make_sphere(point(0, 0, 0), 1, color(255, 0, 0)));
 }
 
 t_hit	sphere_roots(double a, double b, double discriminant, t_sphere sp)

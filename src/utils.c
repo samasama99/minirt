@@ -52,9 +52,9 @@ bool	is_equal_str(const char *s1, const char *s2)
 float clamp(float n, float min, float max)
 {
   if (n > max)
-    n = 1;
+	n = 1;
   if (n < min)
-    n = 0;
+	n = 0;
   return n;
 }
 
