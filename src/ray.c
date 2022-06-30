@@ -24,7 +24,7 @@ t_ray	ray_transform(t_ray ray, t_matrix4 m)
 
 t_vec normal_at(t_shape shape, t_point world_point)
 {
-	const t_transform	shape_transform = shape.super.t;
+	const t_transform	shape_transform = shape.super.transform;
 	const t_point		local_point = apply(inverse(shape_transform),
 																world_point);
 	t_vec	local_normal;
@@ -38,8 +38,6 @@ t_vec normal_at(t_shape shape, t_point world_point)
 		local_normal = normal_at_plane(shape.plane);
 	if (shape.type == Sphere)
 		local_normal =  normal_at_sphere(shape.sphere, local_point);
-	// if (shape.type == Error)
-	// panic(true, "unknown shape type",  __func__, __FILE__, __LINE__);
 	world_normal = apply(transpose(inverse(shape_transform)),
 													local_normal);
 	world_normal.w = 0;

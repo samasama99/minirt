@@ -1,11 +1,5 @@
 #include "main.h"
 
-typedef struct {
-  t_world w;
-  t_camera c;
-  t_material ambient;
-} t_data;
-
 typedef enum e_line_type {
   e_ambient, e_camera, e_light, e_sphere, e_plane
 } t_line_type;
@@ -45,6 +39,7 @@ typedef struct s_optional_point {
 
 typedef struct s_optional_int {
   int value;
+  int sign;
   bool error;
 } t_optional_int;
 
@@ -78,6 +73,13 @@ typedef struct s_optional_shape {
   t_shape value;
   bool error;
 } t_optional_shape;
+
+typedef struct {
+  t_optional_shape selected;
+  t_world w;
+  t_camera c;
+  t_material ambient;
+} t_data;
 
 int count_char(const char *str, const char c);
 size_t array_len(char **array);

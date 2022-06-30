@@ -4,11 +4,11 @@
 t_optional_int get_digit(const char *d)
 {
   if (d == NULL || d[0] == '\0')
-	return (t_optional_int){.error = true};
+    return (t_optional_int){.error = true};
   if (ft_strlen(d) != 1)
-	return (t_optional_int){.error = true};
+    return (t_optional_int){.error = true};
   if (ft_isdigit(d[0]) != 1)
-	return (t_optional_int){.error = true};
+    return (t_optional_int){.error = true};
   return (t_optional_int) {
   .value = ft_atoi(d),
   .error = false,
@@ -79,13 +79,19 @@ t_optional_double get_color_ratio(const char *target)
 
 t_optional_int get_int(const char *target)
 {
+  int sign;
+
+  sign = 1;
   if (target == NULL)
-	return (t_optional_int) {.error = true};
+    return (t_optional_int) {.error = true};
   if (ft_isnumber(target + (target[0] == '-')) == false)
-	return (t_optional_int) {.error = true};
+    return (t_optional_int) {.error = true};
+  if (target[0] == '-')
+    sign = -1;
   return (t_optional_int) {
-	.value = ft_atoi(target),
-	.error = false,
+    .value = ft_atoi(target),
+    .sign = sign,
+    .error = false,
   }; 
 }
 
@@ -110,25 +116,24 @@ t_optional_double get_double(const char *target)
   t_optional_double  fractional;
 
   if (array.error || array.size > 2)
-	return error;
+    return error;
   whole = get_int(array.value[0]);
   if (whole.error)
-	return error;
+    return error;
   if (array.size == 1)
   {
-	return (t_optional_double) {
-	  .value = whole.value,
-	  .error = false,
-	};
+    return (t_optional_double) {
+      .value = whole.value,
+      .error = false,
+    };
   }
   fractional = get_fractional(array.value[1]);
   if (fractional.error)
-	return error;
-  if (whole.value < 0)
-	fractional.value = -1 * fractional.value;
+    return error;
+  fractional.value = whole.sign * fractional.value;
   return (t_optional_double) {
-	.value = whole.value + fractional.value,
-	.error = false,
+    .value = whole.value + fractional.value,
+    .error = false,
   };
 }
 
@@ -165,16 +170,16 @@ t_optional_point get_position(const char *target)
   t_optional_double *p;
 
   if (array.error
-	|| count_char(target, ',') != 2
-	|| array_len(array.value) != 3)
-	return (t_optional_point) {.error = true};
+    || count_char(target, ',') != 2
+    || array_len(array.value) != 3)
+    return (t_optional_point) {.error = true};
   p = (t_optional_double [3]) {
-	get_double(array.value[0]),
-	get_double(array.value[1]),
-	get_double(array.value[2]),
+    get_double(array.value[0]),
+    get_double(array.value[1]),
+    get_double(array.value[2]),
   };
   if (p[0].error || p[1].error || p[2].error)
-	return (t_optional_point) {.error = true};
+    return (t_optional_point) {.error = true};
   return (t_optional_point) {
 	.value = point(p[0].value, p[1].value, p[2].value),
 	.error = false,

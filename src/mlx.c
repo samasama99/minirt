@@ -12,16 +12,17 @@
 
 #include "main.h"
 
+
 t_mlx get_mlx_info(t_mlx *mlx)
 {
   static t_mlx static_mlx;
 
   if (mlx)
-	static_mlx = *mlx;
+    static_mlx = *mlx;
   return static_mlx;
 }
 
-void start_mlx()
+void start()
 {
   const t_mlx m = get_mlx_info(NULL);
   mlx_loop(m.mlx);
@@ -32,8 +33,8 @@ win_ptr init_win(mlx_ptr mlx, t_res resolution) {
   win_ptr win;
 
   if (mlx == NULL) {
-	perror("Error ");
-	exit(1);
+    perror("Error ");
+    exit(1);
   }
   win = mlx_new_window(mlx, resolution.width, resolution.height, "mlx");
   if (win == NULL)
@@ -44,7 +45,7 @@ win_ptr init_win(mlx_ptr mlx, t_res resolution) {
   return (win);
 }
 
-t_mlx init_mlx(t_res resolution, t_res center) {
+t_mlx init(t_res resolution, t_res center) {
   t_mlx mlx_info;
   mlx_ptr mlx;
   win_ptr win;
@@ -92,36 +93,15 @@ void put_pixel_to_image(t_image img, t_pair p, t_rgb color) {
   pos.x = p.x + m.center.x;
   pos.y = p.y + m.center.y;
   if (pos.x >= 0 && pos.x < img.res.x) {
-	if (pos.y >= 0 && pos.y < img.res.y) {
-	  // printf("x %d y %d\n", pos.x, pos.y);
-	  img.buffer[pos.x + (pos.y * img.res.x)] = make_color(color, 0);
-	}
+    if (pos.y >= 0 && pos.y < img.res.y) {
+      img.buffer[pos.x + (pos.y * img.res.x)] = make_color(color, 0);
+    }
   }
 }
-
 
 int pixel_at(t_image img, t_pair p) {
 	return img.buffer[p.x + (p.y * img.res.x)];
 }
-// void fill_image_con(t_image img, t_rgb color, bool (*functor)(t_pos p)) {
-//   const t_mlx m = get_mlx_info(NULL);
-//   int x;
-//   int y;
-//   int c;
-
-//   x = 0;
-//   y = 0;
-//   c = make_color(color, 0);
-//   while (y < img.res.height) {
-//     while (x < img.res.height) {
-//       if (functor((t_pos) {x, y}))
-//         img.buffer[x + (y * (img.res.x))] = c;
-//       x++;
-//     }
-//     x = 0;
-//     y++;
-//   }
-// }
 
 void fill_image(t_image img, t_pair start, t_pair finish, t_rgb color) {
   const t_mlx m = get_mlx_info(NULL);
@@ -133,12 +113,12 @@ void fill_image(t_image img, t_pair start, t_pair finish, t_rgb color) {
   x = start.x + m.center.x;
   y = start.y + m.center.y;
   while (y < finish.height && y < img.res.height) {
-	while (x < finish.width && x < img.res.width) {
-	  img.buffer[x + (y * (img.res.x))] = c;
-	  x++;
-	}
-	x = start.x;
-	y++;
+    while (x < finish.width && x < img.res.width) {
+      img.buffer[x + (y * (img.res.x))] = c;
+      x++;
+    }
+    x = start.x;
+    y++;
   }
 }
 
@@ -177,22 +157,25 @@ void full_fill_image(t_image img, t_rgb color) {
   x = 0;
   y = 0;
   while (y < img.res.height) {
-	while (x < img.res.width) {
-	  // printf ("index %d %d\n", canvas.res.x * 4,x + (y * (canvas.res.x)));
-	  img.buffer[x + (y * (img.res.x))] = c;
-	  x++;
-	}
+    while (x < img.res.width) {
+      img.buffer[x + (y * (img.res.x))] = c;
+      x++;
+    }
 	x = 0;
 	y++;
   }
 }
 
+void listen_to(t_event type, int (*func)(), void *param)
+{
+  const t_mlx m = get_mlx_info(NULL);
+  mlx_hook(m.win, type, 0, func, param);
+}
 
-void loop_hook(int (*funct_ptr)(), void *param) {
+void update(int (*funct_ptr)(), void *param) {
   const t_mlx m = get_mlx_info(NULL);
   mlx_loop_hook(m.mlx, funct_ptr, param);
 }
-
 
 void clear_window() {
   const t_mlx m = get_mlx_info(NULL);

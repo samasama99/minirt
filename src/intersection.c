@@ -13,7 +13,7 @@ t_hit	no_intersection(void)
 
 t_hit intersect(const t_shape shape, const t_ray r)
 {
-	const t_ray	tr = ray_transform(r, inverse(shape.super.t));
+	const t_ray	tr = ray_transform(r, inverse(shape.super.transform));
 
 	if (shape.type == Sphere)
 		return (intersect_sphere(shape.sphere, tr));
@@ -34,9 +34,7 @@ t_intersection hit(t_hit h)
 		if (min_positive.t < 0 && h.intersections[i].t >= 0)
 			min_positive = h.intersections[i];
 		if (h.intersections[i].t >= 0 && h.intersections[i].t < min_positive.t)
-		{
 			min_positive = h.intersections[i];
-		}
 		++i;
 	}
 	if (min_positive.t < 0)

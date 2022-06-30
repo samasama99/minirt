@@ -18,14 +18,14 @@
 //   return ss;
 // }
 
-t_shape testing_shape()
-{
-  return (t_shape) {
-	.super = (t_super_shape) {
-	  .t = identity(),
-	  .type = SuperShape,
-	  .material = material(),
-	  .id = -2,
-	},
-  };
-}
+// t_shape testing_shape()
+// {
+//   return (t_shape) {
+// 	.super = (t_super_shape) {
+// 	  .t = identity(),
+// 	  .type = SuperShape,
+// 	  .material = material(),
+// 	  .id = -2,
+// 	},
+//   };
+// }

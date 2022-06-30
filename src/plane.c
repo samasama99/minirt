@@ -7,10 +7,10 @@ t_plane	make_plane(t_point pos, t_norm norm)
 	return ((t_plane){
 		.type = Plane,
 		.id = ++id,
-		.t = identity(),
+		.transform = identity(),
 		.material = material(),
 		.position = pos,
-		.normal = norm,
+		.normal = normalize(norm),
 	});
 }
 
@@ -24,9 +24,11 @@ t_hit	intersect_plane(t_plane p, t_ray r)
 	double			t;
 	const t_shape	pl = {.plane = p};
 
-	if (fabs(r.direction.y) < EPSILON)
-		return (no_intersection());
-	t = -r.origin.y / r.direction.y;
+  double inter = dot(p.normal, r.direction);
+  if (fabs(inter) < EPSILON)
+    return (no_intersection());
+  double d = dot(p.position, p.normal);
+  t = (d - dot(p.normal, r.origin)) / inter;
 	return ((t_hit){{intersection(t, pl)}, .count = 1});
 }
 

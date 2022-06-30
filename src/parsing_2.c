@@ -32,10 +32,12 @@ t_optional_transform get_camera_view(char *from, char *to)
   p_from = get_position(from);
   p_to = get_position(to);
   if (p_from.error || p_to.error)
-	return error;
+    return error;
+  // print_tupil("from", p_from.value);
+  // print_tupil("to", p_to.value);
   return (t_optional_transform) {
-	.value = view_transform(p_from.value, p_to.value, vector(0, 1, 0)),
-	.error = false,
+    .value = view_transform(p_from.value, p_to.value, vector(0, 1, 0)),
+    .error = false,
   };
 }
 
@@ -97,18 +99,18 @@ t_optional_plane parse_plane(const t_optional_array elems)
   normal = get_position(elems.value[2]);
   color = get_rgb(elems.value[3]); 
   if (p.error || normal.error || color.error)
-	return error;
+    return error;
   t_plane pl = plane();
+  normal.value.w = 0;
+  pl = make_plane(p.value, normal.value);
+  pl.material = material();
   pl.material.color = color.value;
-  pl.t = transform(
-				  translation(p.value.x, p.value.y, p.value.z),
-				  identity(),
-				  identity()
-				  );
-  pl.normal = normalize(normal.value);
+  pl.transform = identity();
+  // print_tupil("point", p.value);
+  // print_tupil("normal", normal.value);
   return (t_optional_plane){
-	.value = pl,
-	.error = false,
+    .value = pl,
+    .error = false,
   };
 }
 

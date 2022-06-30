@@ -30,11 +30,13 @@ bool ft_isnumber(const char *num)
   size_t i;
 
   i = 0;
+  if (num == NULL || num[0] == '\0')
+    return false;
   while (num[i])
   {
-	if (ft_isdigit(num[i]) != 1)
-		return false;
-	++i;
+    if (ft_isdigit(num[i]) != 1)
+      return false;
+    ++i;
   }
   return true;
 }

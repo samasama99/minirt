@@ -36,13 +36,13 @@
 # define BUFFER 1
 # define ESC 53
 
-// # define MINUS_KEY 78
-// # define PLUS_KEY 69
+# define MINUS_KEY 78
+# define PLUS_KEY 69
 
-// # define W_KEY 13
-// # define S_KEY 1
-// # define D_KEY 2
-// # define A_KEY 0
+# define W_KEY 13
+# define S_KEY 1
+# define D_KEY 2
+# define A_KEY 0
 
 # define UP_ARROW 126
 # define DOWN_ARROW 125
@@ -65,7 +65,7 @@ typedef void* win_ptr;
 typedef void* image;
 
 typedef int t_key;
-typedef bool error;
+typedef bool t_error;
 
 /******* GENERAL  UTILS ********/
 
@@ -145,8 +145,13 @@ typedef struct s_image {
 	int *buffer;
 } t_image;
 
+typedef enum {
+  keydown = 2, keyup = 3, mousedown = 4,
+  mouseup = 5, mousemove = 6, destroy = 17
+} t_event;
+
 // t_data *my_data(t_data *data);
-t_mlx	init_mlx(t_res resolution, t_res center);
+t_mlx	init(t_res resolution, t_res center);
 // void	handling_events(t_data *data);
 int make_color(t_rgb c, float alpha);
 void put_pixel(t_pair pos, t_rgb rgb);
@@ -156,10 +161,11 @@ void put_pixel_to_image(t_image img, t_pair pos, t_rgb color);
 void fill_image(t_image img, t_pair start, t_pair finish, t_rgb color);
 void full_fill_image(t_image img, t_rgb color);
 void fill_image_con(t_image img, t_rgb color, bool (*functor)(t_point p));
-void loop_hook(int (*funct_ptr)(), void *param);
+void update(int (*funct_ptr)(), void *param);
 void clear_window();
 int pixel_at(t_image img, t_pair p);
-void start_mlx();
+void listen_to(t_event type, int (*func)(), void *param);
+void start();
 
 // RAY TRACING
 typedef struct s_ray {
@@ -192,7 +198,7 @@ typedef struct s_super_shape
 {
 		t_shape_type type;
 		int id;
-		t_matrix4 t;
+		t_transform transform;
 		t_material material;
 } t_super_shape;
 
@@ -208,7 +214,7 @@ typedef struct s_sphere {
 typedef struct s_plane {
 		t_shape_type type;
 		int id;
-		t_matrix4 t;
+		t_transform transform;
 		t_material material;
 		t_point position;
 		t_norm normal;
