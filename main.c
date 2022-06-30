@@ -3,7 +3,7 @@
 int main()
 {
   const t_res res = pair(1200, 600);
-  init_mlx(res, pair(0, 0));
+  init(res, pair(0, 0));
 
   t_plane floor = plane();
   floor.material = material();
