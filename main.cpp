@@ -1,91 +1,27 @@
-#include "A.hpp"
-#include "B.hpp"
-#include "C.hpp"
-#include <ctime>
-#include <exception>
+#include "data.hpp"
 #include <iostream>
-#include <stdlib.h>
-
+#include <stdint.h>
 
 using std::cout;
 
-Base * generate(void);
-void identify(Base* p);
-void identify(Base& p);
-
-Base * generate(void) {
-  srand(time(NULL));
-  unsigned int randNum = rand() % 3;
-  if (randNum == 0) return new A;
-  if (randNum == 1) return new B;
-  return new C;
+uintptr_t serialize(Data* ptr) {
+    return reinterpret_cast<uintptr_t>(ptr);
 };
 
-void identify(Base* p) {
-  if (dynamic_cast<A*>(p)) cout << "Type is A\n";
-  else if (dynamic_cast<B*>(p)) cout << "Type is B\n";
-  else if (dynamic_cast<C*>(p)) cout << "Type is C\n";
-  else if (dynamic_cast<Base*>(p)) cout << "Type is Base\n";
+Data* deserialize(uintptr_t raw) {
+    return reinterpret_cast<Data*>(raw);
 };
-
-void identify(Base& p) {
-    try {
-
-        Base tmp = dynamic_cast<A&>(p);
-        cout << "Type is A\n";
-
-    } catch (std::exception &e) {
-      
-        try {
-
-            Base tmp = dynamic_cast<B&>(p);
-            cout << "Type is B\n";
-
-        } catch (std::exception &e) {
-          
-              try {
-
-                  Base tmp = dynamic_cast<C&>(p);
-                  cout << "Type is C\n";
-
-              } catch (std::exception &e) {
-
-
-                  try {
-
-                      Base tmp = dynamic_cast<Base&>(p);
-                      cout << "Type is Base\n";
-
-                  } catch (std::exception &e) {
-                    
-                      cout << e.what() << '\n';
-
-                  }  
-              }  
-
-        }  
-    }  
-}
-  
 
 int main() {
-    cout << "Test Generate :\n";
-    Base *tmp = generate();
-    identify(tmp);
-    delete tmp;
-
-    cout << "Test identify with new Base :\n";
-    Base *tmp2 = new Base;
-    identify(tmp2);
-    delete tmp2;
-
-    cout << "Test identify with reference :\n";
-    A tmp3;
-    identify(tmp3);
-    B tmp4;
-    identify(tmp4);
-    C tmp5;
-    identify(tmp5);
-    Base tmp6;
-    identify(tmp6);
+    Data tmp = {10};
+    cout << "value of x : ";
+    cout << tmp.x << '\n';
+    cout << "address of Data : ";
+    cout << &tmp << '\n';
+    uintptr_t s = serialize(&tmp);
+    cout << "value of address of Data as unsigned long (uintptr_t) : ";
+    cout << s << '\n';
+    Data *des = deserialize(s);
+    cout << "value of x after deserialize : ";
+    cout << des->x << '\n';
 }
