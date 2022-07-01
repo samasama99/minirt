@@ -9,6 +9,27 @@ t_optional_string what_shape(t_shape_type type)
   return (t_optional_string){.is_null = true};
 }
 
+void put_black_bar(t_res res, t_pair pos)
+{
+  const t_image black_bar = create_image(res);
+
+  put_image(pos, black_bar);
+}
+
+void put_selected_shape(t_optional_shape shape)
+{
+  put_black_bar(pair(600, 25), pair(0, 0));
+  if (shape.error == false)
+  {
+    char *str1 = ft_strjoin(what_shape(shape.value.type).value, " ");
+    char *str2 = ft_strjoin(str1, ft_itoa(shape.value.super.id));
+    char *str3 = ft_strjoin(str2, " is selected");
+    put_string(100, 0, str3);
+  }
+  else
+    put_string(100, 0, "no shape was hit");
+}
+
 int select_shape(int button,  int x, int y, t_data *data)
 {
   if (button == 1 || button == 2)
@@ -18,16 +39,14 @@ int select_shape(int button,  int x, int y, t_data *data)
     t_intersection i = hit(h);
     if (i.t >= 0)
     {
-      printf ("%s id = %d\n",
-              what_shape(i.shape.type).value,
-              i.shape.super.id);
+      put_selected_shape((t_optional_shape){.value = i.shape});
       data->selected.value = i.shape; 
       data->selected.error = false;
     }
     else
     {
+      put_selected_shape((t_optional_shape){.error = true});
       data->selected.error = true;
-      printf ("no shape was hit\n");
     }
   }
   return 0;
@@ -160,6 +179,7 @@ int shape_manipulation(int key, t_data *data)
   int index;
   t_shape s;
 
+  put_selected_shape(data->selected);
   if (esp(key, data) || ren(key, data))
     return 0;
   if (data->selected.error)
@@ -179,17 +199,18 @@ int shape_manipulation(int key, t_data *data)
 
 int main()
 {
-  t_res res = pair(500, 500);
+  t_res canvas_size = pair(1200, 675);
+  t_res res = pair(canvas_size.x, canvas_size.y + 25);
   int fd = open("src/test.rt", O_RDONLY);
   if (fd < 0)
 	  exit(2);
   t_data data;
   data.selected.error = true;
   data.w = set_amount_of_shapes(20);
-  parse(&data, fd, res);
+  parse(&data, fd, canvas_size);
   close(fd);
   correct_ambient(data.w, data.ambient);
-  init(res, pair(0, 0));
+  init(res, "miniRt");
   printf ("The amount of shapes %d\n", data.w.amount_of_shapes);
   render(data.c, data.w);
   listen_to(mouseup, select_shape, &data);

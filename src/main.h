@@ -125,7 +125,6 @@ typedef struct s_mlx {
 	mlx_ptr	mlx;
 	win_ptr	win;
 	t_res		resolution;
-	t_res		center;
 }	t_mlx;
 
 // typedef struct s_data {
@@ -151,8 +150,10 @@ typedef enum {
 } t_event;
 
 // t_data *my_data(t_data *data);
-t_mlx	init(t_res resolution, t_res center);
+t_mlx init(t_res resolution, char *title);
 // void	handling_events(t_data *data);
+void put_black_bar(t_res res, t_pair pos);
+void put_string(int x, int y, char *string);
 int make_color(t_rgb c, float alpha);
 void put_pixel(t_pair pos, t_rgb rgb);
 void put_image(t_pair pos, t_image img);
