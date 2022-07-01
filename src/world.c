@@ -1,19 +1,18 @@
 #include "main.h"
 
-t_world set_amount_of_shapes(size_t amount)
-{
-  return ((t_world){
-	.amount_of_shapes = 0,
-	.shapes = malloc(sizeof(t_shape) * amount),
-  });
-}
-
 t_world add_shape(const t_world w, const t_shape s) {
   t_world new_w;
+  int i;
 
   new_w = w;
-  new_w.shapes[w.amount_of_shapes] = (t_shape)s;
-  ++new_w.amount_of_shapes;
+  new_w.shapes = ft_malloc(sizeof(t_shape) * (w.amount_of_shapes + 1));
+  new_w.amount_of_shapes = w.amount_of_shapes + 1;
+  i = 0;
+  while (i < w.amount_of_shapes) {
+    new_w.shapes[i] = w.shapes[i];
+    ++i;
+  }
+  new_w.shapes[w.amount_of_shapes] = s;
   return new_w;
 }
 

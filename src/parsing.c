@@ -1,7 +1,7 @@
 #include "parsing.h"
 #include <assert.h>
 
-t_optional_int get_digit(const char *d)
+t_optional_int parse_digit(const char *d)
 {
   if (d == NULL || d[0] == '\0')
     return (t_optional_int){.error = true};
@@ -15,7 +15,7 @@ t_optional_int get_digit(const char *d)
   };
 }
 
-t_optional_array get_array(const char *line, const char delimiter)
+t_optional_array split_string(const char *line, const char delimiter)
 {
   char **array;
 
@@ -31,16 +31,16 @@ t_optional_array get_array(const char *line, const char delimiter)
   };
 }
 
-t_optional_double get_ratio(const char *target)
+t_optional_double parse_ratio(const char *target)
 {
-  const t_optional_array array = get_array(target, '.');
+  const t_optional_array array = split_string(target, '.');
   const t_optional_double error = {.error = true};
   t_optional_int  whole;
   t_optional_int  fractional;
 
   if (array.error || array_len(array.value) > 2)
     return error;
-  whole = get_digit(array.value[0]);
+  whole = parse_digit(array.value[0]);
   if (whole.error)
     return error;
   if (array.size == 1)
@@ -48,7 +48,7 @@ t_optional_double get_ratio(const char *target)
     .value = whole.value,
     .error = false,
     };
-  fractional = get_digit(array.value[1]);
+  fractional = parse_digit(array.value[1]);
   if (fractional.error)
     return error;
   if (fractional.value / 10. + whole.value > 1.0
@@ -60,7 +60,7 @@ t_optional_double get_ratio(const char *target)
   };
 }
 
-t_optional_double get_color_ratio(const char *target)
+t_optional_double parse_color_ratio(const char *target)
 {
   int num;
 
@@ -77,7 +77,7 @@ t_optional_double get_color_ratio(const char *target)
   };
 }
 
-t_optional_int get_int(const char *target)
+t_optional_int parse_int(const char *target)
 {
   int sign;
 
@@ -95,9 +95,9 @@ t_optional_int get_int(const char *target)
   }; 
 }
 
-t_optional_double get_fractional(const char *target)
+t_optional_double parse_fractional(const char *target)
 {
-  const t_optional_int fractional= get_int(target);
+  const t_optional_int fractional= parse_int(target);
   const t_optional_double error = {.error = true};
 
   if (fractional.error)
@@ -108,16 +108,16 @@ t_optional_double get_fractional(const char *target)
   };
 }
 
-t_optional_double get_double(const char *target)
+t_optional_double parse_double(const char *target)
 {
-  const t_optional_array array =  get_array(target, '.');
+  const t_optional_array array =  split_string(target, '.');
   const t_optional_double error = {.error = true};
   t_optional_int  whole;
   t_optional_double  fractional;
 
   if (array.error || array.size > 2)
     return error;
-  whole = get_int(array.value[0]);
+  whole = parse_int(array.value[0]);
   if (whole.error)
     return error;
   if (array.size == 1)
@@ -127,7 +127,7 @@ t_optional_double get_double(const char *target)
       .error = false,
     };
   }
-  fractional = get_fractional(array.value[1]);
+  fractional = parse_fractional(array.value[1]);
   if (fractional.error)
     return error;
   fractional.value = whole.sign * fractional.value;
@@ -137,7 +137,7 @@ t_optional_double get_double(const char *target)
   };
 }
 
-t_optional_rgb get_rgb(const char *target)
+t_optional_rgb parse_rgb(const char *target)
 {
   char **splited;
   t_optional_double *colors;
@@ -150,9 +150,9 @@ t_optional_rgb get_rgb(const char *target)
   if (array_len(splited) != 3)
 	return (t_optional_rgb) {.error = true};
   colors = (t_optional_double [3]) {
-	get_color_ratio(splited[0]),
-	get_color_ratio(splited[1]),
-	get_color_ratio(splited[2])
+	parse_color_ratio(splited[0]),
+	parse_color_ratio(splited[1]),
+	parse_color_ratio(splited[2])
   };
   if (colors[0].error
 	  || colors[1].error
@@ -164,9 +164,9 @@ t_optional_rgb get_rgb(const char *target)
   };
 }
 
-t_optional_point get_position(const char *target)
+t_optional_point parse_position(const char *target)
 {
-  t_optional_array array = get_array(target, ',');
+  t_optional_array array = split_string(target, ',');
   t_optional_double *p;
 
   if (array.error
@@ -174,9 +174,9 @@ t_optional_point get_position(const char *target)
     || array_len(array.value) != 3)
     return (t_optional_point) {.error = true};
   p = (t_optional_double [3]) {
-    get_double(array.value[0]),
-    get_double(array.value[1]),
-    get_double(array.value[2]),
+    parse_double(array.value[0]),
+    parse_double(array.value[1]),
+    parse_double(array.value[2]),
   };
   if (p[0].error || p[1].error || p[2].error)
     return (t_optional_point) {.error = true};
@@ -186,11 +186,11 @@ t_optional_point get_position(const char *target)
   };
 }
 
-t_optional_double get_fov(const char *target)
+t_optional_double parse_fov(const char *target)
 {
   t_optional_int deg;
 
-  deg = get_int(target);
+  deg = parse_int(target);
   if (deg.error)
     return (t_optional_double) {.error = true};
   if (deg.value < 0 || deg.value > 180)
@@ -201,7 +201,7 @@ t_optional_double get_fov(const char *target)
   };
 }
 
-t_optional_string get_string(char *target)
+t_optional_string parse_string(char *target)
 {
   if (target == NULL)
     return (t_optional_string){.is_null = true};
@@ -212,9 +212,9 @@ t_optional_string get_string(char *target)
   };
 }
 
-t_optional_int get_type(char *target)
+t_optional_int parse_type(char *target)
 {
-  const t_optional_string string = get_string(target);
+  const t_optional_string string = parse_string(target);
   
   if (string.is_null)
     return (t_optional_int) {.error = true}; 

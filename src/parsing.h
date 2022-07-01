@@ -88,17 +88,18 @@ size_t int_len(int num);
 void ft_exit(t_optional_string err, int err_status);
 void correct_ambient(t_world w, t_material ambient);
 
-t_optional_string get_string(char *target);
-t_optional_int get_digit(const char *d);
-t_optional_double get_ratio(const char *target);
-t_optional_double get_color_ratio(const char *target);
-t_optional_int get_int(const char *target);
-t_optional_double get_double(const char *target);
-t_optional_rgb get_rgb(const char *target);
-t_optional_point get_position(const char *target);
-t_optional_double get_fov(const char *target);
-t_optional_array get_array(const char *line, const char delimiter);
-t_optional_int get_type(char *target);
+t_optional_string parse_string(char *target);
+t_optional_int parse_digit(const char *d);
+t_optional_double parse_double(const char *target);
+t_optional_int parse_int(const char *target);
+t_optional_array split_string(const char *line, const char delimiter);
+
+t_optional_double parse_ratio(const char *target);
+t_optional_double parse_color_ratio(const char *target);
+t_optional_rgb parse_rgb(const char *target);
+t_optional_point parse_position(const char *target);
+t_optional_double parse_fov(const char *target);
+t_optional_int parse_type(char *target);
 
 t_optional_material parse_ambient(const t_optional_array elems);
 t_optional_camera parse_camera(const t_optional_array elems, t_res res);
@@ -108,9 +109,9 @@ t_optional_sphere parse_sphere(const t_optional_array elems);
 t_optional_shape parse_shape(const t_optional_array elems, t_line_type type);
 
 t_optional_string get_line(int fd);
-t_camera is_valid_camera(t_optional_array array, t_res res);
-t_light is_valid_light(t_optional_array array);
-t_material is_valid_ambient(t_optional_array array);
-t_shape is_valid_shape(t_optional_array array, t_line_type type);
+t_camera unwrap_camera(t_optional_array array, t_res res);
+t_light unwrap_light(t_optional_array array);
+t_material unwrap_ambient(t_optional_array array);
+t_shape unwrap_shape(t_optional_array array, t_line_type type);
 
 void parse(t_data *data, int fd, t_res res);

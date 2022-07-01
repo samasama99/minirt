@@ -22,42 +22,42 @@ t_optional_string get_line(int fd)
   };
 }
 
-t_camera is_valid_camera(t_optional_array array, t_res res)
+t_camera unwarp_camera(t_optional_array array, t_res res)
 {
   const t_optional_camera c = parse_camera(array, res);
 
   if (c.error) 
-    ft_exit(get_string("failed to parse the camera"), 1);
+    ft_exit(parse_string("failed to parse the camera"), 1);
   return c.value;
 }
 
-t_light is_valid_light(t_optional_array array)
+t_light unwrap_light(t_optional_array array)
 {
   const t_optional_light l = parse_light(array);
 
   if (l.error) 
-    ft_exit(get_string("failed to parse the light"), 1);
+    ft_exit(parse_string("failed to parse the light"), 1);
   return l.value;
 }
 
-t_material is_valid_ambient(t_optional_array array)
+t_material unwrap_ambient(t_optional_array array)
 {
   const t_optional_material m = parse_ambient(array);
 
   if (m.error) 
-    ft_exit(get_string("failed to parse the ambient"), 1);
+    ft_exit(parse_string("failed to parse the ambient"), 1);
   return (t_material){
     .ambient_color = m.value.ambient_color,
     .ambient_ratio = m.value.ambient_ratio,
   };
 }
 
-t_shape is_valid_shape(t_optional_array array, t_line_type type)
+t_shape unwrap_shape(t_optional_array array, t_line_type type)
 {
   const t_optional_shape m = parse_shape(array, type);
 
   if (m.error) 
-    ft_exit(get_string("failed to parse a shape"), 1);
+    ft_exit(parse_string("failed to parse a shape"), 1);
   return m.value;
 }
 
@@ -73,18 +73,18 @@ void parse(t_data *data, int fd, t_res res)
     line = get_line(fd);
     if (line.is_null || is_equal_str(line.value, "\n"))
       continue;
-    line = get_string(ft_strtrim(line.value, "\n"));
-    array = get_array(line.value, ' ');
-    type = get_type(array.value[0]);
+    line = parse_string(ft_strtrim(line.value, "\n"));
+    array = split_string(line.value, ' ');
+    type = parse_type(array.value[0]);
     if (line.is_null || array.error || type.error)
-      ft_exit(get_string("parsing error"), 1);
+      ft_exit(parse_string("parsing error"), 1);
     if (type.value == e_camera)
-        data->c = is_valid_camera(array, res);
+        data->c = unwarp_camera(array, res);
     if (type.value == e_light)
-        data->w.light = is_valid_light(array);
+        data->w.light = unwrap_light(array);
     if (type.value == e_ambient)
-        data->ambient = is_valid_ambient(array);
+        data->ambient = unwrap_ambient(array);
     if (type.value == e_sphere || type.value == e_plane)
-        data->w = add_shape(data->w, is_valid_shape(array, type.value));
+        data->w = add_shape(data->w, unwrap_shape(array, type.value));
   }
 }

@@ -3,9 +3,9 @@
 t_optional_string what_shape(t_shape_type type)
 {
   if (type == Sphere)
-    return (get_string("Sphere"));
+    return (parse_string("Sphere"));
   if (type == Plane)
-    return (get_string("Plane"));
+    return (parse_string("Plane"));
   return (t_optional_string){.is_null = true};
 }
 
@@ -205,8 +205,8 @@ int main()
   if (fd < 0)
 	  exit(2);
   t_data data;
+  data.w.amount_of_shapes = 0;
   data.selected.error = true;
-  data.w = set_amount_of_shapes(20);
   parse(&data, fd, canvas_size);
   close(fd);
   correct_ambient(data.w, data.ambient);

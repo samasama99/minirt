@@ -9,8 +9,8 @@ t_optional_material parse_ambient(const t_optional_array elems)
 
   if (elems.error || already_parsed)
 	  return (t_optional_material) {.error = true};
-  ambient_ratio = get_ratio(elems.value[1]);
-  ambient_color = get_rgb(elems.value[2]);
+  ambient_ratio = parse_ratio(elems.value[1]);
+  ambient_color = parse_rgb(elems.value[2]);
   if (ambient_ratio.error || ambient_color.error)
     return (t_optional_material) {.error = true};
   already_parsed = true;
@@ -29,8 +29,8 @@ t_optional_transform get_camera_view(char *from, char *to)
   t_optional_point p_from;
   t_optional_point p_to;
 
-  p_from = get_position(from);
-  p_to = get_position(to);
+  p_from = parse_position(from);
+  p_to = parse_position(to);
   if (p_from.error || p_to.error)
     return error;
   // print_tupil("from", p_from.value);
@@ -52,7 +52,7 @@ t_optional_camera parse_camera(const t_optional_array elems, t_res res)
   if (elems.error || already_parsed)
 	  return error;
   camera_view = get_camera_view(elems.value[1], elems.value[2]);
-  fov = get_fov(elems.value[3]);
+  fov = parse_fov(elems.value[3]);
   if (camera_view.error || fov.error)
 	return error;
   cam = camera(res.width, res.height, fov.value);
@@ -74,9 +74,9 @@ t_optional_light parse_light(const t_optional_array elems)
 
   if (elems.error || already_parsed)
 	  return error;
-  pos = get_position(elems.value[1]);
-  brightness = get_ratio(elems.value[2]);
-  color = get_rgb(elems.value[3]);
+  pos = parse_position(elems.value[1]);
+  brightness = parse_ratio(elems.value[2]);
+  color = parse_rgb(elems.value[3]);
   if (pos.error || brightness.error || color.error)
     return error;
   already_parsed = true;
@@ -95,9 +95,9 @@ t_optional_plane parse_plane(const t_optional_array elems)
 
   if (elems.error)
 	  return error;
-  p = get_position(elems.value[1]);
-  normal = get_position(elems.value[2]);
-  color = get_rgb(elems.value[3]); 
+  p = parse_position(elems.value[1]);
+  normal = parse_position(elems.value[2]);
+  color = parse_rgb(elems.value[3]); 
   if (p.error || normal.error || color.error)
     return error;
   t_plane pl = plane();
@@ -123,23 +123,16 @@ t_optional_sphere parse_sphere(const t_optional_array elems)
 
   if (elems.error)
 	  return error;
-  center = get_position(elems.value[1]);
-  diameter = get_double(elems.value[2]);
-  color = get_rgb(elems.value[3]);
+  center = parse_position(elems.value[1]);
+  diameter = parse_double(elems.value[2]);
+  color = parse_rgb(elems.value[3]);
   if (center.error || diameter.error || color.error)
-	return error;
-  double radius = diameter.value / 2.0;
-  t_sphere s = make_sphere(center.value, radius, color.value);
-  // t_sphere s = sphere();
-  // s.material.color = color.value;
-  // s.t = transform(
-		// 		  translation(center.value.x, center.value.y, center.value.z),
-		// 		  scaling(radius, radius, radius),
-		// 		  identity()
-		// 		  );
+    return error;
   return (t_optional_sphere){
-	.value = s,
-	.error = false,
+    .value = make_sphere(center.value,
+                         diameter.value / 2.0,
+                         color.value),
+    .error = false,
   };
 }
 
