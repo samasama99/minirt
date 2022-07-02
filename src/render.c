@@ -1,23 +1,6 @@
 #include "main.h"
 #include <pthread.h>
 
-// void render(t_camera c, t_world w)
-// {
-//   t_image canvas = create_image(pair(c.hsize, c.vsize));
-//   const long start = time_now();
-
-//   for (int y = 0;y < c.vsize - 1;++y) {
-// 	for (int x = 0;x < c.hsize - 1;++x) {
-// 	  t_ray r = ray_for_pixel(c, x, y);
-// 	  t_rgb c = color_at(w, r);
-// 	  put_pixel_to_image(canvas, pair(x, y), c);
-// 	}
-//   }
-//   const long end = time_now() - start;
-//   printf ("It took (%ldms %lds)\n", end, end / 1000);
-//   put_image(pair(0, 0), canvas);
-// }
-
 typedef struct s_thread_data {
   int y;
   t_camera camera;
@@ -60,12 +43,16 @@ void *render_thread(void *d)
 
 void render(t_camera c, t_world w)
 {
-  put_black_bar(pair(600, 25), pair(600, 0));
-  t_image canvas = create_image(pair(c.hsize, c.vsize));
+  const t_image canvas = create_image(pair(c.hsize, c.vsize));
   const long start = time_now();
-  t_thread_data *data = malloc(sizeof(t_thread_data) * (int)c.vsize - 1);
-  pthread_t *id =  malloc(sizeof(t_thread_data) * (int)c.vsize - 1);
-  size_t y = 0;
+  t_thread_data *data;
+  pthread_t *id;
+  size_t y;
+
+  put_black_bar(pair(600, 25), pair(600, 0));
+  id  =  malloc(sizeof(t_thread_data) * (int)c.vsize - 1); 
+  data = malloc(sizeof(t_thread_data) * (int)c.vsize - 1);
+  y = 0;
   while (y < c.vsize - 1)
   {
     data[y] = create_thread_data(y, c, w, canvas);
@@ -74,13 +61,27 @@ void render(t_camera c, t_world w)
   }
   y = 0;
   while (y < c.vsize - 1)
-  {
-    pthread_join(id[y], NULL);
-    ++y;
-  }
-  const long end = time_now() - start;
-  printf ("It took (%ldms %lds)\n", end, end / 1000);
+    pthread_join(id[y++], NULL);
   put_image(pair(0, 25), canvas);
   put_string(600, 0,
-             ft_strjoin("it took (ms) ", ft_itoa((int)end)));
+             ft_strjoin("it took (ms) ",
+                        ft_itoa((int)time_now() - start)));
 }
+
+// void render(t_camera c, t_world w)
+// {
+//   t_image canvas = create_image(pair(c.hsize, c.vsize));
+//   const long start = time_now();
+
+//   for (int y = 0;y < c.vsize - 1;++y) {
+// 	for (int x = 0;x < c.hsize - 1;++x) {
+// 	  t_ray r = ray_for_pixel(c, x, y);
+// 	  t_rgb c = color_at(w, r);
+// 	  put_pixel_to_image(canvas, pair(x, y), c);
+// 	}
+//   }
+//   const long end = time_now() - start;
+//   printf ("It took (%ldms %lds)\n", end, end / 1000);
+//   put_image(pair(0, 0), canvas);
+// }
+

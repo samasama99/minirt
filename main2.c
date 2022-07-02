@@ -21,6 +21,9 @@ void put_selected_shape(t_optional_shape shape)
   put_black_bar(pair(600, 25), pair(0, 0));
   if (shape.error == false)
   {
+    // if (shape.value.type == Plan) {
+
+    // }
     char *str1 = ft_strjoin(what_shape(shape.value.type).value, " ");
     char *str2 = ft_strjoin(str1, ft_itoa(shape.value.super.id));
     char *str3 = ft_strjoin(str2, " is selected");
@@ -90,7 +93,7 @@ t_shape rotate_shape(t_shape s, t_key key)
 {
   t_shape ns;
 
-  printf ("%s id = %d is rotated\n", what_shape(s.type).value, s.super.id);
+  // printf ("%s id = %d is rotated\n", what_shape(s.type).value, s.super.id);
   ns = s;
   ns.super.transform = mat4_mult(rotation_type(key),
                                                     s.super.transform);
@@ -101,7 +104,7 @@ t_shape scale_shape(t_shape s, t_key key)
 {
   t_shape ns;
 
-  printf ("%s id = %d is scaled\n", what_shape(s.type).value, s.super.id);
+  // printf ("%s id = %d is scaled\n", what_shape(s.type).value, s.super.id);
   ns = s;
   if (s.type == Sphere)
   {
@@ -117,7 +120,7 @@ t_shape duplicate_shape(t_shape s)
 {
   t_shape ns;
 
-  printf ("%s id = %d is duplicated x\n", what_shape(s.type).value, s.super.id);
+  // printf ("%s id = %d is duplicated x\n", what_shape(s.type).value, s.super.id);
   if (s.type == Plane)
     ns =(t_shape)make_plane(s.plane.position, s.plane.normal);
   if (s.type == Sphere)
@@ -127,11 +130,8 @@ t_shape duplicate_shape(t_shape s)
 
 t_vec move_vector(t_key key, t_shape s, t_camera c)
 {
-  double value;
-  // if (s.type == Plane)
-    value = c.half_height / 10;
-  // // if (s.type == Sphere)
-    // value =  s.sphere.radius / 10;
+  const double value = c.half_height / 10;
+
   if (key == W_KEY)
       return vector(0, value, 0);
   if (key == S_KEY)
@@ -148,14 +148,14 @@ t_shape move_shape(t_key key, t_shape s, t_camera c)
 {
   t_shape ns;
 
-  printf ("%s id = %d is moved\n", what_shape(s.type).value, s.super.id);
+  // printf ("%s id = %d is moved\n", what_shape(s.type).value, s.super.id);
   ns = s;
   if (s.type == Sphere)
      ns.sphere.center = sum(s.sphere.center, move_vector(key, s, c));
   if (s.type == Plane)
      ns.plane.position = sum(s.plane.position, move_vector(key, s, c));
-  if (s.type == Plane)
-    print_tupil("hello", ns.plane.position);
+  // if (s.type == Plane)
+  //   print_tupil("hello", ns.plane.position);
   return ns;
 }
 
@@ -180,10 +180,8 @@ int shape_manipulation(int key, t_data *data)
   t_shape s;
 
   put_selected_shape(data->selected);
-  if (esp(key, data) || ren(key, data))
+  if (esp(key, data) || ren(key, data) || data->selected.error)
     return 0;
-  if (data->selected.error)
-    return printf ("nothing is selected\n");
   index = find_shape(data->w, data->selected.value.type, data->selected.value.super.id).value;
   s  = data->w.shapes[index]; 
   if (key == 35)
@@ -197,21 +195,27 @@ int shape_manipulation(int key, t_data *data)
   return 0;
 }
 
+void ft_perror(int exit_status)
+{
+  perror("Error");
+  exit(exit_status);
+}
+
 int main()
 {
-  t_res canvas_size = pair(1200, 675);
-  t_res res = pair(canvas_size.x, canvas_size.y + 25);
-  int fd = open("src/test.rt", O_RDONLY);
+  const t_res canvas_size = pair(1200, 675);
+  const t_res res = pair(canvas_size.x, canvas_size.y + 25);
+  const int fd = open("src/test.rt", O_RDONLY);
+  t_data  data;
   if (fd < 0)
-	  exit(2);
-  t_data data;
+    ft_perror(1);
   data.w.amount_of_shapes = 0;
   data.selected.error = true;
   parse(&data, fd, canvas_size);
   close(fd);
   correct_ambient(data.w, data.ambient);
-  init(res, "miniRt");
   printf ("The amount of shapes %d\n", data.w.amount_of_shapes);
+  init(res, "miniRt");
   render(data.c, data.w);
   listen_to(mouseup, select_shape, &data);
   listen_to(keydown, shape_manipulation, &data);
