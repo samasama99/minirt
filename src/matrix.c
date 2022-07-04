@@ -24,8 +24,8 @@ void mat3_print(t_matrix3 mat) {
 
 t_matrix3 mat3_mult(t_matrix3 mat1, t_matrix3 mat2) {
 
-  int i;
-  int j;
+  size_t i;
+  size_t j;
   t_matrix3 mult;
 
   i = 0;
@@ -43,8 +43,8 @@ t_matrix3 mat3_mult(t_matrix3 mat1, t_matrix3 mat2) {
 }
 
 t_matrix4 mat4_mult(t_matrix4 mat1, t_matrix4 mat2) {
-  int i;
-  int j;
+  size_t i;
+  size_t j;
   t_matrix4 mult;
 
   i = 0;
@@ -62,8 +62,8 @@ t_matrix4 mat4_mult(t_matrix4 mat1, t_matrix4 mat2) {
 }
 
 bool matrix_is_equal(t_matrix4 m, t_matrix4 n) {
-  int i;
-  int j;
+  size_t i;
+  size_t j;
 
   i = 0;
   j = 0;
@@ -80,8 +80,8 @@ bool matrix_is_equal(t_matrix4 m, t_matrix4 n) {
 }
 
 t_matrix4 transpose(t_matrix4 m) {
-  int i;
-  int j;
+  size_t i;
+  size_t j;
   t_matrix4 t;
 
   i = 0;
@@ -98,10 +98,10 @@ t_matrix4 transpose(t_matrix4 m) {
 }
 
 t_matrix2 mat3_submatrix(t_matrix3 m, int row, int col) {
-  int i;
-  int j;
-  int i2;
-  int j2;
+  size_t i;
+  size_t j;
+  size_t i2;
+  size_t j2;
   t_matrix2 n;
 
   i = 0;

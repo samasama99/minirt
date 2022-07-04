@@ -277,5 +277,16 @@ typedef struct s_camera {
 
 t_camera camera(const double hsize, const double vsize, const t_rad fov);
 t_ray ray_for_pixel(t_camera c, int px, int py);
+
+// RENDER
+
+typedef struct s_thread_data {
+  int y;
+  t_camera camera;
+  t_world world;
+  t_image canvas;
+} t_thread_data;
+
 void render(t_camera c, t_world w);
+
 #endif

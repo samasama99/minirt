@@ -1,7 +1,4 @@
 #include "main.h"
-
-
-
 // t_shape sphere_shape(t_sphere s)
 // {
 //   t_shape ss;

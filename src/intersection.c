@@ -24,7 +24,7 @@ t_hit intersect(const t_shape shape, const t_ray r)
 
 t_intersection hit(t_hit h)
 {
-	int i;
+	size_t i;
 	t_intersection min_positive;
 
 	i = 0;

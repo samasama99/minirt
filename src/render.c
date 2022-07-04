@@ -1,14 +1,7 @@
 #include "main.h"
 #include <pthread.h>
 
-typedef struct s_thread_data {
-  int y;
-  t_camera camera;
-  t_world world;
-  t_image canvas;
-} t_thread_data;
-
-t_thread_data create_thread_data(int y,
+static t_thread_data create_thread_data(int y,
                                  t_camera c,
                                  t_world w,
                                  t_image canvas)
@@ -21,7 +14,7 @@ t_thread_data create_thread_data(int y,
   });
 }
 
-void *render_thread(void *d)
+static void *render_thread(void *d)
 {
   t_thread_data *data = d;
   const int y = data->y;
