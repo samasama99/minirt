@@ -206,7 +206,11 @@ double mat4_determinant(t_matrix4 m) {
 bool mat4_is_invertible(t_matrix4 m) { return mat4_determinant(m); }
 
 t_matrix4 inverse(t_matrix4 m) {
-  const double id = 1 / mat4_determinant(m);
+  double id;
+
+  if (matrix_is_equal(m, identity()))
+    return (identity());
+  id = 1 / mat4_determinant(m);
   return (t_matrix4){{
 	  .l1_c1 = mat4_cofactor(m, 0, 0) * id, .l1_c2 = mat4_cofactor(m, 1, 0) * id,
 	  .l1_c3 = mat4_cofactor(m, 2, 0) * id, .l1_c4 = mat4_cofactor(m, 3, 0) * id,

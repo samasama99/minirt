@@ -75,21 +75,7 @@ bool		is_equal_str(const char *s1, const char *s2);
 float clamp(float n, float min, float max);
 long time_now();
 
-/******* 2D_ARRAY *******/
-
-void		free_2d_array(char **array);
-size_t		size_of_2d_array(char **array);
-int			find_in_2d_array(char **array, char *str);
-
-char		**init_2d_array(void);
-char		**add_element_2d_array_last(char **array, char *elem);
-char		**add_element_2d_array(char **array, char *elem, size_t index);
-
 /******* GAME_DATA *******/
-
-// typedef struct s_assets {
-// 	image imgs[1024];
-// }	t_assets;
 
 /*rgb*/
 
@@ -127,17 +113,6 @@ typedef struct s_mlx {
 	t_res		resolution;
 }	t_mlx;
 
-// typedef struct s_data {
-// 	t_mlx			mlx_info;
-// 	t_assets		assets;
-// }	t_data;
-
-// typedef struct s_object {
-// 	size_t		size;
-// 	t_pos			points[1024];
-// }	t_object;
-
-
 typedef struct s_image {
 	image img;
 	t_res res;
@@ -149,9 +124,7 @@ typedef enum {
   mouseup = 5, mousemove = 6, destroy = 17
 } t_event;
 
-// t_data *my_data(t_data *data);
 t_mlx init(t_res resolution, char *title);
-// void	handling_events(t_data *data);
 void put_black_bar(t_res res, t_pair pos);
 void put_string(int x, int y, char *string);
 int make_color(t_rgb c, float alpha);
