@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 18:35:21 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/22 19:21:05 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/07/22 20:39:05 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ t_optional_shape	parse_shape(const t_optional_array elems, t_line_type type)
 	{
 		pl = parse_plane(elems);
 		if (pl.error)
-			return ((t_optional_shape){.error = true});
+		  return ((t_optional_shape){.error = true});
 		return ((t_optional_shape){.value = (t_shape)pl.value,});
 	}
 	return ((t_optional_shape){.value = true});
