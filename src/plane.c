@@ -23,12 +23,14 @@ t_hit	intersect_plane(t_plane p, t_ray r)
 {
 	double			t;
 	const t_shape	pl = {.plane = p};
+	double			inter;
+	double			d;
 
-  double inter = dot(p.normal, r.direction);
-  if (fabs(inter) < EPSILON)
-    return (no_intersection());
-  double d = dot(p.position, p.normal);
-  t = (d - dot(p.normal, r.origin)) / inter;
+	inter = dot(p.normal, r.direction);
+	if (fabs(inter) < EPSILON)
+		return (no_intersection());
+	d = dot(p.position, p.normal);
+	t = (d - dot(p.normal, r.origin)) / inter;
 	return ((t_hit){{intersection(t, pl)}, .count = 1});
 }
 
