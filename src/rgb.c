@@ -3,7 +3,7 @@
 void	print_rgb(char *vec_name, t_rgb a)
 {
 	printf("color %s\n|red x = %f %f|\n|green y = %f %f|\n|blue = %f %f|\n",
-				vec_name,
+		vec_name,
 		a.red, a.red * 255,
 		a.green, a.green * 255,
 		a.blue, a.blue * 255

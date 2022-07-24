@@ -4,10 +4,7 @@ t_rgb	ambient(t_material m, t_light l);
 
 t_vec	reflect(t_vec in, t_vec norm)
 {
-	return (sub(
-		in,
-		scalar(norm, 2.0 * dot(in, norm))
-	));
+	return (sub(in, scalar(norm, 2.0 * dot(in, norm))));
 }
 
 bool	is_shadowed(t_world w, t_point p)
@@ -21,28 +18,29 @@ bool	is_shadowed(t_world w, t_point p)
 	return ((i.t >= 0 && i.t < d) == true);
 }
 
-t_rgb color_at(t_world w, t_ray r) {
-  const t_hit h = intersect_world(w, r);
-  t_comp comp;
-  t_intersection i;
+t_rgb	color_at(t_world w, t_ray r)
+{
+	const t_hit		h = intersect_world(w, r);
+	t_comp			comp;
+	t_intersection	i;
 
-  if (h.count == 0)
-	return black();
-  i = hit(h);
-  if (i.t < 0)
-	return black();
-  comp = prepare_computations(i, r);
-  return (shade_hit(w, comp));
+	if (h.count == 0)
+		return (black());
+	i = hit(h);
+	if (i.t < 0)
+		return (black());
+	comp = prepare_computations(i, r);
+	return (shade_hit(w, comp));
 }
 
 t_rgb	shade_hit(t_world w, t_comp comps)
 {
+	double				reflect_dot_eye;
 	const t_material	m = comps.shape.super.material;
+	t_vec				reflectv;
 	const t_vec			lightv = normalize(
 			sub(w.light.position, comps.over_point));
 	const double		light_dot_normal = dot(lightv, comps.normalv);
-	t_vec				reflectv;
-	double				reflect_dot_eye;
 
 	if (is_shadowed(w, comps.over_point) == true
 		|| light_dot_normal < 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 17:05:53 by orahmoun          #+#    #+#             */
-/*   Updated: 2021/11/27 15:17:22 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/07/23 19:44:33 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,7 @@
 # include <stdlib.h>
 # include "../libft/libft.h"
 # define BUFFER_SIZE 1
+
 char	*get_next_line(int fd);
+
 #endif

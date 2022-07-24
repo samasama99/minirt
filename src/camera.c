@@ -24,9 +24,6 @@ t_camera	camera(const double hsize, const double vsize, const t_rad fov)
 	return ((t_camera){
 		.hsize = hsize,
 		.vsize = vsize,
-		// .aspect = aspect,
-		// .fov = fov,
-		// .half_view = half_view,
 		.half_width = half_width,
 		.half_height = half_height,
 		.pixel_size = (half_width * 2) / hsize,

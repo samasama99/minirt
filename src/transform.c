@@ -90,8 +90,8 @@ t_transform	view_transform(t_point from, t_point to, t_vec up)
 
 inline t_point	apply(t_transform m, t_point p)
 {
-  if (matrix_is_equal(m, identity()))
-    return (p);
+	if (matrix_is_equal(m, identity()))
+		return (p);
 	return ((t_point){{
 			p.x * m.l1_c1 + p.y * m.l1_c2 + p.z * m.l1_c3 + p.w * m.l1_c4,
 			p.x * m.l2_c1 + p.y * m.l2_c2 + p.z * m.l2_c3 + p.w * m.l2_c4,

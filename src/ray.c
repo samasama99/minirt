@@ -27,7 +27,7 @@ t_vec	normal_at(t_shape shape, t_point world_point)
 	t_vec				world_normal;
 	const t_transform	shape_transform = shape.super.transform;
 	const t_point		local_point = apply(inverse(shape_transform),
-								world_point);
+											world_point);
 
 	if (shape.type == SuperShape)
 		local_normal = vector(local_point.x, local_point.y, local_point.z);

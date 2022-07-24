@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:01:57 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/03/17 15:16:00 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/07/23 19:26:30 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,11 @@ bool	is_equal_str(const char *s1, const char *s2)
 	return (ft_strncmp(s1, s2, s1_len) == 0);
 }
 
-float clamp(float n, float min, float max)
+float	clamp(float n, float min, float max)
 {
-  if (n > max)
-	n = 1;
-  if (n < min)
-	n = 0;
-  return n;
+	if (n > max)
+		n = 1;
+	if (n < min)
+		n = 0;
+	return (n);
 }
-

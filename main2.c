@@ -222,3 +222,24 @@ int main()
   start();
 }
 
+// int main()
+// {
+//   const t_res canvas_size = pair(1200, 675);
+//   const t_res res = pair(canvas_size.x, canvas_size.y + 25);
+//   init(res, "miniRt");
+//   t_world w;
+//   w = add_shape(w, (t_shape)cylinder());
+//   t_light light = point_light(point(10, 30, -30), color(1, 1, 1));
+//   t_camera c = camera(res.x, res.y, M_PI / 3);
+//   c.transform = view_transform(point(0, 0, -5),
+//                                point(0, 1, 0),
+//                                vector(0, 1, 0));
+//   w.light = light;
+//   printf ("The amount of shapes %d\n", w.amount_of_shapes);
+  
+//   render(c, w);
+//   puts("here");
+//   listen_to(mouseup, select_shape, &data);
+//   listen_to(keydown, shape_manipulation, &data);
+//   start();
+// }

@@ -3,9 +3,10 @@
 t_sphere	make_sphere(t_point origin, double radius, t_rgb color)
 {
 	static int	id;
-  t_material m = material();
+	t_material	m;
 
-  m.color = color;
+	m = material();
+	m.color = color;
 	return ((t_sphere){
 		.type = Sphere,
 		.id = ++id,

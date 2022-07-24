@@ -11,7 +11,7 @@ t_hit	no_intersection(void)
 						.count = 0});
 }
 
-t_hit intersect(const t_shape shape, const t_ray r)
+t_hit	intersect(const t_shape shape, const t_ray r)
 {
 	const t_ray	tr = ray_transform(r, inverse(shape.super.transform));
 
@@ -22,14 +22,14 @@ t_hit intersect(const t_shape shape, const t_ray r)
 	return (no_intersection());
 }
 
-t_intersection hit(t_hit h)
+t_intersection	hit(t_hit h)
 {
-	size_t i;
-	t_intersection min_positive;
+	size_t			i;
+	t_intersection	min_positive;
 
 	i = 0;
 	min_positive = h.intersections[0];
-	while(i < h.count)
+	while (i < h.count)
 	{
 		if (min_positive.t < 0 && h.intersections[i].t >= 0)
 			min_positive = h.intersections[i];
@@ -38,6 +38,6 @@ t_intersection hit(t_hit h)
 		++i;
 	}
 	if (min_positive.t < 0)
-		return (intersection(-1, (t_shape) {.type = Error}));
-	return min_positive;
+		return (intersection(-1, (t_shape){.type = Error}));
+	return (min_positive);
 }
