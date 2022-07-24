@@ -19,6 +19,8 @@ t_hit	intersect(const t_shape shape, const t_ray r)
 		return (intersect_sphere(shape.sphere, tr));
 	if (shape.type == Plane)
 		return (intersect_plane(shape.plane, tr));
+	if (shape.type == Cylinder)
+		return (intersect_cylinder(shape.cylinder, tr));
 	return (no_intersection());
 }
 

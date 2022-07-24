@@ -35,6 +35,8 @@ t_vec	normal_at(t_shape shape, t_point world_point)
 		local_normal = normal_at_plane(shape.plane);
 	if (shape.type == Sphere)
 		local_normal = normal_at_sphere(shape.sphere, local_point);
+	if (shape.type == Cylinder)
+		local_normal = normal_at_cylinder(shape.cylinder, local_point);
 	world_normal = apply(transpose(inverse(shape_transform)),
 			local_normal);
 	world_normal.w = 0;
