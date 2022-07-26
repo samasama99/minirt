@@ -12,13 +12,13 @@ t_optional_material parse_ambient(const t_optional_array elems)
   ambient_ratio = parse_ratio(elems.value[1]);
   ambient_color = parse_rgb(elems.value[2]);
   if (ambient_ratio.error || ambient_color.error)
-    return (t_optional_material) {.error = true};
+	return (t_optional_material) {.error = true};
   already_parsed = true;
   return (t_optional_material) {
-    .value = {
-      .ambient_ratio = ambient_ratio.value,
-      .ambient_color = ambient_color.value,
-    },
+	.value = {
+	  .ambient_ratio = ambient_ratio.value,
+	  .ambient_color = ambient_color.value,
+	},
 	.error = false,
   };
 }
@@ -32,12 +32,12 @@ t_optional_transform get_camera_view(char *from, char *to)
   p_from = parse_position(from);
   p_to = parse_position(to);
   if (p_from.error || p_to.error)
-    return error;
+	return error;
   // print_tupil("from", p_from.value);
   // print_tupil("to", p_to.value);
   return (t_optional_transform) {
-    .value = view_transform(p_from.value, p_to.value, vector(0, 1, 0)),
-    .error = false,
+	.value = view_transform(p_from.value, p_to.value, vector(0, 1, 0)),
+	.error = false,
   };
 }
 
@@ -78,7 +78,7 @@ t_optional_light parse_light(const t_optional_array elems)
   brightness = parse_ratio(elems.value[2]);
   color = parse_rgb(elems.value[3]);
   if (pos.error || brightness.error || color.error)
-    return error;
+	return error;
   already_parsed = true;
   return (t_optional_light) {
 	.value = point_light(pos.value, rgb_scalar(color.value, brightness.value)),
@@ -99,7 +99,7 @@ t_optional_plane parse_plane(const t_optional_array elems)
   normal = parse_position(elems.value[2]);
   color = parse_rgb(elems.value[3]); 
   if (p.error || normal.error || color.error)
-    return error;
+	return error;
   t_plane pl = plane();
   normal.value.w = 0;
   pl = make_plane(p.value, normal.value);
@@ -110,8 +110,8 @@ t_optional_plane parse_plane(const t_optional_array elems)
   // print_tupil("point", p.value);
   // print_tupil("normal", normal.value);
   return (t_optional_plane){
-    .value = pl,
-    .error = false,
+	.value = pl,
+	.error = false,
   };
 }
 
@@ -128,12 +128,12 @@ t_optional_sphere parse_sphere(const t_optional_array elems)
   diameter = parse_double(elems.value[2]);
   color = parse_rgb(elems.value[3]);
   if (center.error || diameter.error || color.error)
-    return error;
+	return error;
   return (t_optional_sphere){
-    .value = make_sphere(center.value,
-                         diameter.value / 2.0,
-                         color.value),
-    .error = false,
+	.value = make_sphere(center.value,
+						 diameter.value / 2.0,
+						 color.value),
+	.error = false,
   };
 }
 
@@ -146,7 +146,7 @@ t_optional_cylinder parse_cylinder(const t_optional_array elems)
   t_optional_double  diameter;
   t_optional_double  height;
   t_optional_rgb  color;
-
+  t_cylinder cy;
   if (elems.error)
 	  return error;
   center = parse_position(elems.value[1]);
@@ -155,14 +155,20 @@ t_optional_cylinder parse_cylinder(const t_optional_array elems)
   height = parse_double(elems.value[4]);
   color = parse_rgb(elems.value[5]);
   if (center.error || diameter.error || color.error)
-    return error;
+	return error;
+  normal.value.w = 0;
+  cy =  make_cylinder(point(0, 0, 0),
+						vector(0, 0, 0),
+						 (t_fpair) {diameter.value / 2.0,
+						 height.value},
+						 color.value);
+  cy.t  = mat4_mult(translation(center.value.x, center.value.y, center.value.z), mat4_mult(mat4_mult(rotation_x(acos(dot(normalize(normal.value), vector(0,1,0))))
+                                        , rotation_z(acos(dot(vector(0,1,0), normalize(normal.value)))))
+                                        , rotation_y( acos(dot(normalize(normal.value), vector(1,0,0)))))
+										);
   return (t_optional_cylinder){
-    .value = make_cylinder(center.value,
-                          normal.value,
-                         (t_fpair) {diameter.value / 2.0,
-                         height.value},
-                         color.value),
-    .error = false,
+	.value = cy,
+	.error = false,
   };
 }
 
@@ -173,28 +179,28 @@ t_optional_shape parse_shape(const t_optional_array elems, t_line_type type)
   t_optional_cylinder cy;
 
   if (!elems.error && type == e_sphere) {
-    sp = parse_sphere(elems);
-    if (sp.error)
-      return (t_optional_shape) {.error = true};
-    return (t_optional_shape){
-      .value = (t_shape)sp.value,
-    } ;
+	sp = parse_sphere(elems);
+	if (sp.error)
+	  return (t_optional_shape) {.error = true};
+	return (t_optional_shape){
+	  .value = (t_shape)sp.value,
+	} ;
   }
   if (!elems.error && type == e_plane) {
-    pl = parse_plane(elems);
-    if (pl.error)
-      return (t_optional_shape) {.error = true};
-    return (t_optional_shape){
-      .value = (t_shape)pl.value,
-    } ;
+	pl = parse_plane(elems);
+	if (pl.error)
+	  return (t_optional_shape) {.error = true};
+	return (t_optional_shape){
+	  .value = (t_shape)pl.value,
+	} ;
   }
   if (!elems.error && type == e_cylinder) {
-    cy = parse_cylinder(elems);
-    if (cy.error)
-      return (t_optional_shape) {.error = true};
-    return (t_optional_shape){
-      .value = (t_shape)cy.value,
-    } ;
+	cy = parse_cylinder(elems);
+	if (cy.error)
+	  return (t_optional_shape) {.error = true};
+	return (t_optional_shape){
+	  .value = (t_shape)cy.value,
+	} ;
   }
   return (t_optional_shape){.value = true};
 }

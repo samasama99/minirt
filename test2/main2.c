@@ -211,13 +211,27 @@ int main()
     ft_perror(1);
   data.w.amount_of_shapes = 0;
   data.selected.error = true;
-  puts("test");
   parse(&data, fd, canvas_size);
-  puts("test");
-
   close(fd);
   correct_ambient(data.w, data.ambient);
   printf ("The amount of shapes %d\n", data.w.amount_of_shapes);
+  print_tupil("cy", data.w.shapes[0].cylinder.normal);
+  // printf ("normal | vec x  = %fdot %frad %fdeg\n", dot(normalize(data.w.shapes[0].cylinder.normal), vector(1,0,0)),radians(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(1,0,0))))
+  //                                   , acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(1,0,0))));
+  // printf ("normal | vec y  = %fdot %frad %fdeg\n", dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,1,0)),radians(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,1,0))))
+  //                                   , acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,1,0))));
+  // printf ("normal | vec z  = %fdot %frad %fdeg\n", dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,0,1)),radians(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,0,1))))
+  //                                   , acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,0,1))));                   
+//  data.w.shapes[0].cylinder.t = transform 
+//                                   (
+//                                     rotation_x(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,0,1)))),
+//                                     rotation_y(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(1,0,0)))),
+//                                      rotation_z(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,0,1))))
+//                                   );
+//  data.w.shapes[0].cylinder.t = mat4_mult(mat4_mult(rotation_x(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,1,0))))
+//                                         , rotation_z(acos(dot(vector(0,1,0), normalize(data.w.shapes[0].cylinder.normal)))))
+//                                         , rotation_y( acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(1,0,0)))));
+  // data.w.shapes[0].cylinder.t = rotation_z(50);
   init(res, "miniRt");
   render(data.c, data.w);
   // listen_to(mouseup, select_shape, &data);

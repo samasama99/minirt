@@ -13,7 +13,7 @@ t_optional_string get_line(int fd)
   char *line;
 
   line = get_next_line(fd);
-  if (line == NULL)
+  if (line == NULL || *line == '\0')
     return (t_optional_string) {.is_null = true};
   return (t_optional_string) {
     .value = line,
@@ -63,7 +63,6 @@ t_shape unwrap_shape(t_optional_array array, t_line_type type)
 
 void parse(t_data *data, int fd, t_res res)
 {
-  puts ("hello");
   t_optional_string line;
   t_optional_array array;
   t_optional_int type;
@@ -74,6 +73,7 @@ void parse(t_data *data, int fd, t_res res)
     line = get_line(fd);
     if (line.is_null || is_equal_str(line.value, "\n"))
       continue;
+    puts(line.value);
     line = parse_string(ft_strtrim(line.value, "\n"));
     array = split_string(line.value, ' ');
     type = parse_type(array.value[0]);
@@ -85,7 +85,6 @@ void parse(t_data *data, int fd, t_res res)
         data->w.light = unwrap_light(array);
     if (type.value == e_ambient)
         data->ambient = unwrap_ambient(array);
-   
     if (type.value == e_sphere || type.value == e_plane || type.value == e_cylinder)
         data->w = add_shape(data->w, unwrap_shape(array, type.value));
   }
