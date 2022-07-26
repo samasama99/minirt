@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/24 20:56:46 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/07/26 15:35:35 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ typedef enum e_shape_type {
 	Sphere,
 	Plane,
 	Cylinder,
+	Cone,
 }	t_shape_type;
 
 typedef struct s_super_shape
@@ -190,6 +191,17 @@ typedef struct s_cylinder {
 	double			height;
 }	t_cylinder;
 
+typedef struct s_cone {
+	t_shape_type	type;
+	int				id;
+	t_matrix4		t;
+	t_material		material;
+	t_point			center;
+	t_norm			normal;
+	double			radius;
+	double			height;
+}	t_cone;
+
 typedef struct s_plane {
 	t_shape_type	type;
 	int				id;
@@ -205,6 +217,7 @@ typedef union u_shape {
 	t_sphere		sphere;
 	t_plane			plane;
 	t_cylinder		cylinder;
+	t_cone			cone;
 }	t_shape;
 
 typedef struct s_intersection {
@@ -301,4 +314,7 @@ t_cylinder		make_cylinder(t_point point, t_norm norm,
 t_cylinder		cylinder(void);
 t_hit			intersect_cylinder(const t_cylinder cy, const t_ray r);
 t_vec			normal_at_cylinder(t_cylinder s, t_point local_point);
+t_rad			get_angle_plan_phi(t_cylinder cy);
+t_rad			get_angle_plan_teta(t_cylinder cy);
+
 #endif

@@ -205,7 +205,7 @@ int main()
 {
   const t_res canvas_size = pair(1200, 675);
   const t_res res = pair(canvas_size.x, canvas_size.y + 25);
-  const int fd = open("src/test.rt", O_RDONLY);
+  const int fd = open("src/test2.rt", O_RDONLY);
   t_data  data;
   if (fd < 0)
     ft_perror(1);
@@ -215,31 +215,116 @@ int main()
   close(fd);
   correct_ambient(data.w, data.ambient);
   printf ("The amount of shapes %d\n", data.w.amount_of_shapes);
+  print_tupil("cy", data.w.shapes[0].cylinder.normal);
+  // printf ("normal | vec x  = %fdot %frad %fdeg\n", dot(normalize(data.w.shapes[0].cylinder.normal), vector(1,0,0)),radians(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(1,0,0))))
+  //                                   , acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(1,0,0))));
+  // printf ("normal | vec y  = %fdot %frad %fdeg\n", dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,1,0)),radians(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,1,0))))
+  //                                   , acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,1,0))));
+  // printf ("normal | vec z  = %fdot %frad %fdeg\n", dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,0,1)),radians(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,0,1))))
+  //                                   , acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,0,1))));                   
+//  data.w.shapes[0].cylinder.t = transform 
+//                                   (
+//                                     rotation_x(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,0,1)))),
+//                                     rotation_y(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(1,0,0)))),
+//                                      rotation_z(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,0,1))))
+//                                   );
+//  data.w.shapes[0].cylinder.t = mat4_mult(mat4_mult(rotation_x(acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(0,1,0))))
+//                                         , rotation_z(acos(dot(vector(0,1,0), normalize(data.w.shapes[0].cylinder.normal)))))
+//                                         , rotation_y( acos(dot(normalize(data.w.shapes[0].cylinder.normal), vector(1,0,0)))));
+  // data.w.shapes[0].cylinder.t = rotation_z(50);
   init(res, "miniRt");
   render(data.c, data.w);
-  listen_to(mouseup, select_shape, &data);
-  listen_to(keydown, shape_manipulation, &data);
+  // listen_to(mouseup, select_shape, &data);
+  // listen_to(keydown, shape_manipulation, &data);
   start();
 }
 
-// int main()
-// {
-//   const t_res canvas_size = pair(1200, 675);
-//   const t_res res = pair(canvas_size.x, canvas_size.y + 25);
-//   init(res, "miniRt");
-//   t_world w;
-//   w = add_shape(w, (t_shape)cylinder());
-//   t_light light = point_light(point(10, 30, -30), color(1, 1, 1));
-//   t_camera c = camera(res.x, res.y, M_PI / 3);
-//   c.transform = view_transform(point(0, 0, -5),
-//                                point(0, 1, 0),
-//                                vector(0, 1, 0));
-//   w.light = light;
-//   printf ("The amount of shapes %d\n", w.amount_of_shapes);
-  
-//   render(c, w);
-//   puts("here");
-//   listen_to(mouseup, select_shape, &data);
-//   listen_to(keydown, shape_manipulation, &data);
-//   start();
+//  int main()
+//  {
+//    const t_res canvas_size = pair(1200, 675);
+//    const t_res res = pair(canvas_size.x, canvas_size.y + 25);
+//    init(res, "miniRt");
+//    t_world w;
+//     t_sphere s = sphere();
+//     s.material.ambient_color = color(0.5, 0, 0);
+//    w = add_shape(w, (t_shape)cylinder());
+//    t_light light = point_light(point(0, 0, -30), color(1, 1, 1));
+//    t_camera c = camera(res.x, res.y, M_PI / 3);
+//    c.transform = view_transform(point(0, 0, -30),
+//                                 point(0, 0, 0),
+//                                 vector(0, 1, 0));
+//    w.light = light;
+//    printf ("The amount of shapes %d\n", w.amount_of_shapes);
+
+//    render(c, w);
+//    puts("here");
+//    start();
+//  }
+
+// #include <assert.h>
+// int main() {
+// 	{
+// 		t_ray r = ray(point(1, 0, 0), vector(0, 1, 0));
+// 		t_cylinder cy = cylinder();
+// 		t_hit h = intersect_cylinder(cy, r);
+// 		assert(h.count == 0);
+//     printf ("test1\n");
+// 	}
+// 	{
+// 		t_ray r = ray(point(0, 0, 0), vector(0, 1, 0));
+// 		t_cylinder cy = cylinder();
+// 		t_hit h = intersect_cylinder(cy, r);
+// 		assert(h.count == 0);
+//      printf ("test2\n");
+// 	}
+// 	{
+// 		t_ray r = ray(point(0, 0, -5), vector(1, 1, 1));
+// 		t_cylinder cy = cylinder();
+// 		t_hit h = intersect_cylinder(cy, r);
+// 		assert(h.count == 0);
+//      printf ("test3\n");
+// 	}
+
+//  {
+// 		t_cylinder cy = cylinder();
+//     assert(vec_is_equal(normal_at_cylinder(cy, point(1, 0, 0)), vector(1, 0, 0)));
+//     assert(vec_is_equal(normal_at_cylinder(cy, point(0, 5, -1)), vector(0, 0, -1)));
+//     assert(vec_is_equal(normal_at_cylinder(cy, point(0, -2, 1)), vector(0, 0, 1)));
+//     assert(vec_is_equal(normal_at_cylinder(cy, point(-1, 1, 0)), vector(-1, 0, 0)));
+//      printf ("normal tests\n");
+//   }
+
+//   {
+//     t_ray r = ray(point(1, 0, -5), vector(0, 0, 1));
+// 		t_cylinder cy = cylinder();
+// 		t_hit h = intersect_cylinder(cy, r);
+//     printf ("the count is (%d), roots are (%f, %f)\n"
+//         , h.count, h.intersections[0].t, h.intersections[1].t);
+//     assert(is_equal_double(h.intersections[0].t, 5));
+//     assert(is_equal_double(h.intersections[1].t, 5));
+// 		assert(h.count == 2);
+//     printf ("test4\n");
+//   }
+//   {
+//     t_ray r = ray(point(0, 0, -5), vector(0, 0, 1));
+// 		t_cylinder cy = cylinder();
+// 		t_hit h = intersect_cylinder(cy, r);
+//     printf ("the count is (%d), roots are (%f, %f)\n"
+//         , h.count, h.intersections[0].t, h.intersections[1].t);
+//     assert(is_equal_double(h.intersections[0].t, 4));
+//     assert(is_equal_double(h.intersections[1].t, 6));
+// 		assert(h.count == 2);
+//      printf ("test5\n");
+//   }
+//     {
+//     t_ray r = ray(point(0.5, 0, -5), vector(0.1, 1, 1));
+// 		t_cylinder cy = cylinder();
+// 		t_hit h = intersect_cylinder(cy, r);
+//     printf ("the count is (%d), roots are (%f, %f)\n"
+//         , h.count, h.intersections[0].t, h.intersections[1].t);
+//     assert(is_equal_double(h.intersections[0].t, 6.80798));
+//     assert(is_equal_double(h.intersections[1].t, 7.08872));
+// 		assert(h.count == 2);
+//      printf ("test6\n");
+//   }
 // }
