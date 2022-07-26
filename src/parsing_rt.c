@@ -85,7 +85,7 @@ void parse(t_data *data, int fd, t_res res)
         data->w.light = unwrap_light(array);
     if (type.value == e_ambient)
         data->ambient = unwrap_ambient(array);
-    if (type.value == e_sphere || type.value == e_plane || type.value == e_cylinder)
+    if (type.value == e_sphere || type.value == e_plane || type.value == e_cylinder || type.value == e_cone)
         data->w = add_shape(data->w, unwrap_shape(array, type.value));
   }
 }

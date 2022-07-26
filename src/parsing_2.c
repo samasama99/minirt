@@ -180,7 +180,7 @@ t_optional_cone parse_cone(const t_optional_array elems)
   t_optional_double  diameter;
   t_optional_double  height;
   t_optional_rgb  color;
-  t_cylinder cy;
+  t_cone co;
   if (elems.error)
 	  return error;
   center = parse_position(elems.value[1]);
@@ -191,17 +191,17 @@ t_optional_cone parse_cone(const t_optional_array elems)
   if (center.error || diameter.error || color.error)
 	return error;
   normal.value.w = 0;
-  cy =  make_cylinder(point(0, 0, 0),
+  co =  make_cone(point(0, 0, 0),
 						vector(0, 0, 0),
 						 (t_fpair) {diameter.value / 2.0,
 						 height.value},
 						 color.value);
-  cy.t  = mat4_mult(translation(center.value.x, center.value.y, center.value.z), mat4_mult(mat4_mult(rotation_x(acos(dot(normalize(normal.value), vector(0,1,0))))
+  co.t  = mat4_mult(translation(center.value.x, center.value.y, center.value.z), mat4_mult(mat4_mult(rotation_x(acos(dot(normalize(normal.value), vector(0,1,0))))
                                         , rotation_z(acos(dot(vector(0,1,0), normalize(normal.value)))))
                                         , rotation_y( acos(dot(normalize(normal.value), vector(1,0,0)))))
 										);
   return (t_optional_cone){
-	.value = cy,
+	.value = co,
 	.error = false,
   };
 }
@@ -210,7 +210,7 @@ t_optional_shape parse_shape(const t_optional_array elems, t_line_type type)
   t_optional_sphere sp;
   t_optional_plane pl;
   t_optional_cylinder cy;
-  t_optional_cylinder co;
+  t_optional_cone co;
 
   if (!elems.error && type == e_sphere) {
 	sp = parse_sphere(elems);
@@ -238,10 +238,11 @@ t_optional_shape parse_shape(const t_optional_array elems, t_line_type type)
   }
   if (!elems.error && type == e_cone) {
     co = parse_cone(elems);
-    if (cy.error)
+    puts("found cone");
+    if (co.error)
       return (t_optional_shape) {.error = true};
     return (t_optional_shape){
-      .value = (t_shape)cy.value,
+      .value = (t_shape)co.value,
     } ;
   }
   return (t_optional_shape){.value = true};

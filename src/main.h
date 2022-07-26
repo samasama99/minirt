@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/26 15:35:35 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/07/26 18:41:00 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,7 +314,11 @@ t_cylinder		make_cylinder(t_point point, t_norm norm,
 t_cylinder		cylinder(void);
 t_hit			intersect_cylinder(const t_cylinder cy, const t_ray r);
 t_vec			normal_at_cylinder(t_cylinder s, t_point local_point);
-t_rad			get_angle_plan_phi(t_cylinder cy);
-t_rad			get_angle_plan_teta(t_cylinder cy);
+//cone
+t_hit			intersect_cone(const t_cone co, const t_ray r);
+t_vec			normal_at_cone(t_cone s, t_point local_point);
+t_cone	make_cone(t_point point, t_norm norm,
+					t_fpair info, t_rgb color);
 
+t_cone	cone(void);
 #endif

@@ -75,7 +75,7 @@ typedef struct s_optional_cylinder {
 } t_optional_cylinder;
 
 typedef struct s_optional_cone {
-  t_cylinder value;
+  t_cone value;
   bool error;
 } t_optional_cone;
 

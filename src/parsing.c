@@ -224,6 +224,8 @@ t_optional_int parse_type(char *target)
     return (t_optional_int){.value = e_plane};
   if (is_equal_str(string.value, "cy"))
     return (t_optional_int){.value = e_cylinder};
+  if (is_equal_str(string.value, "co"))
+    return (t_optional_int){.value = e_cone};
   return (t_optional_int){.error = true};
 }
 
