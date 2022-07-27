@@ -205,7 +205,7 @@ int main()
 {
   const t_res canvas_size = pair(1200, 675);
   const t_res res = pair(canvas_size.x, canvas_size.y + 25);
-  const int fd = open("src/test2.rt", O_RDONLY);
+  const int fd = open("src/test.rt", O_RDONLY);
   t_data  data;
   if (fd < 0)
     ft_perror(1);

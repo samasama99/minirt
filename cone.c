@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/26 18:36:04 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/27 13:51:01 by zsarir           ###   ########.fr       */
+/*   Created: 2022/07/26 15:32:48 by zsarir            #+#    #+#             */
+/*   Updated: 2022/07/26 18:22:43 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,10 @@ t_hit	intersect_cone(const t_cone co, const t_ray r)
 					- pow(co.height, 2) * pow(k, 2) + 2 * co.height * pow(k, 2) * r.origin.y;
 	const double	discriminant = b * b - 4 * a * c;
 
-	double hi = co.center.y + co.height;
 	if (discriminant < 0 || is_equal_double(a, 0))
 		return (no_intersection());
-		t_hit h = cone_roots(a, b, discriminant, co);
-			if (fabs(ray_position(r, h.intersections[0].t).y - hi) > co.height
-			&& fabs(ray_position(r, h.intersections[1].t).y - hi) > co.height)
-		return (no_intersection());
-	if (fabs(ray_position(r, h.intersections[0].t).y - hi) <= co.height
-			&& fabs(ray_position(r, h.intersections[1].t).y - hi) <= co.height)
-		return (h);
-	if (fabs(ray_position(r, h.intersections[0].t).y - hi) <= co.height)
-		return ((t_hit){.intersections[0] = h.intersections[0], .count = 1});
-	if (fabs(ray_position(r, h.intersections[1].t).y - hi) <= co.height)
-		return ((t_hit){.intersections[0] = h.intersections[1], .count = 1});
-	return (h);
+
+	return (cone_roots(a, b, discriminant, co));
 }
 
 t_vec	normal_at_cone(t_cone s, t_point local_point)
