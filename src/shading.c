@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:40:04 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 14:40:05 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/07/28 15:02:41 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,26 @@ bool	is_shadowed(t_world w, t_point p, t_light l)
 t_rgb	color_at(t_world w, t_ray r)
 {
 	const t_hit		h = intersect_world(w, r);
-  t_rgb c;
+	t_rgb			c;
 	t_comp			comp;
 	t_intersection	i;
-  int index;
+	int				index;
 
-  c = color(0, 0, 0);
-  index = 0;
+	c = color(0, 0, 0);
+	index = 0;
 	if (h.count == 0)
 		return (black());
 	i = hit(h);
 	if (i.t < 0)
 		return (black());
-  while (index < w.amount_of_lights)
-  {
-        comp = prepare_computations(i, r);
-        c = rgb_sum(shade_hit(w, comp, w.lights[index]), c);
-        ++index;
-  }
-  c = rgb_scalar(c, 1.0 / w.amount_of_lights);
-  return c;
+	while (index < w.amount_of_lights)
+	{
+		comp = prepare_computations(i, r);
+		c = rgb_sum(shade_hit(w, comp, w.lights[index]), c);
+		++index;
+	}
+	c = rgb_scalar(c, 1.0 / w.amount_of_lights);
+	return (c);
 }
 
 t_rgb	shade_hit(t_world w, t_comp comps, t_light l)

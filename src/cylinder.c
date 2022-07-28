@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 20:04:47 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/26 15:42:43 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/07/28 15:14:59 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,28 @@ t_hit	intersect_cylinder(const t_cylinder cy, const t_ray r)
 {
 	const double	a = pow(r.direction.x, 2) + pow(r.direction.z, 2);
 	const double	b = 2 * (r.origin.x * r.direction.x
-									+ r.origin.z * r.direction.z
-									- r.direction.x * cy.center.x
-									- r.direction.z * cy.center.z);
-	const double	c = pow(r.origin.z, 2) + pow(r.origin.x, 2) - pow(cy.radius, 2)
-						+ pow(cy.center.x, 2) + pow(cy.center.z, 2)
-						- 2 * (r.origin.x * cy.center.x + r.origin.z * cy.center.z);
+			+ r.origin.z * r.direction.z
+			- r.direction.x * cy.center.x
+			- r.direction.z * cy.center.z);
+	const double	c = pow(r.origin.z, 2) + pow(r.origin.x, 2)
+		- pow(cy.radius, 2) + pow(cy.center.x, 2) + pow(cy.center.z, 2)
+		- 2 * (r.origin.x * cy.center.x + r.origin.z * cy.center.z);
 	const double	discriminant = b * b - 4 * a * c;
+	t_hit			h;
 
 	if (discriminant < 0 || is_equal_double(a, 0))
 		return (no_intersection());
-	t_hit h = cylinder_roots(a, b, discriminant, cy);
-
-	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y) > cy.height / 2
-			&& fabs(ray_position(r, h.intersections[1].t).y - cy.center.y) > cy.height / 2)
+	h = cylinder_roots(a, b, discriminant, cy);
+	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
+		> cy.height / 2 && fabs(ray_position(r, h.intersections[1].t).y
+			- cy.center.y) > cy.height / 2)
 		return (no_intersection());
-	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y) <= cy.height / 2
-			&& fabs(ray_position(r, h.intersections[1].t).y - cy.center.y) <= cy.height / 2)
+	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
+		<= cy.height / 2 && fabs(ray_position(r, h.intersections[1].t).y
+			- cy.center.y) <= cy.height / 2)
 		return (h);
-	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y) <= cy.height / 2)
+	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
+		<= cy.height / 2)
 		return ((t_hit){.intersections[0] = h.intersections[0], .count = 1});
 	if (fabs(ray_position(r, h.intersections[1].t).y - cy.center.y) <= cy.height / 2)
 		return ((t_hit){.intersections[0] = h.intersections[1], .count = 1});

@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/26 18:41:00 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/07/28 15:39:44 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ void			put_black_bar(t_res res, t_pair pos);
 void			put_string(int x, int y, char *string);
 int				make_color(t_rgb c, float alpha);
 void			put_pixel(t_pair pos, t_rgb rgb);
+t_mlx			get_mlx_info(t_mlx *mlx);
 void			put_image(t_pair pos, t_image img);
 t_image			create_image(t_res res);
 void			put_pixel_to_image(t_image img, t_pair pos, t_rgb color);
@@ -279,7 +280,7 @@ typedef struct s_world {
 
 // t_world set_amount_of_shapes(size_t amount);
 t_world			add_shape(const t_world w, const t_shape s);
-t_world add_light(const t_world w, const t_light l);
+t_world			add_light(const t_world w, const t_light l);
 t_world			default_world(void);
 t_hit			intersect_world(t_world w, t_ray r);
 t_rgb			shade_hit(t_world w, t_comp comps, t_light l);
@@ -318,8 +319,8 @@ t_vec			normal_at_cylinder(t_cylinder s, t_point local_point);
 //cone
 t_hit			intersect_cone(const t_cone co, const t_ray r);
 t_vec			normal_at_cone(t_cone s, t_point local_point);
-t_cone	make_cone(t_point point, t_norm norm,
+t_cone			make_cone(t_point point, t_norm norm,
 					t_fpair info, t_rgb color);
 
-t_cone	cone(void);
+t_cone			cone(void);
 #endif

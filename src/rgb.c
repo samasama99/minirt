@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rgb.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:39:57 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 14:39:59 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/07/28 15:01:31 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,36 +56,4 @@ t_rgb	rgb_scalar(t_rgb a, double k)
 		.green = a.green * k,
 		.blue = a.blue * k,
 	});
-}
-
-t_rgb	rgb_product(t_rgb c1, t_rgb c2)
-{
-	return ((t_rgb){
-		.blue = c1.blue * c2.blue,
-		.green = c1.green * c2.green,
-		.red = c1.red * c2.red,
-	});
-}
-
-bool	rgb_is_equal(t_rgb v1, t_rgb v2)
-{
-	return (
-		is_equal_double(v1.blue, v2.blue)
-		&& is_equal_double(v1.green, v2.green)
-		&& is_equal_double(v1.red, v2.red)
-	);
-}
-
-t_rgb	color(float r, float g, float b)
-{
-	return ((t_rgb){
-		.red = r,
-		.green = g,
-		.blue = b,
-	});
-}
-
-t_rgb	black(void)
-{
-	return ((t_rgb){0, 0, 0});
 }

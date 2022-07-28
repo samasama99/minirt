@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 19:48:42 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/23 19:56:09 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/07/28 16:10:52 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef union u_pair_int
 	};
 }	t_pair;
 
-typedef t_pair	t_res;
+typedef t_pair		t_res;
 
 typedef union u_vec2
 {
@@ -150,7 +150,6 @@ bool		is_equal_float(float x, float y);
 bool		is_equal_double(double x, double y);
 bool		vec_is_equal(t_vec v1, t_vec v2);
 bool		matrix_is_equal(t_matrix4 m, t_matrix4 n);
-
 
 // VEC OP //
 // t_vec	vec_min(t_vec a, t_vec b);

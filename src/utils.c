@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 17:01:57 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/23 19:26:30 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/07/28 15:03:59 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@ void	safe_close(int fd)
 	if (fd != 0 && fd != 1 && fd != -1)
 		close (fd);
 }
-
-// char	*ft_strjoin_free(char *s1, char *s2)
-// {
-// 	char	*tmp;
-
-// 	tmp = ft_strjoin(s1, s2);
-// 	free(s1);
-// 	return (tmp);
-// }
 
 void	panic(bool con, const char *msg, const char *func)
 {
