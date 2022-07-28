@@ -278,7 +278,6 @@ typedef struct s_world {
 	int		amount_of_lights;
 }	t_world;
 
-// t_world set_amount_of_shapes(size_t amount);
 t_world			add_shape(const t_world w, const t_shape s);
 t_world			add_light(const t_world w, const t_light l);
 t_world			default_world(void);
