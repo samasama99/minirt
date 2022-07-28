@@ -82,7 +82,7 @@ void parse(t_data *data, int fd, t_res res)
     if (type.value == e_camera)
         data->c = unwarp_camera(array, res);
     if (type.value == e_light)
-        data->w.light = unwrap_light(array);
+        data->w = add_light(data->w, unwrap_light(array));
     if (type.value == e_ambient)
         data->ambient = unwrap_ambient(array);
     if (type.value == e_sphere || type.value == e_plane || type.value == e_cylinder || type.value == e_cone)

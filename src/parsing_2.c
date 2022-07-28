@@ -70,16 +70,14 @@ t_optional_light parse_light(const t_optional_array elems)
   t_optional_point pos;
   t_optional_double brightness;
   t_optional_rgb color;
-  static bool already_parsed = false;
 
-  if (elems.error || already_parsed)
+  if (elems.error)
 	  return error;
   pos = parse_position(elems.value[1]);
   brightness = parse_ratio(elems.value[2]);
   color = parse_rgb(elems.value[3]);
   if (pos.error || brightness.error || color.error)
-	return error;
-  already_parsed = true;
+    return error;
   return (t_optional_light) {
 	.value = point_light(pos.value, rgb_scalar(color.value, brightness.value)),
 	.error = false,

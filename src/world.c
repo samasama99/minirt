@@ -18,6 +18,24 @@ t_world	add_shape(const t_world w, const t_shape s)
 	return (new_w);
 }
 
+t_world	add_light(const t_world w, const t_light l)
+{
+	t_world	new_w;
+	int		i;
+
+	new_w = w;
+	new_w.lights = ft_malloc(sizeof(t_light) * (w.amount_of_lights + 1));
+	new_w.amount_of_lights = w.amount_of_lights + 1;
+	i = 0;
+	while (i < w.amount_of_lights)
+	{
+		new_w.lights[i] = w.lights[i];
+		++i;
+	}
+	new_w.lights[w.amount_of_lights] = l;
+	return (new_w);
+}
+
 t_hit	intersect_world(t_world w, t_ray r)
 {
 	t_intersection	min;

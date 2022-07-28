@@ -272,18 +272,19 @@ t_hit			no_intersection(void);
 // THE WORLD
 typedef struct s_world {
 	t_shape	*shapes;
-	t_light	light;
+	t_light	*lights;
 	int		amount_of_shapes;
+	int		amount_of_lights;
 }	t_world;
 
 // t_world set_amount_of_shapes(size_t amount);
 t_world			add_shape(const t_world w, const t_shape s);
-// t_world add_light(const t_world w, const t_light l);
+t_world add_light(const t_world w, const t_light l);
 t_world			default_world(void);
 t_hit			intersect_world(t_world w, t_ray r);
-t_rgb			shade_hit(t_world w, t_comp comps);
+t_rgb			shade_hit(t_world w, t_comp comps, t_light l);
 t_rgb			color_at(t_world w, t_ray r);
-bool			is_shadowed(t_world w, t_point p);
+bool			is_shadowed(t_world w, t_point p, t_light l);
 
 typedef struct s_camera {
 	double		hsize;
