@@ -17,7 +17,7 @@ bool	is_equal_float(float x, float y)
 	return (fabsf(x - y) < EPSILON);
 }
 
-bool	s_equal_double(double x, double y)
+bool	is_equal_double(double x, double y)
 {
 	return (fabs(x - y) < EPSILON);
 }

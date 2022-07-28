@@ -272,10 +272,10 @@ t_hit			no_intersection(void);
 
 // THE WORLD
 typedef struct s_world {
-	t_shape	*shapes;
-	t_light	*lights;
-	int		amount_of_shapes;
-	int		amount_of_lights;
+	volatile t_shape	*shapes;
+	volatile t_light	*lights;
+	volatile int		amount_of_shapes;
+	volatile int		amount_of_lights;
 }	t_world;
 
 t_world			add_shape(const t_world w, const t_shape s);

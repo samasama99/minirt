@@ -32,19 +32,20 @@ t_world	add_shape(const t_world w, const t_shape s)
 
 t_world	add_light(const t_world w, const t_light l)
 {
-	t_world	new_w;
-	int		i;
+	volatile t_world	new_w;
+	size_t		i;
 
-	new_w = w;
 	new_w.lights = ft_malloc(sizeof(t_light) * (w.amount_of_lights + 1));
-	new_w.amount_of_lights = w.amount_of_lights + 1;
 	i = 0;
 	while (i < w.amount_of_lights)
 	{
-		new_w.lights[i] = w.lights[i];
-		++i;
+      new_w.lights[i] = w.lights[i];
+      ++i;
 	}
 	new_w.lights[w.amount_of_lights] = l;
+  new_w.amount_of_shapes = w.amount_of_shapes;
+	new_w.amount_of_lights = w.amount_of_lights + 1;
+  new_w.shapes = w.shapes;
 	return (new_w);
 }
 
