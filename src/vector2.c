@@ -39,7 +39,7 @@ t_vec	normalize(t_vec v)
 			.x = v.x * invertlenght,
 			.y = v.y * invertlenght,
 			.z = v.z * invertlenght,
-			.w = v.w * invertlenght,
+			.w = 0, // careful
 		}};
 	}
 	else

@@ -51,7 +51,12 @@ t_transform	view_transform(t_point from, t_point to, t_vec up)
 		-forward.x, -forward.y, -forward.z, 0,
 		0, 0, 0, 1,
 	}};
-
+  // print_tupil("from", normalize(from));
+  // printf ("dot %f\n", dot(point(0, 1, 0), vector(0, 1, 0)));
+  // printf ("dot %f\n", dot(from, vector(0, 1, 0)));
+  // if (is_equal_double(dot(normalize(from), vector(0, 1, 0)), 1)) {
+  //    puts("hello"); 
+  // }
 	return (mat4_mult(orientation, translation(-from.x, -from.y, -from.z)));
 }
 

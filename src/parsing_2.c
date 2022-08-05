@@ -40,16 +40,18 @@ t_optional_transform	get_camera_view(char *from, char *to)
 	const t_optional_transform	error = {.error = true};
 	t_optional_point			p_from;
 	t_optional_point			p_to;
+  t_vec up;
 
 	p_from = parse_position(from);
 	p_to = parse_position(to);
 	if (p_from.error || p_to.error)
 		return (error);
-  if (is_equal_double(p_from.value.x, 0)) {
-      p_from.value.x = 0.5;
-  }
+  if (vec_is_equal(p_to.value, vector(0, 1, 0)))
+    up = vector(1, 0, 0);
+  else
+    up = vector(0, 1, 0);
 	return ((t_optional_transform){
-		.value = view_transform(p_from.value, p_to.value, vector(0, 1, 0)),
+		.value = view_transform(p_from.value, p_to.value, up),
 		.error = false,
 	});
 }
