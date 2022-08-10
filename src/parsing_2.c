@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:38:45 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/09 21:51:04 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/10 11:27:34 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ t_optional_light	parse_light(const t_optional_array elems)
 	});
 }
 
-t_optional_plane	parse_plane(const t_optional_array elems)
+t_optional_shape	parse_plane(const t_optional_array elems)
 {
-	const t_optional_plane	error = {.error = true};
+	const t_optional_shape	error = {.error = true};
 	t_optional_point		p;
 	t_optional_point		normal;
 	t_optional_rgb			color;
@@ -121,8 +121,8 @@ t_optional_plane	parse_plane(const t_optional_array elems)
 	pl.material = material();
 	pl.material.color = color.value;
 	pl.transform = identity();
-	return ((t_optional_plane){
-		.value = pl,
+	return ((t_optional_shape){
+		.value = (t_shape)pl,
 		.error = false,
 	});
 }
