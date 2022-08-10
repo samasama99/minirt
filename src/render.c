@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:58:58 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/09 21:35:50 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/10 11:33:38 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	render(t_camera c, t_world w)
 	pthread_t		*id;
 	size_t			y;
 
-	put_black_bar(pair(600, 25), pair(600, 0));
 	id = malloc(sizeof(t_thread_data) * (int)c.vsize - 1);
 	data = malloc(sizeof(t_thread_data) * (int)c.vsize - 1);
 	y = 0;
