@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:11:53 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/10 09:45:17 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/10 09:51:48 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ t_matrix4	transpose(t_matrix4 m)
 
 t_matrix2	mat3_submatrix(t_matrix3 m, int row, int col)
 {
-	t_pair	ms;
-	t_pair	ns;
+	t_pair		ms;
+	t_pair		ns;
 	t_matrix2	n;
 
 	ms = (t_pair){0, 0};

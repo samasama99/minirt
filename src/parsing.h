@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:39:10 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 15:21:34 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/10 10:09:17 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ t_optional_material	parse_ambient(const t_optional_array elems);
 t_optional_camera	parse_camera(const t_optional_array elems, t_res res);
 t_optional_light	parse_light(const t_optional_array elems);
 t_optional_plane	parse_plane(const t_optional_array elems);
-t_optional_sphere	parse_sphere(const t_optional_array elems);
+t_optional_shape	parse_sphere(const t_optional_array elems);
 t_optional_shape	parse_shape(const t_optional_array elems, t_line_type type);
 
 t_optional_string	get_line(int fd);
