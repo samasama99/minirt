@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 22:20:11 by orahmoun          #+#    #+#             */
-/*   Updated: 2021/11/19 14:40:13 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/10 09:35:56 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static char	**free_tab(char **tab, int size)
@@ -76,7 +77,7 @@ static char	**allocate_string(char	**tab, char const *s, char c, int total)
 char	**ft_split(char const *s, char c)
 {
 	char	**tab;
-	size_t		total;
+	size_t	total;
 
 	if (s == NULL)
 		return (0);

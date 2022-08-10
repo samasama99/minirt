@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:31:55 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/28 15:32:18 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/09 21:33:27 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,13 @@ t_optional_int	parse_type(char *target)
 
 void	correct_ambient(t_world w, t_material ambient)
 {
-	for (int i = 0; i < w.amount_of_shapes; ++i)
+	int	i;
+
+	i = 0;
+	while (i < w.amount_of_shapes)
 	{
 		w.shapes[i].super.material.ambient_color = ambient.ambient_color;
 		w.shapes[i].super.material.ambient_ratio = ambient.ambient_ratio;
+		++i;
 	}
 }

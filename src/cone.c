@@ -20,7 +20,6 @@ t_cone	make_cone(t_point point, t_norm norm,
 
 	m = material();
 	m.color = color;
-	//   m.shininess = 0.0;
 	return ((t_cone){
 		.type = Cone,
 		.id = ++id,
@@ -39,15 +38,16 @@ t_cone	cone(void)
 			(t_fpair){1, 1}, color(255, 0, 0)));
 }
 
-t_hit	cone_roots(double a, double b, double discriminant, t_cone cy)
+t_hit	cone_roots(double a, double b, double discriminant, t_cone co)
 {
 	const double			sqrt_dis = sqrt(discriminant);
 	const double			root1 = ((-1 * b) - sqrt_dis) / (2 * a);
 	const double			root2 = ((-1 * b) + sqrt_dis) / (2 * a);
 	const t_intersection	is[2] = {
-		intersection(root1, (t_shape)cy),
-		intersection(root2, (t_shape)cy),
+		intersection(root1, (t_shape)co),
+		intersection(root2, (t_shape)co),
 	};
+	const double			hi = co.center.y + co.height;
 
 	return ((t_hit){{is[0], is[1]}, 2});
 }
@@ -68,23 +68,10 @@ t_hit	intersect_cone(const t_cone co, const t_ray r)
 		- pow(co.height, 2) * pow(k, 2)
 		+ 2 * co.height * pow(k, 2) * r.origin.y;
 	const double	discriminant = b * b - 4 * a * c;
-	const double	hi = co.center.y + co.height;
-
 
 	if (discriminant < 0 || is_equal_double(a, 0))
 		return (no_intersection());
-	t_hit h = cone_roots(a, b, discriminant, co);
-	if (fabs(ray_position(r, h.intersections[0].t).y - hi) > co.height
-		&& fabs(ray_position(r, h.intersections[1].t).y - hi) > co.height)
-		return (no_intersection());
-	if (fabs(ray_position(r, h.intersections[0].t).y - hi) <= co.height
-		&& fabs(ray_position(r, h.intersections[1].t).y - hi) <= co.height)
-		return (h);
-	if (fabs(ray_position(r, h.intersections[0].t).y - hi) <= co.height)
-		return ((t_hit){.intersections[0] = h.intersections[0], .count = 1});
-	if (fabs(ray_position(r, h.intersections[1].t).y - hi) <= co.height)
-		return ((t_hit){.intersections[0] = h.intersections[1], .count = 1});
-	return (h);
+	return (cone_roots(a, b, discriminant, co));
 }
 
 t_vec	normal_at_cone(t_cone s, t_point local_point)

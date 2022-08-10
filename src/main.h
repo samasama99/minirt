@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 15:39:44 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/09 21:50:14 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@
 # define HEIGHT 600
 # define WIDTH 600
 
-typedef void	*mlx_ptr;
-typedef void	*win_ptr;
-typedef void	*image;
+typedef void	*t_mlx_ptr;
+typedef void	*t_win_ptr;
+typedef void	*t_image_ptr;
 
 typedef int		t_key;
 typedef bool	t_error;
@@ -101,19 +101,26 @@ t_rgb			black(void);
 
 /******* MLX *******/
 
+typedef enum e_event {
+	keydown = 2,
+	keyup = 3,
+	mousedown = 4,
+	mouseup = 5,
+	mousemove = 6,
+	destroy = 17
+}	t_event;
+
 typedef struct s_mlx {
-	mlx_ptr	mlx;
-	win_ptr	win;
-	t_res	resolution;
+	t_mlx_ptr	mlx;
+	t_win_ptr	win;
+	t_res		resolution;
 }	t_mlx;
 
 typedef struct s_image {
-	image	img;
-	t_res	res;
-	int		*buffer;
+	t_image_ptr	*img;
+	t_res		res;
+	int			*buffer;
 }	t_image;
-
-typedef enum e_event{keydown = 2, keyup = 3, mousedown = 4,mouseup = 5, mousemove = 6, destroy = 17}t_event;
 
 t_mlx			init(t_res resolution, char *title);
 void			put_black_bar(t_res res, t_pair pos);
@@ -269,6 +276,7 @@ t_hit			intersect(t_shape shape, t_ray r);
 t_vec			normal_at_plane(t_plane p);
 t_vec			normal_at_sphere(t_sphere s, t_point local_point);
 t_hit			no_intersection(void);
+double			discriminant(double a, double b, double c);
 
 // THE WORLD
 typedef struct s_world {

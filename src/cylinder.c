@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 20:04:47 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/28 15:14:59 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/09 21:45:05 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_cylinder	make_cylinder(t_point point, t_norm norm,
 
 	m = material();
 	m.color = color;
-	//   m.shininess = 0.0;
 	return ((t_cylinder){
 		.type = Cylinder,
 		.id = ++id,
@@ -33,11 +32,11 @@ t_cylinder	make_cylinder(t_point point, t_norm norm,
 	});
 }
 
-t_cylinder	cylinder(void)
-{
-	return (make_cylinder(point(0, 0, 0), vector(0, 1, 0),
-			(t_fpair){1, 1}, color(255, 0, 0)));
-}
+// t_cylinder	cylinder(void)
+// {
+// 	return (make_cylinder(point(0, 0, 0), vector(0, 1, 0),
+// 			(t_fpair){1, 1}, color(255, 0, 0)));
+// }
 
 t_hit	cylinder_roots(double a, double b, double discriminant, t_cylinder cy)
 {
@@ -52,22 +51,8 @@ t_hit	cylinder_roots(double a, double b, double discriminant, t_cylinder cy)
 	return ((t_hit){{is[0], is[1]}, 2});
 }
 
-t_hit	intersect_cylinder(const t_cylinder cy, const t_ray r)
+t_hit	check_height_cylinder(const t_cylinder cy, const t_ray r, t_hit h)
 {
-	const double	a = pow(r.direction.x, 2) + pow(r.direction.z, 2);
-	const double	b = 2 * (r.origin.x * r.direction.x
-			+ r.origin.z * r.direction.z
-			- r.direction.x * cy.center.x
-			- r.direction.z * cy.center.z);
-	const double	c = pow(r.origin.z, 2) + pow(r.origin.x, 2)
-		- pow(cy.radius, 2) + pow(cy.center.x, 2) + pow(cy.center.z, 2)
-		- 2 * (r.origin.x * cy.center.x + r.origin.z * cy.center.z);
-	const double	discriminant = b * b - 4 * a * c;
-	t_hit			h;
-
-	if (discriminant < 0 || is_equal_double(a, 0))
-		return (no_intersection());
-	h = cylinder_roots(a, b, discriminant, cy);
 	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
 		> cy.height / 2 && fabs(ray_position(r, h.intersections[1].t).y
 			- cy.center.y) > cy.height / 2)
@@ -79,9 +64,27 @@ t_hit	intersect_cylinder(const t_cylinder cy, const t_ray r)
 	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
 		<= cy.height / 2)
 		return ((t_hit){.intersections[0] = h.intersections[0], .count = 1});
-	if (fabs(ray_position(r, h.intersections[1].t).y - cy.center.y) <= cy.height / 2)
+	if (fabs(ray_position(r, h.intersections[1].t).y - cy.center.y)
+		<= cy.height / 2)
 		return ((t_hit){.intersections[0] = h.intersections[1], .count = 1});
 	return (h);
+}
+
+t_hit	intersect_cylinder(const t_cylinder cy, const t_ray r)
+{
+	const double	a = pow(r.direction.x, 2) + pow(r.direction.z, 2);
+	const double	b = 2 * (r.origin.x * r.direction.x
+			+ r.origin.z * r.direction.z
+			- r.direction.x * cy.center.x
+			- r.direction.z * cy.center.z);
+	const double	c = pow(r.origin.z, 2) + pow(r.origin.x, 2)
+		- pow(cy.radius, 2) + pow(cy.center.x, 2) + pow(cy.center.z, 2)
+		- 2 * (r.origin.x * cy.center.x + r.origin.z * cy.center.z);
+
+	if (discriminant(a, b, c) < 0 || is_equal_double(a, 0))
+		return (no_intersection());
+	return (check_height_cylinder(cy, r,
+			cylinder_roots(a, b, discriminant(a, b, c), cy)));
 }
 
 t_vec	normal_at_cylinder(t_cylinder s, t_point local_point)

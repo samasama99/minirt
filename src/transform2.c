@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transform2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:03:18 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/28 15:03:43 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/09 21:36:11 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,7 @@ t_transform	view_transform(t_point from, t_point to, t_vec up)
 		-forward.x, -forward.y, -forward.z, 0,
 		0, 0, 0, 1,
 	}};
-  // print_tupil("from", normalize(from));
-  // printf ("dot %f\n", dot(point(0, 1, 0), vector(0, 1, 0)));
-  // printf ("dot %f\n", dot(from, vector(0, 1, 0)));
-  // if (is_equal_double(dot(normalize(from), vector(0, 1, 0)), 1)) {
-  //    puts("hello"); 
-  // }
+
 	return (mat4_mult(orientation, translation(-from.x, -from.y, -from.z)));
 }
 

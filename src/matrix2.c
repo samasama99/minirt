@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:11:53 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/28 16:13:04 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/10 09:45:17 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,64 +35,56 @@ t_matrix4	transpose(t_matrix4 m)
 
 t_matrix2	mat3_submatrix(t_matrix3 m, int row, int col)
 {
-	size_t		i;
-	size_t		j;
-	size_t		i2;
-	size_t		j2;
+	t_pair	ms;
+	t_pair	ns;
 	t_matrix2	n;
 
-	i = 0;
-	j = 0;
-	i2 = 0;
-	j2 = 0;
-	while (j < 3 && j2 < 3)
+	ms = (t_pair){0, 0};
+	ns = (t_pair){0, 0};
+	while (ms.j < 3 && ns.j < 3)
 	{
-		if (j == row)
-			++j;
-		while (i < 3 && j < 3 && i2 < 3 && j2 < 3)
+		if (ms.j == row)
+			++ms.j;
+		while (ms.i < 3 && ms.j < 3 && ns.i < 3 && ns.j < 3)
 		{
-			if (i == col)
-				++i;
-			n.m[j2][i2] = m.m[j][i];
-			++i;
-			++i2;
+			if (ms.i == col)
+				++ms.i;
+			n.m[ns.j][ns.i] = m.m[ms.j][ms.i];
+			++ms.i;
+			++ns.i;
 		}
-		i = 0;
-		i2 = 0;
-		++j;
-		++j2;
+		ms.i = 0;
+		ns.i = 0;
+		++ms.j;
+		++ns.j;
 	}
 	return (n);
 }
 
 t_matrix3	mat4_submatrix(t_matrix4 m, int row, int col)
 {
-	int			i;
-	int			j;
-	int			i2;
-	int			j2;
+	t_pair		ms;
+	t_pair		ns;
 	t_matrix3	n;
 
-	i = 0;
-	j = 0;
-	i2 = 0;
-	j2 = 0;
-	while (j < 4)
+	ms = (t_pair){0, 0};
+	ns = (t_pair){0, 0};
+	while (ms.j < 4)
 	{
-		if (j == row)
-			++j;
-		while (i < 4)
+		if (ms.j == row)
+			++ms.j;
+		while (ms.i < 4)
 		{
-			if (i == col)
-				++i;
-			n.m[j2][i2] = m.m[j][i];
-			++i;
-			++i2;
+			if (ms.i == col)
+				++ms.i;
+			n.m[ns.j][ns.i] = m.m[ms.j][ms.i];
+			++ms.i;
+			++ns.i;
 		}
-		i = 0;
-		i2 = 0;
-		++j;
-		++j2;
+		ms.i = 0;
+		ns.i = 0;
+		++ms.j;
+		++ns.j;
 	}
 	return (n);
 }

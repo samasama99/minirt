@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 17:52:58 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 15:38:13 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/09 21:50:30 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	start(void)
 	mlx_loop(m.mlx);
 }
 
-win_ptr	init_win(mlx_ptr mlx, t_res resolution, char *title)
+t_win_ptr	init_win(t_mlx_ptr mlx, t_res resolution, char *title)
 {
-	win_ptr	win;
+	t_win_ptr	win;
 
 	if (mlx == NULL)
 	{
@@ -49,9 +49,9 @@ win_ptr	init_win(mlx_ptr mlx, t_res resolution, char *title)
 
 t_mlx	init(t_res resolution, char *title)
 {
-	t_mlx	mlx_info;
-	mlx_ptr	mlx;
-	win_ptr	win;
+	t_mlx		mlx_info;
+	t_mlx_ptr	mlx;
+	t_win_ptr	win;
 
 	mlx = mlx_init();
 	win = init_win(mlx, resolution, title);

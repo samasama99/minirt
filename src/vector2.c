@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:04:40 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/28 15:06:26 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/09 21:36:28 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_vec	normalize(t_vec v)
 			.x = v.x * invertlenght,
 			.y = v.y * invertlenght,
 			.z = v.z * invertlenght,
-			.w = 0, // careful
+			.w = v.w * invertlenght,
 		}};
 	}
 	else

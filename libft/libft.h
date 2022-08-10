@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 14:44:00 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/02/09 17:04:44 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/10 09:34:36 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 void	ft_lstadd_back(t_list **lst, t_list *new_node);
 void	ft_lstadd_front(t_list **lst, t_list *new_node);
-void *ft_malloc(size_t size);
-void ft_free(void);
+void	*ft_malloc(size_t size);
+void	ft_free(void);
 
 #endif

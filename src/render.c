@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:58:58 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/28 15:00:32 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/09 21:35:50 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,17 @@ static t_thread_data	create_thread_data(int y,
 
 static void	*render_thread(void *d)
 {
-	t_thread_data	*data = d;
-	const int		y = data->y;
-	const t_camera	c = data->camera;
-	const t_world	w = data->world;
-	const t_image	canvas = data->canvas;
-	size_t			x;
+	const t_thread_data	*data = d;
+	size_t				x;
+	t_ray				r;
+	t_rgb				c;
 
 	x = 0;
-	while (x < c.hsize - 1)
+	while (x < data->camera.hsize - 1)
 	{
-		t_ray r = ray_for_pixel(c, x, y);
-		t_rgb c = color_at(w, r);
-		put_pixel_to_image(canvas, pair(x, y), c);
+		r = ray_for_pixel(data->camera, x, data->y);
+		c = color_at(data->world, r);
+		put_pixel_to_image(data->canvas, pair(x, data->y), c);
 		++x;
 	}
 	return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:06:08 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/28 15:07:03 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/09 21:39:30 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,4 @@ inline t_vec	vector(double x, double y, double z)
 inline t_point	point(double x, double y, double z)
 {
 	return ((t_point){{x, y, z, 1}});
-}
-
-inline t_pair	pair(double x, double y)
-{
-	return ((t_pair){{x, y}});
 }
