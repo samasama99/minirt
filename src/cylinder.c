@@ -32,12 +32,6 @@ t_cylinder	make_cylinder(t_point point, t_norm norm,
 	});
 }
 
-// t_cylinder	cylinder(void)
-// {
-// 	return (make_cylinder(point(0, 0, 0), vector(0, 1, 0),
-// 			(t_fpair){1, 1}, color(255, 0, 0)));
-// }
-
 t_hit	cylinder_roots(double a, double b, double discriminant, t_cylinder cy)
 {
 	const double			sqrt_dis = sqrt(discriminant);
