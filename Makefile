@@ -3,39 +3,70 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: orahmoun <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/03 17:52:43 by orahmoun          #+#    #+#              #
-#    Updated: 2022/03/21 15:23:06 by orahmoun         ###   ########.fr        #
+#    Updated: 2022/08/15 12:58:46 by zsarir           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # --- VARIABLE DECLARATION --- #
 
-NAME				=	mlx
+NAME				=	minirt
 
 CC					=	cc
 
-# FLAGS				=	-Wall -Wextra -I libft -Ofast -ffast-math -march=native
-FLAGS				=	-Wall -Wextra -I libft
+FLAGS				=	-Wall -Wextra -Werror -I libft
 
 MLX_FLAGS		=	-lmlx -framework OpenGL -framework AppKit
 
-DEBUG				=	-g -D DEBUG
-
-HEADER			=	src/main.h
+HEADER			=	src/main.h src/parsing.h src/linear_algebra.h src/main.h src/get_next_line.h src/parsing.h
 
 LIBFT 			=	libft/libft.a
 
 MAKE_LIBFT 	=	libft/
 
-SRC 				=	src/main.c \
-							src/mlx.c \
-							src/vector.c \
-							src/matrix.c \
-							src/utils.c \
-							src/handling_events.c \
-						# src/draw.c \
+SRC 				=	src/camera.c \
+						src/cone.c \
+						src/cylinder.c \
+						src/discriminant.c \
+						src/get_next_line.c \
+						src/intersection.c \
+						src/light.c \
+						src/matrix.c \
+						src/matrix2.c \
+						src/matrix3.c \
+						src/matrix4.c \
+						src/mlx.c \
+						src/mlx2.c \
+						src/mlx3.c \
+						src/mlx4.c \
+						src/parsing.c \
+						src/parsing2.c \
+						src/parsing3.c \
+						src/parsing_2.c \
+						src/parsing_3.c \
+						src/parsing_rt.c \
+						src/parsing_rt2.c \
+						src/parsing_utils.c \
+						src/plane.c \
+						src/prof.c \
+						src/ray.c \
+						src/ray2.c \
+						src/render.c \
+						src/rgb.c \
+						src/rgb2.c \
+						src/shading.c \
+						src/sphere.c \
+						src/transform.c \
+						src/transform2.c \
+						src/utils.c \
+						src/vector.c \
+						src/vector2.c \
+						src/vector3.c \
+						src/vector4.c \
+						src/world.c \
+						main.c
 
 OBJDIR 			=	obj
 
@@ -45,11 +76,7 @@ OBJ 				=	$(addprefix ${OBJDIR}/, ${SRC:%.c=%.o})
 	
 # RULES
 
-all	: ${NAME}
-
-debug : ${SRC} ${LIBFT}
-	@echo "${MGN}[DEBUG MODE]${NC}"
-	@${CC} ${FLAGS} ${MLX_FLAGS} ${DEBUG} $^ -o ${NAME}
+all	: ${NAME} 
 
 ${LIBFT} :
 	@echo "${YEL}MAKING LIBFT ...${NC}"
@@ -58,7 +85,7 @@ ${LIBFT} :
 ${NAME} : ${OBJ} ${LIBFT}
 	@echo "${YEL}LINKING PROCESS ...${NC}"
 	@echo "${GRN}COMPILATION COMPLETE${NC}"
-	@${CC} ${FLAGS} ${MLX_FLAGS} $^ -o ${NAME}
+	${CC} ${MLX_FLAGS} $^  -o ${NAME}
 
 $(OBJDIR)/%.o : %.c ${HEADER}
 	@mkdir -p $(dir $@)

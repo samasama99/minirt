@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:11:53 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/10 09:51:48 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/15 13:00:08 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ t_matrix2	mat3_submatrix(t_matrix3 m, int row, int col)
 	t_pair		ns;
 	t_matrix2	n;
 
-	ms = (t_pair){0, 0};
-	ns = (t_pair){0, 0};
+	ms = (t_pair){{0, 0}};
+	ns = (t_pair){{0, 0}};
 	while (ms.j < 3 && ns.j < 3)
 	{
 		if (ms.j == row)
@@ -67,8 +67,8 @@ t_matrix3	mat4_submatrix(t_matrix4 m, int row, int col)
 	t_pair		ns;
 	t_matrix3	n;
 
-	ms = (t_pair){0, 0};
-	ns = (t_pair){0, 0};
+	ms = (t_pair){{0, 0}};
+	ns = (t_pair){{0, 0}};
 	while (ms.j < 4)
 	{
 		if (ms.j == row)

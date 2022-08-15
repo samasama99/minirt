@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:37:55 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/28 15:40:53 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/15 13:00:28 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	put_image(t_pair pos, t_image img)
 
 void	put_pixel_to_image(t_image img, t_pair p, t_rgb color)
 {
-	const t_mlx	m = get_mlx_info(NULL);
-
 	if (p.x >= 0 && p.x < img.res.x)
 	{
 		if (p.y >= 0 && p.y < img.res.y)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 21:38:40 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/10 11:49:38 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/15 13:03:35 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_optional_shape	parse_cylinder(const t_optional_array elems)
 		return (error);
 	i.normal.value.w = 0;
 	i.cy = make_cylinder(point(0, 0, 0), vector(0, 0, 0),
-			(t_fpair){i.diameter.value / 2.0, i.height.value}, i.color.value);
+			(t_fpair){{i.diameter.value / 2.0, i.height.value}}, i.color.value);
 	i.cy.t = mat4_mult(translation(i.center.value.x, i.center.value.y,
 				i.center.value.z),
 			mat4_mult(mat4_mult(rotation_x(acos(dot(normalize(i.normal.value),
@@ -97,7 +97,7 @@ t_optional_shape	parse_cone(const t_optional_array elems)
 		return (error);
 	i.normal.value.w = 0;
 	i.co = make_cone(point(0, 0, 0), vector(0, 0, 0),
-			(t_fpair){i.diameter.value / 2.0, i.height.value},
+			(t_fpair){{i.diameter.value / 2.0, i.height.value}},
 			i.color.value);
 	i.co.t = mat4_mult(translation(i.center.value.x, i.center.value.y,
 				i.center.value.z),
@@ -114,7 +114,7 @@ t_optional_shape	parse_shape(const t_optional_array elems, t_line_type type)
 {
 	t_optional_shape	shape;
 
-	shape = (t_optional_shape){.value = true};
+	shape = (t_optional_shape){.error = true};
 	if (!elems.error && type == e_sphere)
 		(printf("parsing a sphere\n"), shape = parse_sphere(elems));
 	if (!elems.error && type == e_plane)

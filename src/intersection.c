@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:38:24 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 14:38:25 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:59:20 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_hit	intersect(const t_shape shape, const t_ray r)
 
 t_intersection	hit(t_hit h)
 {
-	size_t			i;
+	int				i;
 	t_intersection	min_positive;
 
 	i = 0;

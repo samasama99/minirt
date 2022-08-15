@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 20:04:47 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/10 11:43:41 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:57:11 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_hit	intersect_cylinder(const t_cylinder cy, const t_ray r)
 			cylinder_roots(a, b, discriminant(a, b, c), cy)));
 }
 
-t_vec	normal_at_cylinder(t_cylinder s, t_point local_point)
+t_vec	normal_at_cylinder(t_point local_point)
 {
 	return (normalize(vector(local_point.x, 0, local_point.z)));
 }

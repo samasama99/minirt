@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 18:36:04 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/11 10:39:36 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:56:05 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ t_hit	cone_roots(double a, double b, double discriminant, t_cone co)
 		intersection(root1, (t_shape)co),
 		intersection(root2, (t_shape)co),
 	};
-	const double			hi = co.center.y + co.height;
 
 	return ((t_hit){{is[0], is[1]}, 2});
 }
@@ -85,7 +84,7 @@ t_hit	intersect_cone(const t_cone co, const t_ray r)
 			cone_roots(a, b, discriminant(a, b, c), co)));
 }
 
-t_vec	normal_at_cone(t_cone s, t_point local_point)
+t_vec	normal_at_cone(t_point local_point)
 {
 	return (normalize(vector(local_point.x, 0, local_point.z)));
 }

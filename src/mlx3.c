@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx3.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:40:30 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/09 21:31:28 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/15 13:00:40 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	fill_image(t_image img, t_pair start, t_pair finish, t_rgb color)
 {
-	const t_mlx	m = get_mlx_info(NULL);
 	int			x;
 	int			y;
 	int			c;

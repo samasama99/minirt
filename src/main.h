@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/09 21:50:14 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:57:01 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,10 +322,10 @@ t_cylinder		make_cylinder(t_point point, t_norm norm,
 					t_fpair info, t_rgb color);
 t_cylinder		cylinder(void);
 t_hit			intersect_cylinder(const t_cylinder cy, const t_ray r);
-t_vec			normal_at_cylinder(t_cylinder s, t_point local_point);
+t_vec			normal_at_cylinder(t_point local_point);
 //cone
 t_hit			intersect_cone(const t_cone co, const t_ray r);
-t_vec			normal_at_cone(t_cone s, t_point local_point);
+t_vec			normal_at_cone(t_point local_point);
 t_cone			make_cone(t_point point, t_norm norm,
 					t_fpair info, t_rgb color);
 

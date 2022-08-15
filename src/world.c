@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:07:31 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/28 15:07:32 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/15 13:04:34 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_world	add_shape(const t_world w, const t_shape s)
 t_world	add_light(const t_world w, const t_light l)
 {
 	volatile t_world	new_w;
-	size_t				i;
+	int					i;
 
 	new_w.lights = ft_malloc(sizeof(t_light) * (w.amount_of_lights + 1));
 	i = 0;
