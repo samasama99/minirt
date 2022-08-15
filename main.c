@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 11:30:02 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/10 11:47:37 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/15 13:14:37 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(void)
 {
 	const t_res	canvas_size = pair(1200, 675);
 	const t_res	res = pair(canvas_size.x, canvas_size.y + 25);
-	const int	fd = open("src/test3.rt", O_RDONLY);
+	const int	fd = open("src/test/test3.rt", O_RDONLY);
 	t_data		data;
 
 	if (fd < 0)
