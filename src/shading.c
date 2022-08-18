@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:40:04 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 15:02:41 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/18 22:06:40 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,23 @@ t_rgb	color_at(t_world w, t_ray r)
 	t_intersection	i;
 	int				index;
 
-	c = color(0, 0, 0);
+	c = black();
 	index = 0;
 	if (h.count == 0)
-		return (black());
+		return (c);
 	i = hit(h);
 	if (i.t < 0)
-		return (black());
+		return (c);
 	while (index < w.amount_of_lights)
 	{
 		comp = prepare_computations(i, r);
 		c = rgb_sum(shade_hit(w, comp, w.lights[index]), c);
 		++index;
 	}
-	c = rgb_scalar(c, 1.0 / w.amount_of_lights);
+	c = rgb_sub(c, rgb_scalar(
+				rgb_scalar(i.shape.super.material.ambient_color,
+					i.shape.super.material.ambient_ratio),
+				w.amount_of_lights - 1));
 	return (c);
 }
 

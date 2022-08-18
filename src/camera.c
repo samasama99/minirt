@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:38:08 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 14:38:09 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/18 19:38:23 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_camera	camera(const double hsize, const double vsize, const t_rad fov)
 	});
 }
 
-inline static t_point	calc_world_corr(t_camera c, int px, int py)
+static t_point	calc_world_corr(t_camera c, int px, int py)
 {
 	const double	xoffset = (px + 0.5) * c.pixel_size;
 	const double	yoffset = (py + 0.5) * c.pixel_size;
