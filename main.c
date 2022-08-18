@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 11:30:02 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/15 13:14:37 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/15 15:55:39 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@ void	ft_perror(int exit_status)
 int	main(void)
 {
 	const t_res	canvas_size = pair(1200, 675);
-	const t_res	res = pair(canvas_size.x, canvas_size.y + 25);
-	const int	fd = open("src/test/test3.rt", O_RDONLY);
+	const t_res	res = pair(canvas_size.x, canvas_size.y);
+	const int	fd = open("src/test/test2.rt", O_RDONLY);
 	t_data		data;
 
 	if (fd < 0)
 		ft_perror(1);
 	data = (t_data){};
 	data.w = (t_world){0, 0, 0, 0};
-	data.selected.error = true;
 	parse(&data, fd, canvas_size);
 	close(fd);
 	correct_ambient(data.w, data.ambient);

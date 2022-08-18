@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:39:10 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/10 11:27:08 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/15 13:22:20 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ typedef struct s_optional_shape
 
 typedef struct s_data
 {
-	t_optional_shape	selected;
 	t_world				w;
 	t_camera			c;
 	t_material			ambient;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:58:58 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/10 11:33:38 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/15 15:57:10 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	render(t_camera c, t_world w)
 	y = 0;
 	while (y < c.vsize - 1)
 		pthread_join(id[y++], NULL);
-	put_image(pair(0, 25), canvas);
-	put_string(600, 0, ft_strjoin("it took (ms) ",
+	put_image(pair(0, 0), canvas);
+	put_string(10, 10, ft_strjoin("it took (ms) ",
 			ft_itoa((int)time_now() - start)));
 }

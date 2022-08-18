@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/15 12:57:01 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/15 15:54:38 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,6 @@ t_mlx			get_mlx_info(t_mlx *mlx);
 void			put_image(t_pair pos, t_image img);
 t_image			create_image(t_res res);
 void			put_pixel_to_image(t_image img, t_pair pos, t_rgb color);
-void			fill_image(t_image img, t_pair start,
-					t_pair finish, t_rgb color);
-void			full_fill_image(t_image img, t_rgb color);
-void			fill_image_con(t_image img, t_rgb color,
-					bool (*functor)(t_point p));
 void			update(int (*funct_ptr)(), void *param);
 void			clear_window(void);
 int				pixel_at(t_image img, t_pair p);

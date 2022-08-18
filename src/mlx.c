@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 17:52:58 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/09 21:50:30 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/15 14:00:47 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	start(void)
 	mlx_loop(m.mlx);
 }
 
-t_win_ptr	init_win(t_mlx_ptr mlx, t_res resolution, char *title)
+t_win_ptr	init_win(t_mlx_ptr mlx, t_res resolution, char *title) 
 {
 	t_win_ptr	win;
 
