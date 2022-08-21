@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 11:30:02 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/19 15:41:29 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/21 14:41:04 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,15 @@ int	open_rt_file(int ac, char **av)
 	return (fd);
 }
 
-int end_minirt(void)
+int	end_minirt(int key)
 {
-  ft_free(); 
-  destroy_window();
-  exit(0);
-}
-
-int end_minirt_key(int key)
-{
-  if (key == ESC) {
-    destroy_window();
-    ft_free(); 
-    exit(0);
-  }
-  return 0;
+	if (key == ESC)
+	{
+		destroy_window();
+		ft_free();
+		exit(0);
+	}
+	return (0);
 }
 
 int	main(int ac, char **av)
@@ -79,8 +73,8 @@ int	main(int ac, char **av)
 	correct_ambient(data.w, data.ambient);
 	printf ("The amount of shapes %d\n", data.w.amount_of_shapes);
 	init(canvas_size, "miniRt");
-  listen_to(destroy, end_minirt, NULL);
-  listen_to(keydown, end_minirt_key, NULL);
-	// render(data.c, data.w);
-	// start();
+	listen_to(destroy, end_minirt, NULL);
+	listen_to(keydown, end_minirt, NULL);
+	render(data.c, data.w);
+	start();
 }

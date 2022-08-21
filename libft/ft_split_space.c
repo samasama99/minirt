@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_space.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 22:20:11 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/10 09:35:56 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/21 14:42:46 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static int is_space(char c)
 {
-  if (c == ' ' || c == '\n' || c == '\t'
-      || c == '\v' || c == '\f' || c == '\r')
-    return 1;
-  return 0;
+	if (c == ' ' || c == '\n' || c == '\t'
+		|| c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	return (0);
 }
 
 static char	**free_tab(char **tab, int size)
@@ -31,7 +31,7 @@ static char	**free_tab(char **tab, int size)
 	return (0);
 }
 
-static	char	**allocat_tab(char const *s,  size_t *total)
+static char	**allocat_tab(char const *s,  size_t *total)
 {
 	int		i;
 	char	**tab;
