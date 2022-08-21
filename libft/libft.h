@@ -67,6 +67,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 void	ft_lstadd_back(t_list **lst, t_list *new_node);
 void	ft_lstadd_front(t_list **lst, t_list *new_node);
 void	*ft_malloc(size_t size);
+char	**ft_split_space(char const *s);
 void	ft_free(void);
 
 #endif

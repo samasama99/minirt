@@ -138,6 +138,7 @@ t_optional_int		parse_digit(const char *d);
 t_optional_double	parse_double(const char *target);
 t_optional_int		parse_int(const char *target);
 t_optional_array	split_string(const char *line, const char delimiter);
+t_optional_array	split_string_space(const char *line);
 
 t_optional_double	parse_ratio(const char *target);
 t_optional_double	parse_color_ratio(const char *target);

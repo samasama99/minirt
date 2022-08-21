@@ -34,8 +34,8 @@ void	parse(t_data *data, int fd, t_res res)
 		line = get_line(fd);
 		if (line.is_null || is_equal_str(line.value, "\n"))
 			continue ;
-		line = parse_string(ft_strtrim(line.value, "\n"));
-		array = split_string(line.value, ' ');
+		// line = parse_string(ft_strtrim(line.value, "\n"));
+		array = split_string_space(line.value);
 		type = parse_type(array.value[0]);
 		if (line.is_null || array.error || type.error)
 			ft_exit(parse_string("parsing error"), 1);

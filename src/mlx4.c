@@ -32,3 +32,17 @@ void	clear_window(void)
 
 	mlx_clear_window(m.mlx, m.win);
 }
+
+void destroy_window()
+{
+	const t_mlx	m = get_mlx_info(NULL);
+
+  mlx_destroy_window(m.mlx, m.win);
+}
+
+void destroy_image(t_image_ptr img)
+{
+	const t_mlx	m = get_mlx_info(NULL);
+
+  mlx_destroy_image(m.mlx, img);
+}

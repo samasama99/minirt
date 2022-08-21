@@ -66,4 +66,5 @@ void	render(t_camera c, t_world w)
 	put_image(pair(0, 0), canvas);
 	put_string(10, 10, ft_strjoin("it took (ms) ",
 			ft_itoa((int)time_now() - start)));
+  destroy_image(canvas.img);
 }

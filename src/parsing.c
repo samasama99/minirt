@@ -43,6 +43,22 @@ t_optional_array	split_string(const char *line, const char delimiter)
 	});
 }
 
+t_optional_array	split_string_space(const char *line)
+{
+	char	**array;
+
+	if (line == NULL)
+		return ((t_optional_array){.error = true});
+	array = ft_split_space(line);
+	if (array == NULL)
+		return ((t_optional_array){.error = true});
+	return ((t_optional_array){
+		.value = array,
+		.size = array_len(array),
+		.error = false,
+	});
+}
+
 t_optional_double	parse_ratio(const char *target)
 {
 	const t_optional_array	array = split_string(target, '.');

@@ -50,10 +50,26 @@ int	open_rt_file(int ac, char **av)
 	return (fd);
 }
 
+int end_minirt(void)
+{
+  ft_free(); 
+  destroy_window();
+  exit(0);
+}
+
+int end_minirt_key(int key)
+{
+  if (key == ESC) {
+    destroy_window();
+    ft_free(); 
+    exit(0);
+  }
+  return 0;
+}
+
 int	main(int ac, char **av)
 {
 	const t_res	canvas_size = pair(1200, 675);
-	const t_res	res = pair(canvas_size.x, canvas_size.y);
 	const int	fd = open_rt_file(ac, av);
 	t_data		data;
 
@@ -62,7 +78,9 @@ int	main(int ac, char **av)
 	close(fd);
 	correct_ambient(data.w, data.ambient);
 	printf ("The amount of shapes %d\n", data.w.amount_of_shapes);
-	init(res, "miniRt");
-	render(data.c, data.w);
-	start();
+	init(canvas_size, "miniRt");
+  listen_to(destroy, end_minirt, NULL);
+  listen_to(keydown, end_minirt_key, NULL);
+	// render(data.c, data.w);
+	// start();
 }
