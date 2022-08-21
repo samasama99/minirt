@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:58:58 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/15 15:57:10 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/21 14:41:44 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,5 @@ void	render(t_camera c, t_world w)
 	put_image(pair(0, 0), canvas);
 	put_string(10, 10, ft_strjoin("it took (ms) ",
 			ft_itoa((int)time_now() - start)));
-  destroy_image(canvas.img);
+	destroy_image(canvas.img);
 }

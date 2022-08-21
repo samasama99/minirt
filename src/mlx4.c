@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx4.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:15:25 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/28 16:16:02 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/21 14:43:17 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ void	clear_window(void)
 	mlx_clear_window(m.mlx, m.win);
 }
 
-void destroy_window()
+void	destroy_window(void)
 {
 	const t_mlx	m = get_mlx_info(NULL);
 
-  mlx_destroy_window(m.mlx, m.win);
+	mlx_destroy_window(m.mlx, m.win);
 }
 
-void destroy_image(t_image_ptr img)
+void	destroy_image(t_image_ptr img)
 {
 	const t_mlx	m = get_mlx_info(NULL);
 
-  mlx_destroy_image(m.mlx, img);
+	mlx_destroy_image(m.mlx, img);
 }

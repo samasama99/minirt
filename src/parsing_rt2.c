@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:18:52 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/09 21:32:38 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/21 14:45:11 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	parse(t_data *data, int fd, t_res res)
 		line = get_line(fd);
 		if (line.is_null || is_equal_str(line.value, "\n"))
 			continue ;
-		// line = parse_string(ft_strtrim(line.value, "\n"));
 		array = split_string_space(line.value);
 		type = parse_type(array.value[0]);
 		if (line.is_null || array.error || type.error)

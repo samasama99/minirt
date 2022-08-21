@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:39:04 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 15:31:20 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/21 14:44:22 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,24 +101,6 @@ t_optional_double	parse_color_ratio(const char *target)
 		return ((t_optional_double){.error = true});
 	return ((t_optional_double){
 		.value = num / 255.0,
-		.error = false,
-	});
-}
-
-t_optional_int	parse_int(const char *target)
-{
-	int	sign;
-
-	sign = 1;
-	if (target == NULL)
-		return ((t_optional_int){.error = true});
-	if (ft_isnumber(target + (target[0] == '-')) == false)
-		return ((t_optional_int){.error = true});
-	if (target[0] == '-')
-		sign = -1;
-	return ((t_optional_int){
-		.value = ft_atoi(target),
-		.sign = sign,
 		.error = false,
 	});
 }

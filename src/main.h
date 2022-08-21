@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/15 15:54:38 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/21 14:43:50 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,8 @@ void			clear_window(void);
 int				pixel_at(t_image img, t_pair p);
 void			listen_to(t_event type, int (*func)(), void *param);
 void			start(void);
-void destroy_window();
-void destroy_image(t_image_ptr img);
+void			destroy_window(void);
+void			destroy_image(t_image_ptr img);
 
 // RAY TRACING
 typedef struct s_ray {
