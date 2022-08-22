@@ -3,28 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/21 15:34:25 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/22 21:57:26 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
-// # include "../libft/libft.h"
+# include "../libft/libft.h"
 # include "linear_algebra.h"
-# include "get_next_line.h"
 
-// # include <mlx.h>
 # include </usr/local/include/mlx.h>
 # include <math.h>
-
 # include <fcntl.h>
 # include <errno.h>
 # include <stdio.h>
 # include <stdarg.h>
-// # include <stdint.h>
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>

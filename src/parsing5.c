@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_rt.c                                       :+:      :+:    :+:   */
+/*   parsing5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:38:52 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 15:21:55 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/22 21:59:59 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,6 @@ void	ft_exit(t_optional_string err, int err_status)
 	if (err.is_null == false)
 		write(1, err.value, err.size);
 	exit(err_status);
-}
-
-t_optional_string	get_line(int fd)
-{
-	char	*line;
-
-	line = get_next_line(fd);
-	if (line == NULL || *line == '\0')
-		return ((t_optional_string){.is_null = true});
-	return ((t_optional_string){
-		.value = line,
-		.size = ft_strlen(line),
-		.is_null = false,
-	});
 }
 
 t_camera	unwarp_camera(t_optional_array array, t_res res)

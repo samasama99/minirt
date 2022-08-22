@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+         #
+#    By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/03 17:52:43 by orahmoun          #+#    #+#              #
-#    Updated: 2022/08/21 15:35:11 by zsarir           ###   ########.fr        #
+#    Updated: 2022/08/22 21:56:40 by orahmoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ FLAGS				=	-Wall -Wextra -Werror -I libft
 
 MLX_FLAGS		=	-lmlx -framework OpenGL -framework AppKit
 
-HEADER			=	src/main.h src/parsing.h src/linear_algebra.h src/main.h src/get_next_line.h src/parsing.h
+HEADER			=	src/main.h src/parsing.h src/linear_algebra.h src/main.h src/parsing.h
 
 LIBFT 			=	libft/libft.a
 
@@ -30,7 +30,6 @@ SRC 				=	src/camera.c \
 						src/cone.c \
 						src/cylinder.c \
 						src/discriminant.c \
-						src/get_next_line.c \
 						src/intersection.c \
 						src/light.c \
 						src/matrix.c \
