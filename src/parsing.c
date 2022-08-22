@@ -5,102 +5,78 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/28 14:39:04 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/21 14:44:22 by orahmoun         ###   ########.fr       */
+/*   Created: 2022/08/22 20:41:23 by orahmoun          #+#    #+#             */
+/*   Updated: 2022/08/22 20:41:24 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-#include <assert.h>
+#include <stddef.h>
 
-t_optional_int	parse_digit(const char *d)
+// void	parse(t_data *data, int fd, t_res res)
+// {
+// 	t_optional_string	line;
+// 	t_optional_array	array;
+// 	t_optional_int		type;
+
+// 	line.is_null = false;
+// 	while (line.is_null == false)
+// 	{
+// 		line = get_line(fd);
+//     if (line.is_null)
+//       break;
+//     puts(line.value);
+// 		if (is_equal_str(line.value, "\n"))
+// 			continue ;
+// 		array = split_string_space(line.value);
+// 		type = parse_type(array.value[0]);
+// 		if (line.is_null || array.error || type.error)
+// 			ft_exit(parse_string("parsing error"), 1);
+// 		if (type.value == e_camera)
+// 			data->c = unwarp_camera(array, res);
+// 		if (type.value == e_light)
+// 			data->w = add_light(data->w, unwrap_light(array));
+// 		if (type.value == e_ambient)
+// 			data->ambient = unwrap_ambient(array);
+// 		if (type.value == e_sphere || type.value == e_plane
+// 			|| type.value == e_cylinder || type.value == e_cone)
+// 			data->w = add_shape(data->w, unwrap_shape(array, type.value));
+// 	}
+// }
+
+void	parse(t_data *data, int fd, t_res res)
 {
-	if (d == NULL || d[0] == '\0')
-		return ((t_optional_int){.error = true});
-	if (ft_strlen(d) != 1)
-		return ((t_optional_int){.error = true});
-	if (ft_isdigit(d[0]) != 1)
-		return ((t_optional_int){.error = true});
-	return ((t_optional_int){
-		.value = ft_atoi(d),
-		.error = false,
-	});
+	t_optional_array  lines;
+	t_optional_array	array;
+	t_optional_int		type;
+  size_t            i;
+
+  i = 0;
+  lines = split_string(read_file(fd), '\n'); 
+  // printf("%zu %d\n", lines.size, lines.error);
+  if (lines.error || lines.size == 0)
+  {
+    ft_putendl_fd("minirt :: invalid file\n", 2);
+    exit(1);
+  }
+	while (i < lines.size)
+	{
+    puts(lines.value[i]);
+		array = split_string_space(lines.value[i++]);
+		type = parse_type(array.value[0]);
+    if (type.error == false && type.value == e_comment)
+        continue;
+		if (array.error || type.error)
+			ft_exit(parse_string("parsing error"), 1);
+		if (type.value == e_camera)
+			data->c = unwarp_camera(array, res);
+		if (type.value == e_light)
+			data->w = add_light(data->w, unwrap_light(array));
+		if (type.value == e_ambient)
+			data->ambient = unwrap_ambient(array);
+		if (type.value == e_sphere || type.value == e_plane
+			|| type.value == e_cylinder || type.value == e_cone)
+			data->w = add_shape(data->w, unwrap_shape(array, type.value));
+	}
 }
 
-t_optional_array	split_string(const char *line, const char delimiter)
-{
-	char	**array;
-
-	if (line == NULL)
-		return ((t_optional_array){.error = true});
-	array = ft_split(line, delimiter);
-	if (array == NULL)
-		return ((t_optional_array){.error = true});
-	return ((t_optional_array){
-		.value = array,
-		.size = array_len(array),
-		.error = false,
-	});
-}
-
-t_optional_array	split_string_space(const char *line)
-{
-	char	**array;
-
-	if (line == NULL)
-		return ((t_optional_array){.error = true});
-	array = ft_split_space(line);
-	if (array == NULL)
-		return ((t_optional_array){.error = true});
-	return ((t_optional_array){
-		.value = array,
-		.size = array_len(array),
-		.error = false,
-	});
-}
-
-t_optional_double	parse_ratio(const char *target)
-{
-	const t_optional_array	array = split_string(target, '.');
-	const t_optional_double	error = {.error = true};
-	t_optional_int			whole;
-	t_optional_int			fractional;
-
-	if (array.error || array_len(array.value) > 2)
-		return (error);
-	whole = parse_digit(array.value[0]);
-	if (whole.error)
-		return (error);
-	if (array.size == 1)
-		return ((t_optional_double){
-			.value = whole.value,
-			.error = false,
-		});
-	fractional = parse_digit(array.value[1]);
-	if (fractional.error)
-		return (error);
-	if (fractional.value / 10. + whole.value > 1.0
-		|| fractional.value / 10. + whole.value < 0.0)
-		return (error);
-	return ((t_optional_double){
-		.value = whole.value + fractional.value / 10.,
-		.error = false,
-	});
-}
-
-t_optional_double	parse_color_ratio(const char *target)
-{
-	int	num;
-
-	if (target == NULL)
-		return ((t_optional_double){.error = true});
-	if (ft_isnumber(target) == false)
-		return ((t_optional_double){.error = true});
-	num = ft_atoi(target);
-	if (num < 0 || num > 255)
-		return ((t_optional_double){.error = true});
-	return ((t_optional_double){
-		.value = num / 255.0,
-		.error = false,
-	});
-}

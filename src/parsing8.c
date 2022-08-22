@@ -22,30 +22,3 @@ t_shape	unwrap_shape(t_optional_array array, t_line_type type)
 	return (m.value);
 }
 
-void	parse(t_data *data, int fd, t_res res)
-{
-	t_optional_string	line;
-	t_optional_array	array;
-	t_optional_int		type;
-
-	line.is_null = false;
-	while (line.is_null == false)
-	{
-		line = get_line(fd);
-		if (line.is_null || is_equal_str(line.value, "\n"))
-			continue ;
-		array = split_string_space(line.value);
-		type = parse_type(array.value[0]);
-		if (line.is_null || array.error || type.error)
-			ft_exit(parse_string("parsing error"), 1);
-		if (type.value == e_camera)
-			data->c = unwarp_camera(array, res);
-		if (type.value == e_light)
-			data->w = add_light(data->w, unwrap_light(array));
-		if (type.value == e_ambient)
-			data->ambient = unwrap_ambient(array);
-		if (type.value == e_sphere || type.value == e_plane
-			|| type.value == e_cylinder || type.value == e_cone)
-			data->w = add_shape(data->w, unwrap_shape(array, type.value));
-	}
-}

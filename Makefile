@@ -45,11 +45,12 @@ SRC 				=	src/camera.c \
 						src/parsing2.c \
 						src/parsing3.c \
 						src/parsing4.c \
-						src/parsing_2.c \
-						src/parsing_3.c \
-						src/parsing_rt.c \
-						src/parsing_rt2.c \
-						src/parsing_utils.c \
+						src/parsing5.c \
+						src/parsing6.c \
+						src/parsing7.c \
+						src/parsing8.c \
+						src/parsing9.c \
+						src/parsing10.c \
 						src/plane.c \
 						src/prof.c \
 						src/ray.c \

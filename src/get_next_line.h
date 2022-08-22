@@ -19,5 +19,6 @@
 # define BUFFER_SIZE 1
 
 char	*get_next_line(int fd);
+char  *read_file(int fd);
 
 #endif

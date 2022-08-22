@@ -17,6 +17,7 @@
 
 typedef enum e_line_type
 {
+	e_comment,
 	e_ambient,
 	e_camera,
 	e_light,

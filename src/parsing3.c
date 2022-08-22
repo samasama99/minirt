@@ -30,6 +30,8 @@ t_optional_int	parse_type(char *target)
 
 	if (string.is_null)
 		return ((t_optional_int){.error = true});
+	if (is_equal_str(string.value, "#"))
+		return ((t_optional_int){.value = e_comment});
 	if (is_equal_str(string.value, "l"))
 		return ((t_optional_int){.value = e_light});
 	if (is_equal_str(string.value, "C"))

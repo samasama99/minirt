@@ -24,7 +24,7 @@ static char	*read_line(int fd, char *current)
 		read_bytes = read (fd, buffer, BUFFER_SIZE);
 		if (read_bytes < 0)
 		{
-			return (0);
+			return (NULL);
 		}
 		buffer[read_bytes] = 0;
 		current = ft_strjoin(current, buffer);
@@ -39,8 +39,7 @@ static char	*return_line(char **current)
 
 	if (ft_strlen(*current) && !ft_strchr (*current, '\n'))
 	{
-		temp = ft_strdup (*current);
-		return (temp);
+		return (ft_strdup (*current));
 	}
 	else if (ft_strchr (*current, '\n'))
 	{
@@ -62,4 +61,24 @@ char	*get_next_line(int fd)
 	if (!current)
 		return (0);
 	return (return_line(&current));
+}
+
+char *read_file(int fd)
+{
+  char *total;
+  char buffer[2];
+  int b;
+
+  total = ft_strdup("\0");
+  while (1)
+  {
+    b = read(fd, buffer, 1);
+    if (b <= 0)
+        break;
+    buffer[1] = '\0';
+    total = ft_strjoin(total, buffer);
+  }
+  if (total && total[0] == '\0')
+    return NULL;
+  return total;
 }
