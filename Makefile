@@ -6,7 +6,7 @@
 #    By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/03 17:52:43 by orahmoun          #+#    #+#              #
-#    Updated: 2022/08/15 12:58:46 by zsarir           ###   ########.fr        #
+#    Updated: 2022/08/21 15:35:11 by zsarir           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC 				=	src/camera.c \
 						src/parsing.c \
 						src/parsing2.c \
 						src/parsing3.c \
+						src/parsing4.c \
 						src/parsing_2.c \
 						src/parsing_3.c \
 						src/parsing_rt.c \
@@ -66,6 +67,7 @@ SRC 				=	src/camera.c \
 						src/vector3.c \
 						src/vector4.c \
 						src/world.c \
+						src/event.c \
 						main.c
 
 OBJDIR 			=	obj

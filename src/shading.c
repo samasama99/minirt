@@ -6,11 +6,23 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:40:04 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/18 22:06:40 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/21 17:22:36 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "linear_algebra.h"
 #include "main.h"
+
+t_rgb	checker_pattern_at(t_point p)
+{
+	const int	x = fabs(p.x);
+	const int	y = fabs(p.y);
+	const int	z = fabs(p.z);
+
+	if ((x + y + z) % 2)
+		return (color(1, 1, 1));
+	return (black());
+}
 
 t_rgb	ambient(t_material m, t_light l);
 
@@ -67,6 +79,8 @@ t_rgb	shade_hit(t_world w, t_comp comps, t_light l)
 			sub(l.position, comps.over_point));
 	const double		light_dot_normal = dot(lightv, comps.normalv);
 
+	if (true)
+		return checker_pattern_at(comps.over_point);
 	if (is_shadowed(w, comps.over_point, l) == true
 		|| light_dot_normal < 0)
 		return (ambient(m, l));

@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 11:30:02 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/21 14:41:04 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/21 15:34:47 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "src/main.h"
 #include "src/parsing.h"
 
 void	ft_perror(int exit_status)
@@ -50,17 +51,6 @@ int	open_rt_file(int ac, char **av)
 	return (fd);
 }
 
-int	end_minirt(int key)
-{
-	if (key == ESC)
-	{
-		destroy_window();
-		ft_free();
-		exit(0);
-	}
-	return (0);
-}
-
 int	main(int ac, char **av)
 {
 	const t_res	canvas_size = pair(1200, 675);
@@ -73,7 +63,7 @@ int	main(int ac, char **av)
 	correct_ambient(data.w, data.ambient);
 	printf ("The amount of shapes %d\n", data.w.amount_of_shapes);
 	init(canvas_size, "miniRt");
-	listen_to(destroy, end_minirt, NULL);
+	listen_to(destroy, end_minirt_destroy, NULL);
 	listen_to(keydown, end_minirt, NULL);
 	render(data.c, data.w);
 	start();
