@@ -33,12 +33,6 @@ void	fill_image(t_image img, t_pair start, t_pair finish, t_rgb color)
 	}
 }
 
-typedef struct s_image_info {
-	int			pixel_bits;
-	int			endian;
-	int			line_bytes;
-}		t_image_info;
-
 t_image	create_image(t_res res)
 {
 	const t_mlx		m = get_mlx_info(NULL);

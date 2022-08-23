@@ -97,6 +97,12 @@ t_rgb			black(void);
 
 /******* MLX *******/
 
+typedef struct s_image_info {
+	int			pixel_bits;
+	int			endian;
+	int			line_bytes;
+}		t_image_info;
+
 typedef enum e_event {
 	keydown = 2,
 	keyup = 3,
@@ -136,6 +142,7 @@ void			destroy_window(void);
 void			destroy_image(t_image_ptr img);
 int				end_minirt_destroy(void);
 int				end_minirt(int key);
+t_image load_image(char *path);
 
 // RAY TRACING
 typedef struct s_ray {
@@ -325,4 +332,21 @@ t_cone			make_cone(t_point point, t_norm norm,
 					t_fpair info, t_rgb color);
 
 t_cone			cone(void);
+// uv
+typedef struct s_uv
+{
+    double u;
+    double v;
+} t_uv;
+
+t_rad teta_sphere(t_sphere sp, t_point p);
+t_rad phi_sphere(t_point p);
+t_uv uv_of_sphere(t_sphere sp, t_point p);
+t_fpair ij_of_map(t_res res, t_uv uv);
+t_vec pu_sphere(t_point p);
+t_vec pv_sphere(t_point p, t_sphere sp);
+double calc_du_sphere(t_image img, t_sphere sp, t_point p);
+double calc_dv_sphere(t_image img, t_sphere sp, t_point p);
+t_vec bm_normal_at(t_sphere sp, t_point p, t_image img);
+t_image img;
 #endif

@@ -13,18 +13,40 @@
 #include "linear_algebra.h"
 #include "main.h"
 
-// t_rgb	checker_pattern_at(t_point p)
-// {
-// 	const int	x = fabs(p.x);
-// 	const int	y = fabs(p.y);
-// 	const int	z = fabs(p.z);
-
-// 	if ((x + y + z) % 2)
-// 		return (color(1, 1, 1));
-// 	return (black());
-// }
-
 t_rgb	ambient(t_material m, t_light l);
+
+t_rgb	shade_hit_bm(t_world w, t_comp comps, t_light l, t_intersection	inter)
+{
+    t_uv uv = uv_of_sphere(inter.shape.sphere, comps.over_point);
+    t_fpair ij = ij_of_map(img.res, uv);
+    int i = ij.i;
+    int j = ij.j;
+    t_color ucolor = (t_color) img.buffer[i + (j * img.res.height)];
+  
+  comps.shape.sphere.material.color = color((float)ucolor.red / 255, (float)ucolor.green / 255, (float)ucolor.blue / 255);
+	double				reflect_dot_eye;
+	const t_material	m = comps.shape.super.material;
+	t_vec				reflectv;
+	const t_vec			lightv = normalize(
+			sub(l.position, comps.over_point));
+	const double		light_dot_normal = dot(lightv, comps.normalv);
+
+
+
+
+
+	if (is_shadowed(w, comps.over_point, l) == true
+		|| light_dot_normal < 0)
+		return (ambient(m, l));
+	reflectv = reflect(opose(lightv), comps.normalv);
+	reflect_dot_eye = dot(reflectv, comps.eyev);
+	return (lighting(
+			m,
+			l,
+			light_dot_normal,
+			reflect_dot_eye));
+}
+
 
 t_vec	reflect(t_vec in, t_vec norm)
 {
@@ -47,26 +69,29 @@ t_rgb	color_at(t_world w, t_ray r)
 	const t_hit		h = intersect_world(w, r);
 	t_rgb			c;
 	t_comp			comp;
-	t_intersection	i;
+	t_intersection	inter;
 	int				index;
 
 	c = black();
 	index = 0;
 	if (h.count == 0)
 		return (c);
-	i = hit(h);
-	if (i.t < 0)
+	inter = hit(h);
+	if (inter.t < 0)
 		return (c);
-	while (index < w.amount_of_lights)
-	{
-		comp = prepare_computations(i, r);
+	// while (index < w.amount_of_lights)
+	// {
+  comp = prepare_computations(inter, r);
+  if (inter.shape.type == Sphere)
+    c = shade_hit_bm(w, comp, w.lights[0], inter);
+  else
 		c = rgb_sum(shade_hit(w, comp, w.lights[index]), c);
-		++index;
-	}
-	c = rgb_sub(c, rgb_scalar(
-				rgb_scalar(i.shape.super.material.ambient_color,
-					i.shape.super.material.ambient_ratio),
-				w.amount_of_lights - 1));
+		// ++index;
+	// }
+	// c = rgb_sub(c, rgb_scalar(
+	// 			rgb_scalar(i.shape.super.material.ambient_color,
+	// 				i.shape.super.material.ambient_ratio),
+	// 			w.amount_of_lights - 1));
 	return (c);
 }
 
@@ -92,3 +117,4 @@ t_rgb	shade_hit(t_world w, t_comp comps, t_light l)
 			light_dot_normal,
 			reflect_dot_eye));
 }
+

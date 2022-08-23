@@ -16,7 +16,7 @@ NAME				=	minirt
 
 CC					=	cc
 
-FLAGS				=	-Wall -Wextra -Werror -I libft
+FLAGS				=	-Wall -Wextra -I libft
 
 MLX_FLAGS		=	-lmlx -framework OpenGL -framework AppKit
 
@@ -68,6 +68,7 @@ SRC 				=	src/camera.c \
 						src/vector4.c \
 						src/world.c \
 						src/event.c \
+    				src/bm_utils.c \
 						main.c
 
 OBJDIR 			=	obj
