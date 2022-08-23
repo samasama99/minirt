@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_2.c                                        :+:      :+:    :+:   */
+/*   parsing6.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:38:45 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/18 19:31:53 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/23 12:30:04 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,15 @@ t_optional_transform	get_camera_view(char *from, char *to)
 	t_optional_point			p_from;
 	t_optional_point			p_to;
 	t_vec						up;
+	t_vec						direction;
 
 	p_from = parse_position(from);
 	p_to = parse_position(to);
 	if (p_from.error || p_to.error)
 		return (error);
-	if (vec_is_equal(p_to.value, vector(0, 1, 0)))
+	direction = sub(p_from.value, p_to.value);
+	if (vec_is_equal(normalize(direction), vector(0, 1, 0))
+		|| vec_is_equal(opose(normalize(direction)), vector(0, 1, 0)))
 		up = vector(1, 0, 0);
 	else
 		up = vector(0, 1, 0);

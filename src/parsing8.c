@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_rt2.c                                      :+:      :+:    :+:   */
+/*   parsing8.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:18:52 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/21 14:45:11 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/23 12:30:23 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,3 @@ t_shape	unwrap_shape(t_optional_array array, t_line_type type)
 		ft_exit(parse_string("failed to parse a shape"), 1);
 	return (m.value);
 }
-

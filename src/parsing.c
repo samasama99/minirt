@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 20:41:23 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/22 21:54:33 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/23 12:38:52 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-char *read_file(int fd)
+char	*read_file(int fd)
 {
 	char	*total;
 	char	buffer[2];
@@ -31,7 +31,7 @@ char *read_file(int fd)
 			exit(1);
 		}
 		if (b == 0)
-			break;
+			break ;
 		buffer[1] = '\0';
 		total = ft_strjoin(total, buffer);
 	}
@@ -42,26 +42,21 @@ char *read_file(int fd)
 
 void	parse(t_data *data, int fd, t_res res)
 {
-	t_optional_array  lines;
+	t_optional_array	lines;
 	t_optional_array	array;
 	t_optional_int		type;
-	size_t            i;
+	size_t				i;
 
 	i = 0;
-	lines = split_string(read_file(fd), '\n'); 
+	lines = split_string(read_file(fd), '\n');
 	if (lines.error || lines.size == 0)
-	{
-		ft_putendl_fd("minirt :: invalid file\n", 2);
-		exit(1);
-	}
+		ft_exit(parse_string("minirt :: invalid file\n"), 2);
 	while (i < lines.size)
 	{
 		array = split_string_space(lines.value[i++]);
-		type = parse_type(array.value[0]);
-    	if (type.error == false && type.value == e_comment)
-        	continue;
 		if (array.error || type.error)
 			ft_exit(parse_string("parsing error"), 1);
+		type = parse_type(array.value[0]);
 		if (type.value == e_camera)
 			data->c = unwarp_camera(array, res);
 		if (type.value == e_light)
@@ -73,4 +68,3 @@ void	parse(t_data *data, int fd, t_res res)
 			data->w = add_shape(data->w, unwrap_shape(array, type.value));
 	}
 }
-

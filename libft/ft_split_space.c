@@ -6,13 +6,13 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 22:20:11 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/21 14:42:46 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/23 12:39:39 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int is_space(char c)
+static int	is_space(char c)
 {
 	if (c == ' ' || c == '\n' || c == '\t'
 		|| c == '\v' || c == '\f' || c == '\r')
@@ -31,7 +31,7 @@ static char	**free_tab(char **tab, int size)
 	return (0);
 }
 
-static char	**allocat_tab(char const *s,  size_t *total)
+static char	**allocat_tab(char const *s, size_t *total)
 {
 	int		i;
 	char	**tab;
