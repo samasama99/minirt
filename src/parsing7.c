@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_3.c                                        :+:      :+:    :+:   */
+/*   parsing7.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 21:38:40 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/15 13:03:35 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/23 19:54:40 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,17 @@ t_optional_shape	parse_shape(const t_optional_array elems, t_line_type type)
 
 	shape = (t_optional_shape){.error = true};
 	if (!elems.error && type == e_sphere)
-		(printf("parsing a sphere\n"), shape = parse_sphere(elems));
+		(printf(" \033[0;32m----\033[0m :: parsing a sphere\n"),
+			shape = parse_sphere(elems));
 	if (!elems.error && type == e_plane)
-		(printf("parsing a plane\n"), shape = parse_plane(elems));
+		(printf(" \033[0;32m----\033[0m :: parsing a plane\n"),
+			shape = parse_plane(elems));
 	if (!elems.error && type == e_cylinder)
-		(printf("parsing a cylinder\n"), shape = parse_cylinder(elems));
+		(printf(" \033[0;32m----\033[0m :: parsing a cylinder\n"),
+			shape = parse_cylinder(elems));
 	if (!elems.error && type == e_cone)
-		(printf("parsing a cone\n"), shape = parse_cone(elems));
+		(printf(" \033[0;32m----\033[0m :: parsing a cone\n"),
+			shape = parse_cone(elems));
 	if (shape.error == false)
 		return ((t_optional_shape){.value = shape.value});
 	return ((t_optional_shape){.error = true});

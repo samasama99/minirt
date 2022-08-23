@@ -87,7 +87,7 @@ ${LIBFT} :
 ${NAME} : ${OBJ} ${LIBFT}
 	@echo "${YEL}LINKING PROCESS ...${NC}"
 	@echo "${GRN}COMPILATION COMPLETE${NC}"
-	${CC} ${MLX_FLAGS} $^  -o ${NAME}
+	@${CC} ${MLX_FLAGS} $^  -o ${NAME}
 
 $(OBJDIR)/%.o : %.c ${HEADER}
 	@mkdir -p $(dir $@)

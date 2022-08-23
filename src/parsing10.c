@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing10.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:39:04 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/21 14:44:22 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/23 21:20:27 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_optional_array	split_string(const char *line, const char delimiter)
 	});
 }
 
-t_optional_array	split_string_space(const char *line)
+t_optional_array	split_space(const char *line)
 {
 	char	**array;
 

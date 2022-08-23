@@ -3,15 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:58:58 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/21 15:39:04 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/23 21:08:24 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 #include <pthread.h>
+
+void	*wait_dots(void *nothing)
+{
+	static int	current = 0;
+
+	(void)nothing;
+	while (true)
+	{
+		if (current % 8 == 0)
+			ft_putstr_fd (" \033[0;32m[MiniRT]\033[0m :: rendring .\r", 1);
+		if (current % 8 == 1)
+			ft_putstr_fd (" \033[0;32m[MiniRT]\033[0m :: rendring ..\r", 1);
+		if (current % 8 == 2)
+			ft_putstr_fd (" \033[0;32m[MiniRT]\033[0m :: rendring ...\r", 1);
+		if (current % 8 == 3)
+			ft_putstr_fd (" \033[0;32m[MiniRT]\033[0m :: rendring ....\r", 1);
+		if (current % 8 == 4)
+			ft_putstr_fd (" \033[0;32m[MiniRT]\033[0m :: rendring .....\r", 1);
+		if (current % 8 == 5)
+			ft_putstr_fd (" \033[0;32m[MiniRT]\033[0m :: rendring ......\r", 1);
+		if (current % 8 == 6)
+			ft_putstr_fd (" \033[0;32m[MiniRT]\033[0m :: rendring .......\r", 1);
+		if (current % 8 == 7)
+			ft_putstr_fd (" \033[0;32m[MiniRT]\033[0m :: rendring ........\r\n", 1);
+		current = (current + 1) % 8;
+		sleep(1);
+	}
+	return (NULL);
+}
 
 static t_thread_data	create_thread_data(int y,
 										t_camera c,
@@ -43,28 +72,32 @@ static void	*render_thread(void *d)
 	return (NULL);
 }
 
-void	render(t_camera c, t_world w)
-{
-	const t_image	canvas = create_image(pair(c.hsize, c.vsize));
-	const long		start = time_now();
-	t_thread_data	*data;
-	pthread_t		*id;
-	size_t			y;
+#define THREAD_COUNT 8
 
-	id = malloc(sizeof(t_thread_data) * (int)c.vsize - 1);
-	data = malloc(sizeof(t_thread_data) * (int)c.vsize - 1);
+void	render(t_camera c, t_world w, t_image canvas)
+{
+	t_thread_data	data[8];
+	pthread_t		id[8 + 1];
+	int				y;
+	int				i;
+
 	y = 0;
+	pthread_create(&id[THREAD_COUNT], NULL, wait_dots, NULL);
 	while (y < c.vsize - 1)
 	{
-		data[y] = create_thread_data(y, c, w, canvas);
-		pthread_create(&id[y], NULL, render_thread, &data[y]);
+		data[y % THREAD_COUNT] = create_thread_data(y, c, w, canvas);
+		pthread_create(&id[y % THREAD_COUNT], NULL,
+			render_thread, &data[y % THREAD_COUNT]);
 		++y;
+		if ((y == (c.vsize - 1))
+			|| (y % THREAD_COUNT == 0 && y >= THREAD_COUNT))
+		{
+			i = THREAD_COUNT;
+			while (--i >= 0)
+				pthread_join(id[i], NULL);
+		}
 	}
-	y = 0;
-	while (y < c.vsize - 1)
-		pthread_join(id[y++], NULL);
+	pthread_cancel(id[THREAD_COUNT]);
 	put_image(pair(0, 0), canvas);
-	put_string(10, 10, ft_strjoin("it took (ms) ",
-			ft_itoa((int)time_now() - start)));
 	destroy_image(canvas.img);
 }

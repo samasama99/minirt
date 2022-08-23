@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/23 12:36:13 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/23 21:05:07 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ typedef bool	t_error;
 
 /******* GENERAL  UTILS ********/
 
-// char		*ft_strjoin_free(char *s1, char *s2);
 void			panic(bool con, const char *msg, const char *func);
 bool			is_equal_str(const char *s1, const char *s2);
 float			clamp(float n, float min, float max);
 long			time_now(void);
+void	ft_perror(int exit_status);
 
 /******* GAME_DATA *******/
 
@@ -310,7 +310,7 @@ typedef struct s_thread_data {
 	t_image		canvas;
 }	t_thread_data;
 
-void			render(t_camera c, t_world w);
+void			render(t_camera c, t_world w, t_image canvas);
 
 // cylinder
 t_cylinder		make_cylinder(t_point point, t_norm norm,

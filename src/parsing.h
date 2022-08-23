@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:39:10 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/22 22:00:08 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/23 21:22:15 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_optional_int		parse_digit(const char *d);
 t_optional_double	parse_double(const char *target);
 t_optional_int		parse_int(const char *target);
 t_optional_array	split_string(const char *line, const char delimiter);
-t_optional_array	split_string_space(const char *line);
+t_optional_array	split_space(const char *line);
 
 t_optional_double	parse_ratio(const char *target);
 t_optional_double	parse_color_ratio(const char *target);
@@ -161,6 +161,6 @@ t_material			unwrap_ambient(t_optional_array array);
 t_shape				unwrap_shape(t_optional_array array, t_line_type type);
 
 t_camera			unwarp_camera(t_optional_array array, t_res res);
-void				parse(t_data *data, int fd, t_res res);
+void				parse(t_data *data, int fd, t_res res, t_optional_array clines);
 char				*read_file(int fd);
 #endif

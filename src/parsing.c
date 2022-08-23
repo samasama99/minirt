@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 20:41:23 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/23 12:38:52 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/23 21:22:44 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ char	*read_file(int fd)
 		b = read(fd, buffer, 1);
 		if (b == -1)
 		{
-			perror("minirt :: Error");
-			exit(1);
+			ft_perror(1); 
+			close(fd);
 		}
 		if (b == 0)
 			break ;
@@ -40,31 +40,30 @@ char	*read_file(int fd)
 	return (total);
 }
 
-void	parse(t_data *data, int fd, t_res res)
+void	parse(t_data *data, int fd, t_res res, t_optional_array lines)
 {
-	t_optional_array	lines;
-	t_optional_array	array;
+	t_optional_array	arr;
 	t_optional_int		type;
 	size_t				i;
 
 	i = 0;
-	lines = split_string(read_file(fd), '\n');
 	if (lines.error || lines.size == 0)
-		ft_exit(parse_string("minirt :: invalid file\n"), 2);
+		(close(fd), ft_exit(parse_string("minirt :: invalid file\n"), 2));
+	printf(" \033[0;32m[MiniRT] :: parsing :\033[0m\n");
 	while (i < lines.size)
 	{
-		array = split_string_space(lines.value[i++]);
-		if (array.error || type.error)
-			ft_exit(parse_string("parsing error"), 1);
-		type = parse_type(array.value[0]);
+		arr = split_space(lines.value[i++]);
+		type = parse_type(arr.value[0]);
+		if (arr.error || type.error == true)
+			(close(fd), ft_exit(parse_string("parsing error"), 1));
 		if (type.value == e_camera)
-			data->c = unwarp_camera(array, res);
+			data->c = unwarp_camera(arr, res);
 		if (type.value == e_light)
-			data->w = add_light(data->w, unwrap_light(array));
+			data->w = add_light(data->w, unwrap_light(arr));
 		if (type.value == e_ambient)
-			data->ambient = unwrap_ambient(array);
+			data->ambient = unwrap_ambient(arr);
 		if (type.value == e_sphere || type.value == e_plane
 			|| type.value == e_cylinder || type.value == e_cone)
-			data->w = add_shape(data->w, unwrap_shape(array, type.value));
+			data->w = add_shape(data->w, unwrap_shape(arr, type.value));
 	}
 }

@@ -11,13 +11,6 @@
 /* ************************************************************************** */
 
 #include "main.h"
-#include <stdlib.h>
-
-void	safe_close(int fd)
-{
-	if (fd != 0 && fd != 1 && fd != -1)
-		close (fd);
-}
 
 void	panic(bool con, const char *msg, const char *func)
 {
@@ -47,4 +40,10 @@ float	clamp(float n, float min, float max)
 	if (n < min)
 		n = 0;
 	return (n);
+}
+
+void	ft_perror(int exit_status)
+{
+	perror("Error");
+	exit(exit_status);
 }
