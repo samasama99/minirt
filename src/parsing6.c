@@ -6,10 +6,11 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:38:45 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/23 12:30:04 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/23 12:48:06 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "linear_algebra.h"
 #include "main.h"
 #include "parsing.h"
 

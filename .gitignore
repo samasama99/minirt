@@ -1,0 +1,4 @@
+*.o
+./minirt
+a.out
+*.a

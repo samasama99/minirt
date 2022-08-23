@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:03:18 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/09 21:36:11 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/23 14:44:43 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ t_transform	view_transform(t_point from, t_point to, t_vec up)
 {
 	const t_vec			forward = normalize(sub(to, from));
 	const t_vec			nup = normalize(up);
-	const t_vec			left = cross(forward, nup);
-	const t_vec			true_up = cross(left, forward);
+	const t_vec			left = normalize(cross(forward, nup));
+	const t_vec			true_up = normalize(cross(left, forward));
 	const t_transform	orientation = {{
 		left.x, left.y, left.z, 0,
 		true_up.x, true_up.y, true_up.z, 0,

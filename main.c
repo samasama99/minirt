@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 11:30:02 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/21 15:34:47 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/23 13:19:06 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/main.h"
+#include "src/linear_algebra.h"
 #include "src/parsing.h"
 
 void	ft_perror(int exit_status)
@@ -67,4 +68,12 @@ int	main(int ac, char **av)
 	listen_to(keydown, end_minirt, NULL);
 	render(data.c, data.w);
 	start();
+	return 0;
 }
+
+// int main() {
+// 	t_vec a = vector(2, 3, 4);
+// 	t_vec b = vector(5, 6, 7);
+
+// 	print_tupil("cross", cross(a, b));
+// }
