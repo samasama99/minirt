@@ -1,7 +1,5 @@
 #include "main.h" 
 
-
-
 t_rad teta_sphere(t_sphere sp, t_point p)
 {
   return (acos(p.y / sp.radius));
@@ -9,7 +7,7 @@ t_rad teta_sphere(t_sphere sp, t_point p)
 
 t_rad phi_sphere(t_point p)
 {
-  return atan(p.z / p.x);
+  return atan2(p.z, p.x);
 }
 
 t_uv uv_of_sphere(t_sphere sp, t_point p)
@@ -31,7 +29,17 @@ t_fpair ij_of_map(t_res res, t_uv uv)
   const double u = uv.u;
   const double v = uv.v;
 
-  return (t_fpair) {{u * res.width - 0.5, v * res.height - 0.5}};
+  return (t_fpair) {{u * res.width + 0.5, v * res.height + 0.5}};
+}
+
+double linear_interpolation(double i, double j, t_image img)
+{
+    int k = i;
+    int l = j;
+    return  ((1 - (i - k)) * (1 - (j - l)) * get_color_at(img, k, l)
+                      + (1 - (i - k)) * (j - l) * get_color_at(img, k, l + 1)
+                      + (i - k) * (1 - (j - l)) * get_color_at(img, k + 1, l)
+                      + (i - k) * (j - l) * get_color_at(img, k + 1, l + 1));
 }
 
 t_vec pu_sphere(t_point p)
@@ -54,20 +62,19 @@ t_vec pv_sphere(t_point p, t_sphere sp)
 double calc_du_sphere(t_image img, t_sphere sp, t_point p)
 {
   t_fpair ij = ij_of_map(img.res, uv_of_sphere(sp, p));
-  int i = ij.i;
-  int j = ij.j;
-  return (img.buffer[(i + 1) + (j * img.res.height)] -
-          img.buffer[i + (j * img.res.height)]);
+  double i = ij.i;
+  double j = ij.j;
+
+  return ((linear_interpolation(i + 1, j, img) - linear_interpolation(i, j, img) / 2.0));
 }
 
 double calc_dv_sphere(t_image img, t_sphere sp, t_point p)
 {
   const t_fpair ij = ij_of_map(img.res, uv_of_sphere(sp, p));
-  const int i = ij.i;
-  const int j = ij.j;
+  double i = ij.i;
+  double j = ij.j;
 
-  return (img.buffer[i + ((j + 1) * img.res.height)] -
-          img.buffer[i + (j * img.res.height)]);
+  return (linear_interpolation(i, j + 1, img) - linear_interpolation(i, j, img) / 2.0);
 }
 
 t_vec bm_normal_at(t_sphere sp, t_point p, t_image img)
@@ -77,12 +84,7 @@ t_vec bm_normal_at(t_sphere sp, t_point p, t_image img)
   const double du = calc_du_sphere(img, sp, p);
   const double dv = calc_dv_sphere(img, sp, p);
 
-  return (sub(normal_at_sphere(sp, p), 
-              (sum(scalar(pu, du), scalar(pv, dv)))));
+  return ((sub((cross(pv, pu)), 
+              (sum(scalar(pu, du), scalar(pv, dv))))));
 }
-
-
-	// t_image_ptr	*img;
-	// t_res		res;
-	// int			*buffer;
 

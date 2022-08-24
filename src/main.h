@@ -295,6 +295,7 @@ t_hit			intersect_world(t_world w, t_ray r);
 t_rgb			shade_hit(t_world w, t_comp comps, t_light l);
 t_rgb			color_at(t_world w, t_ray r);
 bool			is_shadowed(t_world w, t_point p, t_light l);
+t_rgb	diffuse(t_material m, t_light l, double light_dot_normal);
 
 typedef struct s_camera {
 	double		hsize;
@@ -348,5 +349,7 @@ t_vec pv_sphere(t_point p, t_sphere sp);
 double calc_du_sphere(t_image img, t_sphere sp, t_point p);
 double calc_dv_sphere(t_image img, t_sphere sp, t_point p);
 t_vec bm_normal_at(t_sphere sp, t_point p, t_image img);
-t_image img;
+int get_color_at(t_image img, int x, int y);
+double linear_interpolation(double i, double j, t_image img);
+t_image g_img;
 #endif

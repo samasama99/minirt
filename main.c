@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 11:30:02 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/23 21:21:42 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/24 16:42:46 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	main(int ac, char **av)
 	t_data			data;
 
 	init(res, "miniRt");
-  img = load_image("test.xpm");
+  g_img = load_image("textures/earth_col.xpm");
+//   g_img = load_image("test.xpm");
 	data = (t_data){.w = {0, 0, 0, 0}};
 	parse(&data, fd, res,split_string( read_file(fd), '\n'));
 	close(fd);
@@ -67,6 +68,8 @@ int	main(int ac, char **av)
 	listen_to(destroy, end_minirt_destroy, NULL);
 	listen_to(keydown, end_minirt, NULL);
 	canvas = create_image(pair(res.width, res.height));
+
+  // put_image(pair(0,0), img);
 	render(data.c, data.w, canvas);
 	printf ("\n \033[0;32m[MiniRT]\033[0m :: done ! it took %fs\n",
 		(time_now() - begin) / 1000.0);

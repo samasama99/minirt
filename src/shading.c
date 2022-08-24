@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:40:04 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/21 17:22:36 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/08/24 17:10:16 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,57 @@
 
 t_rgb	ambient(t_material m, t_light l);
 
+// t_rgb cb(t_uv uv)
+// {
+//   int i = uv.u * 1000;
+//   int j = uv.v * 1000;
+//   if ((i + j) % 2)
+//     return black();
+//   return color(1,1,1);
+// }
+
+int get_color_at(t_image img, int x, int y)
+{
+  return (img.buffer[x + (y * img.res.width)]);
+}
+
+
 t_rgb	shade_hit_bm(t_world w, t_comp comps, t_light l, t_intersection	inter)
 {
     t_uv uv = uv_of_sphere(inter.shape.sphere, comps.over_point);
-    t_fpair ij = ij_of_map(img.res, uv);
+
+
+//   const t_vec pu = pu_sphere(comps.over_point);
+//   const t_vec pv = pv_sphere(comps.over_point, comps.shape.sphere);
+
+    // t_point p = sum(comps.over_point,  sum(normalize(cross(pv, pu)), vector(uv.u,  uv.v, 1)));
+	t_point p = comps.over_point;
+    t_fpair ij = ij_of_map(g_img.res, uv);
     int i = ij.i;
     int j = ij.j;
-    t_color ucolor = (t_color) img.buffer[i + (j * img.res.height)];
-  
-  comps.shape.sphere.material.color = color((float)ucolor.red / 255, (float)ucolor.green / 255, (float)ucolor.blue / 255);
+    t_color ucolor = (t_color)(int)g_img.buffer[i + (j * g_img.res.width)];
+    // t_color ucolor = linear_interpolation(i, j, img);
+
+  comps.shape.sphere.material.color = color((float)ucolor.red / 255.0, (float)ucolor.green / 255.0, (float)ucolor.blue / 255.0);
+  comps.shape.sphere.material.ambient_color = black();
+  comps.shape.sphere.material.specular = 0;
+  comps.shape.sphere.material.shininess = 0;
+  comps.shape.sphere.material.ambient_ratio = 0;
+  comps.shape.sphere.material.diffuse = 0.9;
 	double				reflect_dot_eye;
 	const t_material	m = comps.shape.super.material;
 	t_vec				reflectv;
 	const t_vec			lightv = normalize(
 			sub(l.position, comps.over_point));
-	const double		light_dot_normal = dot(lightv, comps.normalv);
+	const double		light_dot_normal = dot(lightv, normalize(bm_normal_at(comps.shape.sphere, p, g_img)));
+	// const double		light_dot_normal = dot(lightv, comps.normalv);
 
-
-
-
-
-	if (is_shadowed(w, comps.over_point, l) == true
-		|| light_dot_normal < 0)
-		return (ambient(m, l));
+	// if (is_shadowed(w, comps.over_point, l) == true
+	// 	|| light_dot_normal < 0)
+	// 	return (black());
 	reflectv = reflect(opose(lightv), comps.normalv);
 	reflect_dot_eye = dot(reflectv, comps.eyev);
+	return diffuse(m, l, light_dot_normal);
 	return (lighting(
 			m,
 			l,
