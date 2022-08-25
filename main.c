@@ -55,7 +55,7 @@ int	main(int ac, char **av)
 	t_data			data;
 
 	init(res, "miniRt");
-  g_img = load_image("textures/earth_col.xpm");
+  // g_img = load_image("textures/earth_col.xpm");
 //   g_img = load_image("test.xpm");
 	data = (t_data){.w = {0, 0, 0, 0}};
 	parse(&data, fd, res,split_string( read_file(fd), '\n'));
@@ -70,6 +70,7 @@ int	main(int ac, char **av)
 	canvas = create_image(pair(res.width, res.height));
 
   // put_image(pair(0,0), img);
+  g_img = data.w.shapes[0].sphere.img;
 	render(data.c, data.w, canvas);
 	printf ("\n \033[0;32m[MiniRT]\033[0m :: done ! it took %fs\n",
 		(time_now() - begin) / 1000.0);

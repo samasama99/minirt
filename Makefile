@@ -50,6 +50,7 @@ SRC 				=	src/camera.c \
 						src/parsing8.c \
 						src/parsing9.c \
 						src/parsing10.c \
+						src/parsing11.c \
 						src/plane.c \
 						src/prof.c \
 						src/ray.c \
