@@ -142,7 +142,7 @@ void			destroy_window(void);
 void			destroy_image(t_image_ptr img);
 int				end_minirt_destroy(void);
 int				end_minirt(int key);
-t_image load_image(char *path);
+t_image load_image(const char *path);
 
 // RAY TRACING
 typedef struct s_ray {
@@ -188,6 +188,8 @@ typedef struct s_sphere {
 	t_material		material;
 	t_point			center;
 	double			radius;
+  t_image img;
+  bool texture;
 }	t_sphere;
 
 typedef struct s_cylinder {

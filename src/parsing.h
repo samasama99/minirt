@@ -27,6 +27,11 @@ typedef enum e_line_type
 	e_cone
 }	t_line_type;
 
+typedef struct s_optional_image {
+  bool error;
+  t_image value;
+}  t_optional_image;
+
 typedef struct s_optional_array
 {
 	char	**value;
@@ -154,6 +159,8 @@ t_optional_light	parse_light(const t_optional_array elems);
 t_optional_shape	parse_plane(const t_optional_array elems);
 t_optional_shape	parse_sphere(const t_optional_array elems);
 t_optional_shape	parse_shape(const t_optional_array elems, t_line_type type);
+
+t_optional_image parse_image_path(const char *path);
 
 t_camera			unwrap_camera(t_optional_array array, t_res res);
 t_light				unwrap_light(t_optional_array array);

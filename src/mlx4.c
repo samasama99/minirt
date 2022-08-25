@@ -47,12 +47,16 @@ void	destroy_image(t_image_ptr img)
 	mlx_destroy_image(m.mlx, img);
 }
 
-t_image load_image(char *path)
+t_image load_image(const char *path)
 {
   const t_mlx_ptr mlx = get_mlx_info(NULL).mlx;
   int x;
   int y;
-  const t_image_ptr img = mlx_xpm_file_to_image(mlx, path, &x, &y);
+  const t_image_ptr img = mlx_xpm_file_to_image(mlx, (char *)path, &x, &y);
+  if (img == NULL) {
+    printf (" [MiniRT] :: error in loading an xpm image\n");
+    exit(1);
+  }
 	t_image_info	info;
 	int *buffer = (int *)mlx_get_data_addr(img, &info.pixel_bits,
 			&info.line_bytes, &info.endian);

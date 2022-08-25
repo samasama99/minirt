@@ -37,20 +37,33 @@ t_optional_shape	parse_sphere(const t_optional_array elems)
 	t_optional_point		center;
 	t_optional_double		diameter;
 	t_optional_rgb			color;
+	t_optional_image			image;
+  t_sphere sp;
 
 	if (elems.error)
 		return (error);
 	center = parse_position(elems.value[1]);
 	diameter = parse_double(elems.value[2]);
 	color = parse_rgb(elems.value[3]);
-	if (center.error || diameter.error || color.error)
+  image = parse_image_path(elems.value[3]);
+	if (center.error || diameter.error || (color.error && image.error))
 		return (error);
-	return ((t_optional_shape){
-		.value = (t_shape)make_sphere(center.value,
-			diameter.value / 2.0,
-			color.value),
-		.error = false,
-	});
+    sp = make_sphere(center.value,
+      diameter.value / 2.0,
+      black());
+    if (color.error == false) {
+        sp.texture = false;
+        sp.material.color = color.value;
+    }
+    else
+    {
+      sp.texture = true;
+      sp.img = image.value;
+    }
+  return ((t_optional_shape){
+    .value = (t_shape)sp,
+    .error = false,
+  });
 }
 
 t_optional_shape	parse_cylinder(const t_optional_array elems)
@@ -131,3 +144,4 @@ t_optional_shape	parse_shape(const t_optional_array elems, t_line_type type)
 		return ((t_optional_shape){.value = shape.value});
 	return ((t_optional_shape){.error = true});
 }
+
