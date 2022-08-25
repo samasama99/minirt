@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/28 14:40:04 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/24 17:10:16 by orahmoun         ###   ########.fr       */
+/*   Created: 2022/08/25 16:44:23 by zsarir            #+#    #+#             */
+/*   Updated: 2022/08/25 16:44:26 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ t_rgb	shade_hit_bm(t_world w, t_comp comps, t_light l, t_intersection	inter)
     t_fpair ij = ij_of_map(g_img.res, uv);
     int i = ij.i;
     int j = ij.j;
-    t_color ucolor = (t_color)(int)g_img.buffer[i + (j * g_img.res.width)];
-    // t_color ucolor = linear_interpolation(i, j, img);
+    // t_color ucolor = (t_color)(int)g_img.buffer[i + (j * g_img.res.width)];
+    t_color ucolor = (t_color)(int)linear_interpolation(i, j, g_img);
 
   comps.shape.sphere.material.color = color((float)ucolor.red / 255.0, (float)ucolor.green / 255.0, (float)ucolor.blue / 255.0);
   comps.shape.sphere.material.ambient_color = black();
@@ -57,6 +57,7 @@ t_rgb	shade_hit_bm(t_world w, t_comp comps, t_light l, t_intersection	inter)
 	t_vec				reflectv;
 	const t_vec			lightv = normalize(
 			sub(l.position, comps.over_point));
+			
 	const double		light_dot_normal = dot(lightv, normalize(bm_normal_at(comps.shape.sphere, p, g_img)));
 	// const double		light_dot_normal = dot(lightv, comps.normalv);
 

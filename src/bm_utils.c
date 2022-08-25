@@ -1,27 +1,24 @@
 #include "main.h" 
 
-t_rad teta_sphere(t_sphere sp, t_point p)
+t_rad	teta_sphere(t_sphere sp, t_point p)
 {
-  return (acos(p.y / sp.radius));
+	return (acos(p.y / sp.radius));
 }
 
-t_rad phi_sphere(t_point p)
+t_rad	phi_sphere(t_point p)
 {
-  return atan2(p.z, p.x);
+	return (atan2(p.z, p.x));
 }
 
-t_uv uv_of_sphere(t_sphere sp, t_point p)
+t_uv	uv_of_sphere(t_sphere sp, t_point p)
 {
-  const double phi = phi_sphere(p);
-  const double teta = teta_sphere(sp, p);
-  const double v = teta / M_PI;
-  double u;
+	const double	phi = phi_sphere(p);
+	const double	teta = teta_sphere(sp, p);
+	const double	v = (teta / M_PI);
+	double			u;
 
-  if (is_equal_double(phi, M_PI))
-     u = 0;
-  else
-    u = (-phi + M_PI) / (M_PI * 2);
-  return (t_uv) {u, v};
+	u = ((-phi + M_PI) / (M_PI * 2));
+	return ((t_uv){-u, v});
 }
 
 t_fpair ij_of_map(t_res res, t_uv uv)
@@ -29,7 +26,7 @@ t_fpair ij_of_map(t_res res, t_uv uv)
   const double u = uv.u;
   const double v = uv.v;
 
-  return (t_fpair) {{u * res.width + 0.5, v * res.height + 0.5}};
+	return ((t_fpair){{u * res.width, v * res.height}});
 }
 
 double linear_interpolation(double i, double j, t_image img)
@@ -62,29 +59,30 @@ t_vec pv_sphere(t_point p, t_sphere sp)
 double calc_du_sphere(t_image img, t_sphere sp, t_point p)
 {
   t_fpair ij = ij_of_map(img.res, uv_of_sphere(sp, p));
-  double i = ij.i;
-  double j = ij.j;
+  int i = ij.i;
+  int j = ij.j;
 
-  return ((linear_interpolation(i + 1, j, img) - linear_interpolation(i, j, img) / 2.0));
+  return ((linear_interpolation(i + 1, j, img) - linear_interpolation(i, j, img)) * 0.000001);
+//   return ((g_img.buffer[i + 1 + (j * g_img.res.width)] - g_img.buffer[i + (j * g_img.res.width)]) * 0.000001);
 }
 
 double calc_dv_sphere(t_image img, t_sphere sp, t_point p)
 {
   const t_fpair ij = ij_of_map(img.res, uv_of_sphere(sp, p));
-  double i = ij.i;
-  double j = ij.j;
+  int i = ij.i;
+  int j = ij.j;
 
-  return (linear_interpolation(i, j + 1, img) - linear_interpolation(i, j, img) / 2.0);
+//   return ((g_img.buffer[i + ((j + 1) * g_img.res.width)] - g_img.buffer[i + (j * g_img.res.width)])*0.000001);
+  return ((linear_interpolation(i, j + 1, img) - linear_interpolation(i, j, img)) * 0.000001);
 }
 
-t_vec bm_normal_at(t_sphere sp, t_point p, t_image img)
+t_vec	bm_normal_at(t_sphere sp, t_point p, t_image img)
 {
-  const t_vec pu = pu_sphere(p);
-  const t_vec pv = pv_sphere(p, sp);
-  const double du = calc_du_sphere(img, sp, p);
-  const double dv = calc_dv_sphere(img, sp, p);
+	const t_vec		pu = pu_sphere(p);
+	const t_vec		pv = pv_sphere(p, sp);
+	const double	du = calc_du_sphere(img, sp, p);
+	const double	dv = calc_dv_sphere(img, sp, p);
 
-  return ((sub((cross(pv, pu)), 
-              (sum(scalar(pu, du), scalar(pv, dv))))));
+	return ((sub((cross(pv, pu)),
+				(sum(scalar(pu, du), scalar(pv, dv))))));
 }
-
