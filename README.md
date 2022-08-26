@@ -1,1 +1,1 @@
-# mlx_3d
+# minirt
