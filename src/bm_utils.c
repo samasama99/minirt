@@ -2,22 +2,22 @@
 
 t_rad	teta_sphere(t_sphere sp, t_point p)
 {
-	return (acos(p.y / sp.radius));
+  return (acos((p.y - sp.center.y)/ sp.radius));
 }
 
-t_rad	phi_sphere(t_point p)
+t_rad	phi_sphere(t_sphere sp, t_point p)
 {
-	return (atan2(p.z, p.x));
+  return (atan2(p.z - sp.center.z, p.x - sp.center.x));
 }
 
 t_uv	uv_of_sphere(t_sphere sp, t_point p)
 {
-	const double	phi = phi_sphere(p);
+	const double	phi = phi_sphere(sp, p);
 	const double	teta = teta_sphere(sp, p);
 	const double	v = (teta / M_PI);
 	double			u;
 
-	u = ((-phi + M_PI) / (M_PI * 2));
+	u = ((-phi + M_PI) / (M_PI * 4));
 	return ((t_uv){-u, v});
 }
 
@@ -46,7 +46,7 @@ t_vec pu_sphere(t_point p)
 
 t_vec pv_sphere(t_point p, t_sphere sp)
 {
-  const double phi = phi_sphere(p);
+  const double phi = phi_sphere(sp, p);
   const double teta = teta_sphere(sp, p);
 
   return vector(p.y * cos(phi) * M_PI,
