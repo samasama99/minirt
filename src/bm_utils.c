@@ -1,23 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bm_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/27 19:20:22 by zsarir            #+#    #+#             */
+/*   Updated: 2022/08/27 19:20:23 by zsarir           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "linear_algebra.h"
 #include "main.h" 
+#include <math.h>
 
 t_rad	teta_sphere(t_sphere sp, t_point p)
 {
-  return (acos((p.y - sp.center.y)/ sp.radius));
+	return (acos((p.y - sp.center.y)/ sp.radius));
 }
 
-t_rad	phi_sphere(t_sphere sp, t_point p)
+t_rad	phi_sphere(t_sphere sp,t_point p)
 {
-  return (atan2(p.z - sp.center.z, p.x - sp.center.x));
+	return (atan2(sp.center.z - p.z ,sp.center.x - p.x));
 }
 
 t_uv	uv_of_sphere(t_sphere sp, t_point p)
 {
-	const double	phi = phi_sphere(sp, p);
-	const double	teta = teta_sphere(sp, p);
-	const double	v = (teta / M_PI);
-	double			u;
+  t_vec vec =  {{-p.x + sp.center.x, -p.y + sp.center.y, -p.z + sp.center.z}};
+  vec = normalize(vec);
+	double			u = 0.5 + atan2(vec.x, vec.z)  / (2 * M_PI);
+	const double	v = 0.5 + asin(vec.y)/ M_PI;
 
-	u = ((-phi + M_PI) / (M_PI * 4));
 	return ((t_uv){-u, v});
 }
 
@@ -46,7 +59,7 @@ t_vec pu_sphere(t_point p)
 
 t_vec pv_sphere(t_point p, t_sphere sp)
 {
-  const double phi = phi_sphere(sp, p);
+  const double phi = phi_sphere(sp,p);
   const double teta = teta_sphere(sp, p);
 
   return vector(p.y * cos(phi) * M_PI,
@@ -62,8 +75,8 @@ double calc_du_sphere(t_image img, t_sphere sp, t_point p)
   int i = ij.i;
   int j = ij.j;
 
-  return ((linear_interpolation(i + 1, j, img) - linear_interpolation(i, j, img)) * 0.000001);
-//   return ((g_img.buffer[i + 1 + (j * g_img.res.width)] - g_img.buffer[i + (j * g_img.res.width)]) * 0.000001);
+  return ((linear_interpolation(i + 1, j, img) - linear_interpolation(i, j, img)) * 0.0000015 );
+//   return ((g_img.buffer[i + 1 + (j * g_img.res.width)] - g_img.buffer[i + (j * g_img.res.width)]) * 0.0000015);
 }
 
 double calc_dv_sphere(t_image img, t_sphere sp, t_point p)
@@ -72,7 +85,7 @@ double calc_dv_sphere(t_image img, t_sphere sp, t_point p)
   int i = ij.i;
   int j = ij.j;
 
-//   return ((g_img.buffer[i + ((j + 1) * g_img.res.width)] - g_img.buffer[i + (j * g_img.res.width)])*0.000001);
+//   return ((g_img.buffer[i + ((j + 1) * g_img.res.width)] - g_img.buffer[i + (j * g_img.res.width)])*0.0000015 );
   return ((linear_interpolation(i, j + 1, img) - linear_interpolation(i, j, img)) * 0.000001);
 }
 
