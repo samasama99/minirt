@@ -21,6 +21,10 @@ t_plane	make_plane(t_point pos, t_norm norm)
 		.id = ++id,
 		.transform = identity(),
 		.material = material(),
+		.color_type = Normal,
+		.img = {.img = NULL, .buffer = NULL},
+		.checkerboard_color1 = black(),
+		.checkerboard_color2 = black(),
 		.position = pos,
 		.normal = normalize(norm),
 	});

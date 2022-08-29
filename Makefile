@@ -69,7 +69,9 @@ SRC 				=	src/camera.c \
 						src/vector4.c \
 						src/world.c \
 						src/event.c \
-    				src/bm_utils.c \
+    					src/bm_utils.c \
+    					src/uv.c \
+    					src/checkerboard.c \
 						main.c
 
 OBJDIR 			=	obj

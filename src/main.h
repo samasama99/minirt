@@ -164,6 +164,12 @@ typedef struct s_material {
 	double	shininess;
 }	t_material;
 
+typedef enum e_color_type {
+	Normal,
+	Texture,
+	Checkerboard,
+}	t_color_type;
+
 typedef enum e_shape_type {
 	Error,
 	SuperShape,
@@ -179,6 +185,10 @@ typedef struct s_super_shape
 	int				id;
 	t_transform		transform;
 	t_material		material;
+	t_color_type	color_type;
+  	t_image img;
+	t_rgb checkerboard_color1;
+	t_rgb checkerboard_color2;
 }	t_super_shape;
 
 typedef struct s_sphere {
@@ -186,10 +196,12 @@ typedef struct s_sphere {
 	int				id;
 	t_matrix4		t;
 	t_material		material;
+	t_color_type	color_type;
+  	t_image			img;
+	t_rgb			checkerboard_color1;
+	t_rgb			checkerboard_color2;
 	t_point			center;
 	double			radius;
-  t_image img;
-  bool texture;
 }	t_sphere;
 
 typedef struct s_cylinder {
@@ -197,6 +209,10 @@ typedef struct s_cylinder {
 	int				id;
 	t_matrix4		t;
 	t_material		material;
+	t_color_type	color_type;
+  	t_image img;
+	t_rgb checkerboard_color1;
+	t_rgb checkerboard_color2;
 	t_point			center;
 	t_norm			normal;
 	double			radius;
@@ -208,6 +224,10 @@ typedef struct s_cone {
 	int				id;
 	t_matrix4		t;
 	t_material		material;
+	t_color_type	color_type;
+  	t_image img;
+	t_rgb checkerboard_color1;
+	t_rgb checkerboard_color2;
 	t_point			center;
 	t_norm			normal;
 	double			radius;
@@ -219,6 +239,10 @@ typedef struct s_plane {
 	int				id;
 	t_transform		transform;
 	t_material		material;
+	t_color_type	color_type;
+  	t_image img;
+	t_rgb checkerboard_color1;
+	t_rgb checkerboard_color2;
 	t_point			position;
 	t_norm			normal;
 }	t_plane;
@@ -294,7 +318,7 @@ t_world			add_shape(const t_world w, const t_shape s);
 t_world			add_light(const t_world w, const t_light l);
 t_world			default_world(void);
 t_hit			intersect_world(t_world w, t_ray r);
-t_rgb			shade_hit(t_world w, t_comp comps, t_light l);
+t_rgb	shade_hit(t_world w, t_comp comps, t_light l, bool amb);
 t_rgb			color_at(t_world w, t_ray r);
 bool			is_shadowed(t_world w, t_point p, t_light l);
 t_rgb	diffuse(t_material m, t_light l, double light_dot_normal);
@@ -342,9 +366,14 @@ typedef struct s_uv
     double v;
 } t_uv;
 
+
+t_rgb checkerboard(t_uv uv, t_rgb color1, t_rgb color2, t_pair ab);
+
 t_rad teta_sphere(t_sphere sp, t_point p);
 t_rad	phi_sphere(t_sphere sp, t_point p);
 t_uv uv_of_sphere(t_sphere sp, t_point p);
+t_uv uv_of_plane(t_point p);
+t_uv uv_of_cylinder(t_cylinder cy, t_point p);
 t_fpair ij_of_map(t_res res, t_uv uv);
 t_vec pu_sphere(t_point p);
 t_vec pv_sphere(t_point p, t_sphere sp);
@@ -353,5 +382,4 @@ double calc_dv_sphere(t_image img, t_sphere sp, t_point p);
 t_vec bm_normal_at(t_sphere sp, t_point p, t_image img);
 int get_color_at(t_image img, int x, int y);
 double linear_interpolation(double i, double j, t_image img);
-t_image g_img;
 #endif

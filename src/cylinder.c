@@ -29,6 +29,10 @@ t_cylinder	make_cylinder(t_point point, t_norm norm,
 		.normal = norm,
 		.t = identity(),
 		.material = m,
+		.color_type = Normal,
+		.img = {.img = NULL, .buffer = NULL},
+		.checkerboard_color1 = black(),
+		.checkerboard_color2 = black(),
 	});
 }
 

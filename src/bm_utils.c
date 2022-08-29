@@ -14,26 +14,6 @@
 #include "main.h" 
 #include <math.h>
 
-t_rad	teta_sphere(t_sphere sp, t_point p)
-{
-	return (acos((p.y - sp.center.y)/ sp.radius));
-}
-
-t_rad	phi_sphere(t_sphere sp,t_point p)
-{
-	return (atan2(sp.center.z - p.z ,sp.center.x - p.x));
-}
-
-t_uv	uv_of_sphere(t_sphere sp, t_point p)
-{
-  t_vec vec =  {{-p.x + sp.center.x, -p.y + sp.center.y, -p.z + sp.center.z}};
-  vec = normalize(vec);
-	double			u = 0.5 + atan2(vec.x, vec.z)  / (2 * M_PI);
-	const double	v = 0.5 + asin(vec.y)/ M_PI;
-
-	return ((t_uv){-u, v});
-}
-
 t_fpair ij_of_map(t_res res, t_uv uv)
 {
   const double u = uv.u;
