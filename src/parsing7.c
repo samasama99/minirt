@@ -60,7 +60,7 @@ t_optional_shape	parse_sphere(const t_optional_array elems)
 		{
 			sp.color_type = Checkerboard;
 			sp.checkerboard_color1 = color[0].value;
-			sp.checkerboard_color1 = color[1].value;
+			sp.checkerboard_color2 = color[1].value;
 		}
     }
     else

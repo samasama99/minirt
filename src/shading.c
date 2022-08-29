@@ -100,7 +100,7 @@ t_rgb shade_hit_checkerboard(t_point p, t_shape shape) {
 	if (shape.type == Sphere)
 		uv = uv_of_sphere(shape.sphere, p), ab = pair(30, 30);
 	else if (shape.type == Plane)
-		uv = uv_of_plane(p), ab = pair(30, 30);
+		uv = uv_of_plane(shape.plane.normal, p), ab = pair(10, 10);
 	else if (shape.type == Cylinder)
 		uv = uv_of_cylinder(shape.cylinder, p), ab = pair(30, 30);
 	else

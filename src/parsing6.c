@@ -128,6 +128,7 @@ t_optional_shape	parse_plane(const t_optional_array elems)
 		pl.material.color = color[0].value;
 	else
 	{
+		puts("here");
 		pl.checkerboard_color1 = color[0].value;
 		pl.checkerboard_color2 = color[1].value;
 		pl.color_type = Checkerboard;
