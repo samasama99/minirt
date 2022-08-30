@@ -21,15 +21,6 @@ int get_color_at(t_image img, int x, int y)
   return (img.buffer[x + (y * img.res.width)]);
 }
 
-t_rgb cb(t_uv uv, int a, int b) {
-	const double u = floor(uv.u * a);
-	const double v = floor(uv.v * b);
-	
-	if ((int)(u + v) % 2)
-		return color(1, 1, 1);
-	return black();
-}
-
 t_rgb shade_hit_normal(t_world w, t_comp comps, t_light l, bool amb) {
 	double				reflect_dot_eye;
 	const t_material	m = comps.shape.super.material;
@@ -71,9 +62,9 @@ t_rgb shade_hit_checkerboard(t_point p, t_shape shape) {
 	if (shape.type == Sphere)
 		uv = uv_of_sphere(shape.sphere, p), ab = pair(30, 30);
 	else if (shape.type == Plane)
-		uv = uv_of_plane(shape.plane.normal, p), ab = pair(10, 10);
+		uv = uv_of_plane(shape.plane, p), ab = pair(10, 10);
 	else if (shape.type == Cylinder)
-		uv = uv_of_cylinder(shape.cylinder, p), ab = pair(30, 30);
+		uv = uv_of_cylinder(shape.cylinder, p), ab = pair(50, 50);
 	else
 		ft_exit(parse_string("uv : checkerboard : unknown type\n"), 1);
 	return checkerboard(uv,

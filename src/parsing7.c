@@ -95,9 +95,11 @@ t_optional_shape	parse_cylinder(const t_optional_array elems)
 	i.normal.value.w = 0;
 	i.cy = make_cylinder(point(0, 0, 0), vector(0, 1, 0),
 			(t_fpair){{i.diameter.value / 2.0, i.height.value}}, i.color.value);
-	i.cy.t = mat4_mult(translation(i.center.value.x, i.center.value.y,
+	i.cy.t = 
+ mat4_mult(translation(i.center.value.x, i.center.value.y,
 				i.center.value.z),
-			mat4_mult(mat4_mult(rotation_y(acos(dot(vector(0, 0, 1),
+
+		mat4_mult(mat4_mult(rotation_y(acos(dot(vector(0, 0, 1),
 								normalize(i.normal.value)))),
 				rotation_z(acos(dot(normalize(i.normal.value),
 							vector(0, 1, 0))))),

@@ -372,7 +372,7 @@ t_rgb checkerboard(t_uv uv, t_rgb color1, t_rgb color2, t_pair ab);
 t_rad teta_sphere(t_sphere sp, t_point p);
 t_rad	phi_sphere(t_sphere sp, t_point p);
 t_uv uv_of_sphere(t_sphere sp, t_point p);
-t_uv uv_of_plane(t_norm norm, t_point p);
+t_uv uv_of_plane(t_plane pl, t_point p);
 t_uv uv_of_cylinder(t_cylinder cy, t_point p);
 t_fpair ij_of_map(t_res res, t_uv uv);
 t_vec pu_sphere(t_point p);

@@ -124,7 +124,7 @@ t_optional_shape	parse_plane(const t_optional_array elems)
 		return (error);
 	pl = plane();
 	normal.value.w = 0;
-	pl = make_plane(p.value, normal.value);
+	pl = make_plane(point(0, 0, 0), vector(0, 1, 0));
 	pl.material = material();
 	if (color[1].error)
 		pl.material.color = color[0].value;
@@ -140,7 +140,16 @@ t_optional_shape	parse_plane(const t_optional_array elems)
       pl.color_type = Texture;
       pl.img = image.value;
 	}
-	pl.transform = identity();
+	
+	pl.transform = 
+ mat4_mult(translation(p.value.x, p.value.y,
+				p.value.z),
+		mat4_mult(mat4_mult(rotation_y(acos(dot(vector(0, 0, 1),
+								normalize(normal.value)))),
+				rotation_z(acos(dot(normalize(normal.value),
+							vector(0, 1, 0))))),
+							rotation_x(acos(dot(normalize(normal.value),
+								vector(0, 1, 0))))));
 	return ((t_optional_shape){
 		.value = (t_shape)pl,
 		.error = false,
