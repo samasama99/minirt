@@ -70,6 +70,7 @@ SRC 				=	src/camera.c \
 						src/world.c \
 						src/event.c \
     					src/bm_utils.c \
+    					src/bm_sphere.c \
     					src/uv.c \
     					src/checkerboard.c \
 						main.c

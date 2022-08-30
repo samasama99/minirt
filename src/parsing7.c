@@ -78,6 +78,7 @@ t_optional_shape	parse_cylinder(const t_optional_array elems)
 {
 	const t_optional_shape		error = {.error = true};
 	t_optional_cylinder_info	i;
+	t_optional_image			image;
 	t_optional_rgb						color2;
 
 	if (elems.error)
@@ -87,8 +88,9 @@ t_optional_shape	parse_cylinder(const t_optional_array elems)
 	i.diameter = parse_double(elems.value[3]);
 	i.height = parse_double(elems.value[4]);
 	i.color = parse_rgb(elems.value[5]);
+  	image = parse_image_path(elems.value[5]);
 	color2 = parse_rgb(elems.value[6]);
-	if (i.center.error || i.diameter.error || i.color.error)
+	if (i.center.error || i.diameter.error || (i.color.error && image.error))
 		return (error);
 	i.normal.value.w = 0;
 	i.cy = make_cylinder(point(0, 0, 0), vector(0, 0, 0),
@@ -103,12 +105,17 @@ t_optional_shape	parse_cylinder(const t_optional_array elems)
 							vector(1, 0, 0))))));
 	if (color2.error)
 		i.cy.material.color = i.color.value;
-	else
+	else if (image.error)
 	{
 		i.cy.checkerboard_color1 = i.color.value;
 		i.cy.checkerboard_color2 = color2.value;
 		i.cy.color_type = Checkerboard;
-	}
+	} 
+	else
+    {
+      i.cy.color_type = Texture;
+      i.cy.img = image.value;
+    }
 	return ((t_optional_shape){.value = (t_shape)i.cy, .error = false});
 }
 

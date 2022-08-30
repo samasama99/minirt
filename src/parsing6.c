@@ -110,6 +110,7 @@ t_optional_shape	parse_plane(const t_optional_array elems)
 	t_optional_point		p;
 	t_optional_point		normal;
 	t_optional_rgb			color[2];
+	t_optional_image			image;
 	t_plane					pl;
 
 	if (elems.error)
@@ -117,8 +118,9 @@ t_optional_shape	parse_plane(const t_optional_array elems)
 	p = parse_position(elems.value[1]);
 	normal = parse_position(elems.value[2]);
 	color[0] = parse_rgb(elems.value[3]);
+  	image = parse_image_path(elems.value[3]);
 	color[1] = parse_rgb(elems.value[4]);
-	if (p.error || normal.error || color[0].error)
+	if (p.error || normal.error || (color[0].error && image.error))
 		return (error);
 	pl = plane();
 	normal.value.w = 0;
@@ -126,12 +128,17 @@ t_optional_shape	parse_plane(const t_optional_array elems)
 	pl.material = material();
 	if (color[1].error)
 		pl.material.color = color[0].value;
-	else
+	else if (image.error)
 	{
 		puts("here");
 		pl.checkerboard_color1 = color[0].value;
 		pl.checkerboard_color2 = color[1].value;
 		pl.color_type = Checkerboard;
+	}
+	else
+	{
+      pl.color_type = Texture;
+      pl.img = image.value;
 	}
 	pl.transform = identity();
 	return ((t_optional_shape){
