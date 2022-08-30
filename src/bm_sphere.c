@@ -60,7 +60,7 @@ t_rgb	shade_hit_bm_sphere(t_comp comps, t_light l, t_sphere s, t_world w)
     t_color ucolor = (t_color)(int)s.img.buffer[i + (j * s.img.res.width)];
 
   	comps.shape.sphere.material.color = color((float)ucolor.red / 255.0, (float)ucolor.green / 255.0, (float)ucolor.blue / 255.0);
-	const double		light_dot_normal = dot(lightv, normalize(opose(bm_normal_at_sphere(comps.shape.sphere, comps.over_point, s.img))));
+	const double		light_dot_normal = dot(lightv, normalize(bm_normal_at_sphere(comps.shape.sphere, comps.over_point, s.img)));
 
 	if (is_shadowed(w, comps.over_point, l) == true
 		|| light_dot_normal < 0)
