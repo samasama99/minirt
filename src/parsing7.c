@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing7.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 21:38:40 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/23 19:54:40 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/08/30 17:26:21 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,16 @@ t_optional_shape	parse_cylinder(const t_optional_array elems)
 	if (i.center.error || i.diameter.error || (i.color.error && image.error))
 		return (error);
 	i.normal.value.w = 0;
-	i.cy = make_cylinder(point(0, 0, 0), vector(0, 0, 0),
+	i.cy = make_cylinder(point(0, 0, 0), vector(0, 1, 0),
 			(t_fpair){{i.diameter.value / 2.0, i.height.value}}, i.color.value);
 	i.cy.t = mat4_mult(translation(i.center.value.x, i.center.value.y,
 				i.center.value.z),
-			mat4_mult(mat4_mult(rotation_x(acos(dot(normalize(i.normal.value),
-								vector(0, 1, 0)))),
-					rotation_z(acos(dot(vector(0, 1, 0),
-								normalize(i.normal.value))))),
-				rotation_y(acos(dot(normalize(i.normal.value),
-							vector(1, 0, 0))))));
+			mat4_mult(mat4_mult(rotation_y(acos(dot(vector(0, 0, 1),
+								normalize(i.normal.value)))),
+				rotation_z(acos(dot(normalize(i.normal.value),
+							vector(0, 1, 0))))),
+							rotation_x(acos(dot(normalize(i.normal.value),
+								vector(0, 1, 0))))));
 	if (color2.error)
 		i.cy.material.color = i.color.value;
 	else if (image.error)
