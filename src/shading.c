@@ -60,7 +60,7 @@ t_rgb shade_hit_checkerboard(t_point p, t_shape shape) {
 	else if (shape.type == Plane)
 		uv = uv_of_plane(shape.plane, p), ab = pair(10, 10);
 	else if (shape.type == Cylinder)
-		uv = uv_of_cylinder(shape.cylinder, p), ab = pair(50, 50);
+		uv = uv_of_cylinder(shape.cylinder, p), ab = pair(5, 5);
 	else
 		ft_exit(parse_string("uv : checkerboard : unknown type\n"), 1);
 	return checkerboard(uv,

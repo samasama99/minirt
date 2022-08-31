@@ -44,10 +44,10 @@ t_uv uv_of_plane(t_plane pl, t_point p)
 
 t_uv uv_cy(t_cylinder cy, t_point p)
 {
-	t_vec vec =  vector(-p.x + cy.center.x, (-p.y + cy.center.y) / (2 * cy.height), -p.z + cy.center.z);
+	t_vec vec =  vector(-p.x + cy.center.x, -p.y + cy.center.y, -p.z + cy.center.z);
 	double teta = atan2(vec.x, vec.z);
 	double u = 0.5 + (teta / (2 * M_PI));
-	double v = 0.5 - fmod(vec.y, 1);
+	double v = 0.5 - clamp(vec.y / (floor(cy.height * 2)), -1, 1);
 	return (t_uv) {u, v};
 }
 
