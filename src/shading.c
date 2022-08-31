@@ -21,7 +21,7 @@ int get_color_at(t_image img, int x, int y)
   return (img.buffer[x + (y * img.res.width)]);
 }
 
-t_rgb shade_hit_normal(t_world w, t_comp comps, t_light l, bool amb) {
+t_rgb shade_hit_normal(t_world w, t_comp comps, t_light l) {
 	double				reflect_dot_eye;
 	const t_material	m = comps.shape.super.material;
 	t_vec				reflectv;
@@ -31,18 +31,14 @@ t_rgb shade_hit_normal(t_world w, t_comp comps, t_light l, bool amb) {
 
 	if (is_shadowed(w, comps.over_point, l) == true
 		|| light_dot_normal < 0)
-	{
-		if (amb == false)
-			return (ambient(m, l));
-		return black();
-	}
+		return ambient(m, l);
 	reflectv = reflect(opose(lightv), comps.normalv);
 	reflect_dot_eye = dot(reflectv, comps.eyev);
-	return (rgb_sub(lighting(
+	return (lighting(
 			m,
 			l,
 			light_dot_normal,
-			reflect_dot_eye), ambient(m, l)));
+			reflect_dot_eye));
 }
 
 t_rgb shade_hit_texture(t_world w, t_comp comps, t_light l, t_intersection	inter) {
@@ -108,7 +104,7 @@ t_rgb	color_at(t_world w, t_ray r)
 	{
 		comps = prepare_computations(inter, r);
 		if (inter.shape.super.color_type == Normal)
-			c = rgb_sum(shade_hit_normal(w, comps, w.lights[index], index), c);
+			c = rgb_sum(shade_hit_normal(w, comps, w.lights[index]), c);
 		else if (inter.shape.super.color_type == Checkerboard)
 		{
 			c = shade_hit_checkerboard(comps.over_point, inter.shape);
@@ -120,6 +116,12 @@ t_rgb	color_at(t_world w, t_ray r)
 			// break;
 		}
 		++index;
+	}
+	if (inter.shape.super.color_type == Normal) {
+		c = rgb_sub(c, rgb_scalar(
+			rgb_scalar(inter.shape.super.material.ambient_color,
+				inter.shape.super.material.ambient_ratio),
+			w.amount_of_lights - 1));
 	}
 	return (c);
 }
