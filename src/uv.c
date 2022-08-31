@@ -26,11 +26,10 @@ t_rad	phi_sphere(t_sphere sp,t_point p)
 
 t_uv	uv_of_sphere(t_sphere sp, t_point p)
 {
-  t_vec vec =  {{-p.x + sp.center.x, -p.y + sp.center.y, -p.z + sp.center.z, 0}};
-  vec = normalize(vec);
-	double			u = 0.5 + atan2(vec.x, vec.z)  / (2 * M_PI);
+	t_vec vec =  vector(-p.x + sp.center.x, -p.y + sp.center.y, -p.z + sp.center.z);
+	vec = normalize(vec);
+	double			u = 0.5 + atan2(vec.x, vec.z) / (2 * M_PI);
 	const double	v = 0.5 + asin(vec.y)/ M_PI;
-
 	return ((t_uv){-u, v});
 }
 

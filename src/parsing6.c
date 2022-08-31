@@ -126,7 +126,7 @@ t_optional_shape	parse_plane(const t_optional_array elems)
 	normal.value.w = 0;
 	pl = make_plane(point(0, 0, 0), vector(0, 1, 0));
 	pl.material = material();
-	if (color[1].error)
+	if (color[1].error && image.error)
 		pl.material.color = color[0].value;
 	else if (image.error)
 	{

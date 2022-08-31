@@ -44,12 +44,11 @@ t_vec	bm_normal_at_sphere(t_sphere sp, t_point p, t_image img)
 	const double	du = calc_du_sphere(img, sp, p);
 	const double	dv = calc_dv_sphere(img, sp, p);
 	
-	if (dot(normalize(cross(pu, pv)), normalize(normal_at((t_shape)sp, p))) < 0
-  		|| is_equal_double(dot(normalize(cross(pu, pv)), normalize(normal_at((t_shape)sp, p))), 0))
-		return ((sub((cross(pu, pv)),
+	if (dot(cross(pu, pv), normal_at((t_shape)sp, p)) < 0)
+		return ((sub((cross(pv, pu)),
 				(sum(scalar(pu, du), scalar(pv, dv))))));
-
-	return ((sub((cross(pv, pu)),
+	else
+		return ((sub((cross(pu, pv)),
 				(sum(scalar(pu, du), scalar(pv, dv))))));
 }
 
@@ -65,33 +64,7 @@ t_rgb	shade_hit_bm_sphere(t_comp comps, t_light l, t_sphere s, t_world w)
   	comps.shape.sphere.material.color = color((float)ucolor.red / 255.0, (float)ucolor.green / 255.0, (float)ucolor.blue / 255.0);
 	const double		light_dot_normal = dot(lightv, normalize(bm_normal_at_sphere(comps.shape.sphere, comps.over_point, s.img)));
 
-	return comps.shape.sphere.material.color;
+	// return comps.shape.sphere.material.color;
+	return diffuse(comps.shape.super.material, l, light_dot_normal);
 }
-
-
-t_rgb	shade_hit_bm_cylinder(t_comp comps, t_light l, t_cylinder s, t_world w)
-{
-    const t_uv uv = uv_of_cylinder(s, comps.over_point);
-    const t_fpair ij = ij_of_map(s.img.res, uv);
-    const int i = ij.i;
-    const int j = ij.j;
-  	const t_vec			lightv = normalize(sub(l.position, comps.over_point));
-    t_color ucolor = (t_color)(int)s.img.buffer[i + (j * s.img.res.width)];
-
-  	comps.shape.super.material.color = color((float)ucolor.red / 255.0, (float)ucolor.green / 255.0, (float)ucolor.blue / 255.0);
-	return comps.shape.super.material.color;
-}
-t_rgb	shade_hit_bm_plane(t_comp comps, t_light l, t_plane s, t_world w)
-{
-    const t_uv uv = uv_of_plane(s, comps.over_point);
-    const t_fpair ij = ij_of_map(s.img.res, uv);
-    const int i = ij.i;
-    const int j = ij.j;
-  	const t_vec			lightv = normalize(sub(l.position, comps.over_point));
-    t_color ucolor = (t_color)(int)s.img.buffer[i + (j * s.img.res.width)];
-
-  	comps.shape.super.material.color = color((float)ucolor.red / 255.0, (float)ucolor.green / 255.0, (float)ucolor.blue / 255.0);
-	return comps.shape.super.material.color;
-}
-
 

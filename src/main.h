@@ -375,6 +375,7 @@ t_uv uv_of_sphere(t_sphere sp, t_point p);
 t_uv uv_of_plane(t_plane pl, t_point p);
 t_uv uv_of_cylinder(t_cylinder cy, t_point p);
 t_fpair ij_of_map(t_res res, t_uv uv);
+t_rgb	shade_hit_bm_plane(t_comp comps, t_light l, t_plane s, t_world w);
 t_vec pu_sphere(t_point p);
 t_vec pv_sphere(t_point p, t_sphere sp);
 double calc_du_sphere(t_image img, t_sphere sp, t_point p);
@@ -382,6 +383,7 @@ double calc_dv_sphere(t_image img, t_sphere sp, t_point p);
 t_vec	bm_normal_at(t_shape s, t_point p, t_image img);
 t_vec	bm_normal_at_sphere(t_sphere sp, t_point p, t_image img);
 t_rgb	shade_hit_bm_sphere(t_comp comps, t_light l, t_sphere s, t_world w);
+t_rgb	shade_hit_bm_cylinder(t_comp comps, t_light l, t_cylinder s, t_world w);
 int get_color_at(t_image img, int x, int y);
 double linear_interpolation(double i, double j, t_image img);
 #endif

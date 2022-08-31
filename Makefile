@@ -85,6 +85,9 @@ OBJ 				=	$(addprefix ${OBJDIR}/, ${SRC:%.c=%.o})
 
 all	: ${NAME} 
 
+run: ${all}
+	./minirt
+
 ${LIBFT} :
 	@echo "${YEL}MAKING LIBFT ...${NC}"
 	@make -C ${MAKE_LIBFT}

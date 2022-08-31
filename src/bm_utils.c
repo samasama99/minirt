@@ -32,12 +32,12 @@ double linear_interpolation(double i, double j, t_image img)
                       + (i - k) * (j - l) * get_color_at(img, k + 1, l + 1));
 }
 
-t_vec	bm_normal_at(t_shape s, t_point p, t_image img)
-{
-	if (s.type == Sphere)
-	{
-		return bm_normal_at_sphere(s.sphere, p, img);
-	}
-	puts("bm_normal_at unknown shape"), exit(1);
-	return vector(0, 1, 0);
-}
+// t_vec	bm_normal_at(t_shape s, t_point p, t_image img)
+// {
+// 	if (s.type == Sphere)
+// 	{
+// 		return bm_normal_at_sphere(s.sphere, p, img);
+// 	}
+// 	puts("bm_normal_at unknown shape"), exit(1);
+// 	return vector(0, 1, 0);
+// }

@@ -18,7 +18,9 @@ t_rgb	ambient(t_material m, t_light l);
 
 int get_color_at(t_image img, int x, int y)
 {
-  return (img.buffer[x + (y * img.res.width)]);
+	if (x < 0 || y < 0 || x >= img.res.width || y >= img.res.height) 
+		return puts("yes"), 0;
+	return (img.buffer[x + (y * img.res.width)]);
 }
 
 t_rgb shade_hit_normal(t_world w, t_comp comps, t_light l) {
@@ -45,7 +47,13 @@ t_rgb shade_hit_texture(t_world w, t_comp comps, t_light l, t_intersection	inter
 
 	if (inter.shape.type == Sphere)
 		return shade_hit_bm_sphere(comps, l, inter.shape.sphere, w);
-	puts("bm_normal_at unknown shape"), exit(1);
+	else if (inter.shape.type == Cylinder) {
+		return shade_hit_bm_cylinder(comps, l, inter.shape.cylinder, w);
+	}
+	else if (inter.shape.type == Plane) {
+		return shade_hit_bm_plane(comps, l, inter.shape.plane, w);
+	}
+	puts("shade_hit_texture unknown shape"), exit(1);
 	return black();
 };
 
@@ -108,12 +116,12 @@ t_rgb	color_at(t_world w, t_ray r)
 		else if (inter.shape.super.color_type == Checkerboard)
 		{
 			c = shade_hit_checkerboard(comps.over_point, inter.shape);
-			// break ;
+			break ;
 		}
 		else if (inter.shape.super.color_type == Texture)
 		{
 			c = shade_hit_texture(w, comps, w.lights[index], inter);
-			// break;
+			break;
 		}
 		++index;
 	}

@@ -105,7 +105,7 @@ t_optional_shape	parse_cylinder(const t_optional_array elems)
 							vector(0, 1, 0))))),
 							rotation_x(acos(dot(normalize(i.normal.value),
 								vector(0, 1, 0))))));
-	if (color2.error)
+	if (color2.error && image.error)
 		i.cy.material.color = i.color.value;
 	else if (image.error)
 	{
