@@ -65,7 +65,7 @@ t_hit	check_height_cylinder(const t_cylinder cy, const t_ray r, t_hit h)
 	if (fabs(ray_position(r, h.intersections[1].t).y - cy.center.y)
 		<= cy.height / 2)
 		return ((t_hit){.intersections[0] = h.intersections[1], .count = 1});
-	return (h);
+	return (no_intersection());
 }
 
 t_hit	intersect_cylinder(const t_cylinder cy, const t_ray r)
