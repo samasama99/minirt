@@ -88,9 +88,9 @@ t_rgb	shade_hit_bm_plane(t_comp comps, t_light l, t_plane s, t_world w)
     const int i = ij.i;
     const int j = ij.j;
   	const t_vec			lightv = normalize(sub(l.position, comps.over_point));
-    t_color ucolor = (t_color)(int)s.img.buffer[i + (j * s.img.res.width)];
+    t_color ucolor = (t_color)(int)	linear_interpolation(i, j, s.img);
 
-  	comps.shape.super.material.color = color((float)ucolor.red / 255.0, (float)ucolor.green / 255.0, (float)ucolor.blue / 255.0);
+  	comps.shape.super.material.color = color((float)ucolor.red / 255.999, (float)ucolor.green / 255.999, (float)ucolor.blue / 255.999);
 	return comps.shape.super.material.color;
 }
 

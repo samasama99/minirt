@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 16:44:23 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/27 19:18:43 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/09/01 13:42:39 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@
 
 t_rgb	ambient(t_material m, t_light l);
 
-int get_color_at(t_image img, int x, int y)
+int	get_color_at(t_image img, int x, int y)
 {
-	if (x < 0 || y < 0 || x >= img.res.width || y >= img.res.height) 
-		return puts("yes"), 0;
+	x = x % img.res.width;
+	if (x < 0)
+		x += img.res.width;
+	y = y % img.res.height;
+	if (y < 0)
+		y += img.res.height;
 	return (img.buffer[x + (y * img.res.width)]);
 }
 

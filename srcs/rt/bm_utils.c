@@ -6,7 +6,7 @@
 /*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:20:22 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/27 19:20:23 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/09/01 13:41:07 by zsarir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,25 @@
 #include "main.h" 
 #include <math.h>
 
-t_fpair ij_of_map(t_res res, t_uv uv)
+t_fpair	ij_of_map(t_res res, t_uv uv)
 {
-  const double u = uv.u;
-  const double v = uv.v;
+	const double	u = uv.u;
+	const double	v = uv.v;
 
 	return ((t_fpair){{u * res.width, v * res.height}});
 }
 
-double linear_interpolation(double i, double j, t_image img)
+double	linear_interpolation(double i, double j, t_image img)
 {
-    int k = i;
-    int l = j;
-    return  ((1 - (i - k)) * (1 - (j - l)) * get_color_at(img, k, l)
-                      + (1 - (i - k)) * (j - l) * get_color_at(img, k, l + 1)
-                      + (i - k) * (1 - (j - l)) * get_color_at(img, k + 1, l)
-                      + (i - k) * (j - l) * get_color_at(img, k + 1, l + 1));
+	int	k;
+	int	l;
+
+	k = i;
+	l = j;
+	return ((1 - (i - k)) * (1 - (j - l)) * get_color_at(img, k, l)
+		+ (1 - (i - k)) * (j - l) * get_color_at(img, k, l + 1)
+		+ (i - k) * (1 - (j - l)) * get_color_at(img, k + 1, l)
+		+ (i - k) * (j - l) * get_color_at(img, k + 1, l + 1));
 }
 
 // t_vec	bm_normal_at(t_shape s, t_point p, t_image img)
