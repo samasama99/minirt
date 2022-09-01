@@ -158,6 +158,8 @@ t_optional_camera	parse_camera(const t_optional_array elems, t_res res);
 t_optional_light	parse_light(const t_optional_array elems);
 t_optional_shape	parse_plane(const t_optional_array elems);
 t_optional_shape	parse_sphere(const t_optional_array elems);
+t_optional_shape	parse_cone(const t_optional_array elems);
+t_optional_shape	parse_cylinder(const t_optional_array elems);
 t_optional_shape	parse_shape(const t_optional_array elems, t_line_type type);
 
 t_optional_image parse_image_path(const char *path);

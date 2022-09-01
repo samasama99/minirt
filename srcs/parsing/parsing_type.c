@@ -12,24 +12,13 @@
 
 #include "parsing.h"
 
-t_optional_string	parse_string(char *target)
-{
-	if (target == NULL)
-		return ((t_optional_string){.is_null = true});
-	return ((t_optional_string){
-		.value = target,
-		.size = ft_strlen(target),
-		.is_null = false,
-	});
-}
-
 t_optional_int	parse_type(char *target)
 {
 	const t_optional_string	string = parse_string(target);
 
 	if (string.is_null)
 		return ((t_optional_int){.error = true});
-	if (is_equal_str(string.value, "#"))
+	if (is_equal_str(string.value, "#") || string.value[0] == '#')
 		return ((t_optional_int){.value = e_comment});
 	if (is_equal_str(string.value, "l"))
 		return ((t_optional_int){.value = e_light});
@@ -46,17 +35,4 @@ t_optional_int	parse_type(char *target)
 	if (is_equal_str(string.value, "co"))
 		return ((t_optional_int){.value = e_cone});
 	return ((t_optional_int){.error = true});
-}
-
-void	correct_ambient(t_world w, t_material ambient)
-{
-	int	i;
-
-	i = 0;
-	while (i < w.amount_of_shapes)
-	{
-		w.shapes[i].super.material.ambient_color = ambient.ambient_color;
-		w.shapes[i].super.material.ambient_ratio = ambient.ambient_ratio;
-		++i;
-	}
 }

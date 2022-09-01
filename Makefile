@@ -48,17 +48,28 @@ SRC 				=	srcs/rt/camera.c \
 						srcs/rt/light.c \
 						srcs/rt/utils.c \
 						srcs/rt/event.c \
+						srcs/parsing/parse_shape.c \
 						srcs/parsing/parsing.c \
-						srcs/parsing/parsing2.c \
-						srcs/parsing/parsing3.c \
-						srcs/parsing/parsing4.c \
-						srcs/parsing/parsing5.c \
-						srcs/parsing/parsing6.c \
-						srcs/parsing/parsing7.c \
-						srcs/parsing/parsing8.c \
-						srcs/parsing/parsing9.c \
-						srcs/parsing/parsing10.c \
-						srcs/parsing/parsing11.c \
+						srcs/parsing/parsing_ambient.c \
+						srcs/parsing/parsing_camera.c \
+						srcs/parsing/parsing_color.c \
+						srcs/parsing/parsing_cone.c \
+						srcs/parsing/parsing_cylinder.c \
+						srcs/parsing/parsing_digit.c \
+						srcs/parsing/parsing_double.c \
+						srcs/parsing/parsing_fov.c \
+						srcs/parsing/parsing_image.c \
+						srcs/parsing/parsing_int.c \
+						srcs/parsing/parsing_light.c \
+						srcs/parsing/parsing_plane.c \
+						srcs/parsing/parsing_position.c \
+						srcs/parsing/parsing_ratios.c \
+						srcs/parsing/parsing_sphere.c \
+						srcs/parsing/parsing_string.c \
+						srcs/parsing/parsing_type.c \
+						srcs/parsing/unwrap.c \
+						srcs/parsing/utils.c \
+						srcs/parsing/utils_2.c \
 						srcs/linear_algebra/transform.c \
 						srcs/linear_algebra/transform2.c \
 						srcs/linear_algebra/vector.c \

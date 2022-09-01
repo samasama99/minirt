@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing4.c                                         :+:      :+:    :+:   */
+/*   parsing10.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/21 14:44:25 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/21 14:44:37 by orahmoun         ###   ########.fr       */
+/*   Created: 2022/07/28 14:39:04 by orahmoun          #+#    #+#             */
+/*   Updated: 2022/08/23 21:20:27 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_optional_int	parse_int(const char *target)
+t_optional_int	parse_digit(const char *d)
 {
-	int	sign;
-
-	sign = 1;
-	if (target == NULL)
+	if (d == NULL || d[0] == '\0')
 		return ((t_optional_int){.error = true});
-	if (ft_isnumber(target + (target[0] == '-')) == false)
+	if (ft_strlen(d) != 1)
 		return ((t_optional_int){.error = true});
-	if (target[0] == '-')
-		sign = -1;
+	if (ft_isdigit(d[0]) != 1)
+		return ((t_optional_int){.error = true});
 	return ((t_optional_int){
-		.value = ft_atoi(target),
-		.sign = sign,
+		.value = ft_atoi(d),
 		.error = false,
 	});
 }

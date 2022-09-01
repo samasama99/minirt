@@ -13,31 +13,6 @@
 #include "parsing.h"
 #include "libft.h"
 
-char	*read_file(int fd)
-{
-	char	*total;
-	char	buffer[2];
-	int		b;
-
-	total = ft_strdup("\0");
-	while (1)
-	{
-		b = read(fd, buffer, 1);
-		if (b == -1)
-		{
-			ft_perror(1); 
-			close(fd);
-		}
-		if (b == 0)
-			break ;
-		buffer[1] = '\0';
-		total = ft_strjoin(total, buffer);
-	}
-	if (total && total[0] == '\0')
-		return (NULL);
-	return (total);
-}
-
 void	parse(t_data *data, int fd, t_res res, t_optional_array lines)
 {
 	t_optional_array	arr;
