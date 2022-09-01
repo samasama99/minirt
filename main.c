@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "src/main.h"
-#include "src/linear_algebra.h"
-#include "src/parsing.h"
+#include <main.h>
+#include <linear_algebra.h>
+#include <parsing.h>
 
 bool	is_rt_file(char *file)
 {
