@@ -41,8 +41,6 @@ t_vec	normal_at(t_shape shape, t_point world_point)
 	const t_point		local_point = apply(inverse(shape_transform),
 			world_point);
 
-	if (shape.type == SuperShape)
-		local_normal = vector(local_point.x, local_point.y, local_point.z);
 	if (shape.type == Plane)
 		local_normal = normal_at_plane(shape.plane);
 	if (shape.type == Sphere)

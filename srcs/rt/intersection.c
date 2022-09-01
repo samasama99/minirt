@@ -43,7 +43,7 @@ t_intersection	hit(t_hit h)
 	int				i;
 	t_intersection	min_positive;
 
-	i = 0;
+	i = 1;
 	min_positive = h.intersections[0];
 	while (i < h.count)
 	{

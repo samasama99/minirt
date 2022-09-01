@@ -338,13 +338,13 @@ t_ray			ray_for_pixel(t_camera c, int px, int py);
 // RENDER
 
 typedef struct s_thread_data {
-	int			y;
+	int			line;
 	t_camera	camera;
 	t_world		world;
 	t_image		canvas;
 }	t_thread_data;
 
-void			render(t_camera c, t_world w, t_image canvas);
+void	render(const t_camera c, const t_world w, const t_image canvas);
 
 // cylinder
 t_cylinder		make_cylinder(t_point point, t_norm norm,

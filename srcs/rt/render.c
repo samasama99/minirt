@@ -48,7 +48,7 @@ static t_thread_data	create_thread_data(int y,
 										t_image canvas)
 {
 	return ((t_thread_data){
-		.y = y,
+		.line = y,
 		.camera = c,
 		.world = w,
 		.canvas = canvas});
@@ -64,9 +64,9 @@ static void	*render_thread(void *d)
 	x = 0;
 	while (x < data->camera.hsize - 1)
 	{
-		r = ray_for_pixel(data->camera, x, data->y);
+		r = ray_for_pixel(data->camera, x, data->line);
 		c = color_at(data->world, r);
-		put_pixel_to_image(data->canvas, pair(x, data->y), c);
+		put_pixel_to_image(data->canvas, pair(x, data->line), c);
 		++x;
 	}
 	return (NULL);
@@ -74,7 +74,7 @@ static void	*render_thread(void *d)
 
 #define THREAD_COUNT 8
 
-void	render(t_camera c, t_world w, t_image canvas)
+void	render(const t_camera c, const t_world w, const t_image canvas)
 {
 	t_thread_data	data[8];
 	pthread_t		id[8 + 1];

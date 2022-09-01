@@ -111,17 +111,17 @@ t_rgb	color_at(t_world w, t_ray r)
 	while (index < w.amount_of_lights)
 	{
 		comps = prepare_computations(inter, r);
-		if (inter.shape.super.color_type == Normal)
+		if (inter.shape.super.color_type == Normal) 
 			c = rgb_sum(shade_hit_normal(w, comps, w.lights[index]), c);
 		else if (inter.shape.super.color_type == Checkerboard)
 		{
 			c = shade_hit_checkerboard(comps.over_point, inter.shape);
-			break ;
+			// break ;
 		}
 		else if (inter.shape.super.color_type == Texture)
 		{
 			c = shade_hit_texture(w, comps, w.lights[index], inter);
-			break;
+			// break;
 		}
 		++index;
 	}

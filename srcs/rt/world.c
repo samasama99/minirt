@@ -19,7 +19,6 @@ t_world	add_shape(const t_world w, const t_shape s)
 
 	new_w = w;
 	new_w.shapes = ft_malloc(sizeof(t_shape) * (w.amount_of_shapes + 1));
-	new_w.amount_of_shapes = w.amount_of_shapes + 1;
 	i = 0;
 	while (i < w.amount_of_shapes)
 	{
@@ -27,6 +26,7 @@ t_world	add_shape(const t_world w, const t_shape s)
 		++i;
 	}
 	new_w.shapes[w.amount_of_shapes] = s;
+	new_w.amount_of_shapes = w.amount_of_shapes + 1;
 	return (new_w);
 }
 

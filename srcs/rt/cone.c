@@ -38,20 +38,42 @@ t_cone	make_cone(t_point point, t_norm norm,
 
 t_hit	check_height_cone(const t_cone co, const t_ray r, t_hit h)
 {
-	const double	hi = co.center.y + co.height;
+	const double	hi = co.center.y;
+	t_point p;
+	t_intersection inter;
 
-	if (fabs(ray_position(r, h.intersections[0].t).y - hi) > co.height
-		&& fabs(ray_position(r, h.intersections[1].t).y - hi) > co.height)
+	if (h.intersections[0].t >=0 && h.intersections[0].t <= h.intersections[1].t)
+		inter = h.intersections[0];
+	else if (h.intersections[1].t >= 0)
+		inter = h.intersections[1];
+	else
+		return no_intersection();
+	p = ray_position(r, inter.t);
+	if (fabs(p.y - hi) > co.height)
 		return (no_intersection());
-	if (fabs(ray_position(r, h.intersections[0].t).y - hi) <= co.height
-		&& fabs(ray_position(r, h.intersections[1].t).y - hi) <= co.height)
-		return (h);
-	if (fabs(ray_position(r, h.intersections[0].t).y - hi) <= co.height)
-		return ((t_hit){.intersections[0] = h.intersections[0], .count = 1});
-	if (fabs(ray_position(r, h.intersections[1].t).y - hi) <= co.height)
-		return ((t_hit){.intersections[0] = h.intersections[1], .count = 1});
-	return (h);
+	return ((t_hit){.intersections[0] = inter, .count = 1});
 }
+
+// t_hit	check_height_cone(const t_cone co, const t_ray r, t_hit h)
+// {
+// 	const double	hi = co.center.y + co.height;
+
+// 	if (h.intersections[0].t < 0 && h.intersections[1].t < 0)
+// 		return no_intersection();
+// 	if (fabs(ray_position(r, h.intersections[0].t).y - hi) > co.height
+// 		&& fabs(ray_position(r, h.intersections[1].t).y - hi) > co.height)
+// 		return (no_intersection());
+// 	if (fabs(ray_position(r, h.intersections[0].t).y - hi) <= co.height
+// 		&& fabs(ray_position(r, h.intersections[1].t).y - hi) <= co.height)
+// 		return (h);
+// 	if (fabs(ray_position(r, h.intersections[0].t).y - hi) <= co.height)
+// 		return ((t_hit){.intersections[0] = h.intersections[0], .count = 1});
+// 	if (fabs(ray_position(r, h.intersections[1].t).y - hi) <= co.height)
+// 		return ((t_hit){.intersections[0] = h.intersections[1], .count = 1});
+// 	return (h);
+// }
+
+
 
 t_hit	cone_roots(double a, double b, double discriminant, t_cone co)
 {

@@ -70,9 +70,9 @@ int	make_color(t_rgb c, float alpha)
 	c.blue = clamp(c.blue, 0, 1);
 	c.green = clamp(c.green, 0, 1);
 	c.red = clamp(c.red, 0, 1);
-	color.blue = c.blue * 255.0;
-	color.green = c.green * 255.0;
-	color.red = c.red * 255.0;
-	color.alpha = alpha * 255.0;
+	color.blue = c.blue * 255.999;
+	color.green = c.green * 255.999;
+	color.red = c.red * 255.999;
+	color.alpha = alpha * 255.999;
 	return (color.color);
 }
