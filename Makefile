@@ -16,63 +16,63 @@ NAME				=	minirt
 
 CC					=	cc
 
-FLAGS				=	-Wall -Wextra -I libft
+FLAGS				=	-Wall -Wextra -I libft -I includes
 
 MLX_FLAGS		=	-lmlx -framework OpenGL -framework AppKit
 
-HEADER			=	src/main.h src/parsing.h src/linear_algebra.h src/main.h src/parsing.h
+HEADER			=	includes/main.h includes/parsing.h includes/linear_algebra.h libft/libft.h
 
 LIBFT 			=	libft/libft.a
 
 MAKE_LIBFT 	=	libft/
 
-SRC 				=	src/camera.c \
-						src/cone.c \
-						src/cylinder.c \
-						src/discriminant.c \
-						src/intersection.c \
-						src/light.c \
-						src/matrix.c \
-						src/matrix2.c \
-						src/matrix3.c \
-						src/matrix4.c \
-						src/mlx.c \
-						src/mlx2.c \
-						src/mlx3.c \
-						src/mlx4.c \
-						src/parsing.c \
-						src/parsing2.c \
-						src/parsing3.c \
-						src/parsing4.c \
-						src/parsing5.c \
-						src/parsing6.c \
-						src/parsing7.c \
-						src/parsing8.c \
-						src/parsing9.c \
-						src/parsing10.c \
-						src/parsing11.c \
-						src/plane.c \
-						src/prof.c \
-						src/ray.c \
-						src/ray2.c \
-						src/render.c \
-						src/rgb.c \
-						src/rgb2.c \
-						src/shading.c \
-						src/sphere.c \
-						src/transform.c \
-						src/transform2.c \
-						src/utils.c \
-						src/vector.c \
-						src/vector2.c \
-						src/vector3.c \
-						src/vector4.c \
-						src/world.c \
-						src/event.c \
-    					src/bm_utils.c \
-    					src/bm_sphere.c \
-    					src/uv.c \
-    					src/checkerboard.c \
+SRC 				=	srcs/rt/camera.c \
+						srcs/rt/cone.c \
+						srcs/rt/plane.c \
+						srcs/rt/prof.c \
+						srcs/rt/ray.c \
+						srcs/rt/ray2.c \
+						srcs/rt/render.c \
+						srcs/rt/rgb.c \
+						srcs/rt/rgb2.c \
+						srcs/rt/shading.c \
+						srcs/rt/sphere.c \
+						srcs/rt/world.c \
+    					srcs/rt/bm_utils.c \
+    					srcs/rt/bm_sphere.c \
+    					srcs/rt/uv.c \
+    					srcs/rt/checkerboard.c \
+						srcs/rt/cylinder.c \
+						srcs/rt/discriminant.c \
+						srcs/rt/intersection.c \
+						srcs/rt/light.c \
+						srcs/rt/utils.c \
+						srcs/rt/event.c \
+						srcs/parsing/parsing.c \
+						srcs/parsing/parsing2.c \
+						srcs/parsing/parsing3.c \
+						srcs/parsing/parsing4.c \
+						srcs/parsing/parsing5.c \
+						srcs/parsing/parsing6.c \
+						srcs/parsing/parsing7.c \
+						srcs/parsing/parsing8.c \
+						srcs/parsing/parsing9.c \
+						srcs/parsing/parsing10.c \
+						srcs/parsing/parsing11.c \
+						srcs/linear_algebra/transform.c \
+						srcs/linear_algebra/transform2.c \
+						srcs/linear_algebra/vector.c \
+						srcs/linear_algebra/vector2.c \
+						srcs/linear_algebra/vector3.c \
+						srcs/linear_algebra/vector4.c \
+						srcs/linear_algebra/matrix.c \
+						srcs/linear_algebra/matrix2.c \
+						srcs/linear_algebra/matrix3.c \
+						srcs/linear_algebra/matrix4.c \
+						srcs/mlx/mlx.c \
+						srcs/mlx/mlx2.c \
+						srcs/mlx/mlx3.c \
+						srcs/mlx/mlx4.c \
 						main.c
 
 OBJDIR 			=	obj
@@ -84,9 +84,6 @@ OBJ 				=	$(addprefix ${OBJDIR}/, ${SRC:%.c=%.o})
 # RULES
 
 all	: ${NAME} 
-
-run: ${all}
-	./minirt
 
 ${LIBFT} :
 	@echo "${YEL}MAKING LIBFT ...${NC}"
