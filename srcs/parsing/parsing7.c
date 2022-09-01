@@ -136,17 +136,19 @@ t_optional_shape	parse_cone(const t_optional_array elems)
 	if (i.center.error || i.diameter.error || i.color.error)
 		return (error);
 	i.normal.value.w = 0;
-	i.co = make_cone(point(0, 0, 0), vector(0, 0, 0),
-			(t_fpair){{i.diameter.value / 2.0, i.height.value}},
-			i.color.value);
-	i.co.t = mat4_mult(translation(i.center.value.x, i.center.value.y,
+	i.co = make_cone(point(0, 0, 0), vector(0, 1, 0),
+			(t_fpair){{i.diameter.value / 2.0, i.height.value}}, i.color.value);
+	i.co.t = 
+ 	mat4_mult(translation(i.center.value.x, i.center.value.y,
 				i.center.value.z),
-			mat4_mult(mat4_mult(rotation_x(acos(dot(normalize(i.normal.value),
-								vector(0, 1, 0)))),
-					rotation_z(acos(dot(vector(0, 1, 0),
-								normalize(i.normal.value))))),
-				rotation_y(acos(dot(normalize(i.normal.value),
-							vector(1, 0, 0))))));
+
+		mat4_mult(mat4_mult(rotation_y(acos(dot(vector(0, 0, 1),
+								normalize(i.normal.value)))),
+				rotation_z(acos(dot(normalize(i.normal.value),
+							vector(0, 1, 0))))),
+							rotation_x(acos(dot(normalize(i.normal.value),
+								vector(0, 1, 0))))));
+	i.co.color_type = Normal;
 	return ((t_optional_shape){.value = (t_shape)i.co, .error = false});
 }
 

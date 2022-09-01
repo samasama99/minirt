@@ -1,0 +1,3 @@
+- [ ] another weird cone bug
+- [ ] comment parsing bug
+- [ ] amount of args in parsing bug

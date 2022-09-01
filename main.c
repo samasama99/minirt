@@ -49,14 +49,14 @@ int	open_rt_file(int ac, char **av)
 int	main(int ac, char **av)
 {
 	const long		begin = time_now();
-	const t_res		res = pair(2000, 1200);
+	const t_res		res = pair(1000, 600);
 	const int		fd = open_rt_file(ac, av);
 	t_image			canvas;
 	t_data			data;
 
 	init(res, "miniRt");
 	data = (t_data){.w = {0, 0, 0, 0}};
-	parse(&data, fd, res,split_string( read_file(fd), '\n'));
+	parse(&data, fd, res, split_string(read_file(fd), '\n'));
 	close(fd);
 	correct_ambient(data.w, data.ambient);
 	printf (" \033[0;32m----\033[0m :: The total amount of shapes %d\n",

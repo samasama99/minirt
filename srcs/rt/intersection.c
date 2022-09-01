@@ -43,10 +43,14 @@ t_intersection	hit(t_hit h)
 	int				i;
 	t_intersection	min_positive;
 
-	i = 0;
+	i = 1;
 	min_positive = h.intersections[0];
 	while (i < h.count)
 	{
+		if (h.intersections[i].shape.type == Error) {
+			i++;
+			continue;
+		}
 		if (min_positive.t < 0 && h.intersections[i].t >= 0)
 			min_positive = h.intersections[i];
 		if (h.intersections[i].t >= 0 && h.intersections[i].t < min_positive.t)
