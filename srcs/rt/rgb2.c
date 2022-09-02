@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   rgb2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 15:00:58 by zsarir            #+#    #+#             */
-/*   Updated: 2022/07/28 15:01:26 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/09/02 16:27:53 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include <main.h>
 
 t_rgb	rgb_product(t_rgb c1, t_rgb c2)
 {

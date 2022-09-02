@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:40:18 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 14:40:19 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 16:20:15 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ t_sphere	make_sphere(t_point origin, double radius, t_rgb color)
 		.radius = radius,
 	});
 }
-
-// t_sphere	sphere(void)
-// {
-// 	return (make_sphere(point(0, 0, 0), 1, color(255, 0, 0)));
-// }
 
 t_hit	sphere_roots(double a, double b, double discriminant, t_sphere sp)
 {

@@ -70,6 +70,12 @@ typedef struct s_optional_point
 	bool	error;
 }	t_optional_point;
 
+typedef struct s_optional_vector
+{
+	t_point	value;
+	bool	error;
+}	t_optional_vector;
+
 typedef struct s_optional_int
 {
 	int		value;
@@ -150,6 +156,7 @@ t_optional_double	parse_ratio(const char *target);
 t_optional_double	parse_color_ratio(const char *target);
 t_optional_rgb		parse_rgb(const char *target);
 t_optional_point	parse_position(const char *target);
+t_optional_vector	parse_vector(const char *target);
 t_optional_double	parse_fov(const char *target);
 t_optional_int		parse_type(char *target);
 
@@ -162,6 +169,7 @@ t_optional_shape	parse_cone(const t_optional_array elems);
 t_optional_shape	parse_cylinder(const t_optional_array elems);
 t_optional_shape	parse_shape(const t_optional_array elems, t_line_type type);
 
+t_transform set_transform(t_point p, t_norm normal);
 t_optional_image parse_image_path(const char *path);
 
 t_camera			unwrap_camera(t_optional_array array, t_res res);

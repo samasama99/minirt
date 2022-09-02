@@ -6,7 +6,7 @@
 #    By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/03 17:52:43 by orahmoun          #+#    #+#              #
-#    Updated: 2022/08/22 21:56:40 by orahmoun         ###   ########.fr        #
+#    Updated: 2022/09/02 16:19:17 by orahmoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC 				=	srcs/rt/camera.c \
 						srcs/rt/rgb.c \
 						srcs/rt/rgb2.c \
 						srcs/rt/shading.c \
+						srcs/rt/shading_2.c \
 						srcs/rt/sphere.c \
 						srcs/rt/world.c \
     					srcs/rt/bm_utils.c \
@@ -70,6 +71,7 @@ SRC 				=	srcs/rt/camera.c \
 						srcs/parsing/unwrap.c \
 						srcs/parsing/utils.c \
 						srcs/parsing/utils_2.c \
+						srcs/parsing/utils_3.c \
 						srcs/linear_algebra/transform.c \
 						srcs/linear_algebra/transform2.c \
 						srcs/linear_algebra/vector.c \

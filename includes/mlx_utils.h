@@ -2,7 +2,6 @@
 # define MLX_UTILS_H
 #include <linear_algebra.h>
 
-/******* MLX *******/
 typedef struct s_rgb t_rgb;
 typedef void	*t_mlx_ptr;
 typedef void	*t_win_ptr;

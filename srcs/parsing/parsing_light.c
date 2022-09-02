@@ -1,5 +1,17 @@
-#include "main.h"
-#include "parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_light.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/02 16:03:30 by orahmoun          #+#    #+#             */
+/*   Updated: 2022/09/02 16:03:31 by orahmoun         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <main.h>
+#include <parsing.h>
 
 t_optional_light	parse_light(const t_optional_array elems)
 {

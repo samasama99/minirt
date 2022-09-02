@@ -14,16 +14,6 @@
 #include "main.h" 
 #include <math.h>
 
-t_rad	teta_sphere(t_sphere sp, t_point p)
-{
-	return (acos((p.y - sp.center.y) / sp.radius));
-}
-
-t_rad	phi_sphere(t_sphere sp, t_point p)
-{
-	return (atan2(sp.center.z - p.z, sp.center.x - p.x));
-}
-
 t_uv	uv_of_sphere(t_sphere sp, t_point p)
 {
 	const t_vec		vec = normalize(vector(-p.x + sp.center.x,
@@ -55,7 +45,6 @@ t_uv	uv_cy(t_cylinder cy, t_point p)
 
 	return ((t_uv){u, v});
 }
-
 
 t_uv	uv_of_cylinder(t_cylinder cy, t_point p)
 {

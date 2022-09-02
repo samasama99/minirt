@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/23 21:05:07 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 16:18:22 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define EPSILON 0.00001
 # define HEIGHT 600
 # define WIDTH 600
+
 /******* GENERAL  UTILS ********/
 
 void			panic(bool con, const char *msg, const char *func);
@@ -236,6 +237,7 @@ t_vec			reflect(t_vec in, t_vec norm);
 t_light			point_light(t_point position, t_rgb color);
 t_rgb			lighting(t_material m, t_light l, double light_norm,
 					double reflect_eye);
+t_rgb			ambient(t_material m, t_light l);
 t_material		material(void);
 t_comp			prepare_computations(t_intersection i, t_ray r);
 t_transform		view_transform(t_point from, t_point to, t_vec up);
@@ -249,6 +251,7 @@ t_vec			normal_at_sphere(t_sphere s, t_point local_point);
 t_hit			no_intersection(void);
 double			discriminant(double a, double b, double c);
 
+
 // THE WORLD
 typedef struct s_world {
 	volatile t_shape	*shapes;
@@ -261,10 +264,18 @@ t_world			add_shape(const t_world w, const t_shape s);
 t_world			add_light(const t_world w, const t_light l);
 t_world			default_world(void);
 t_hit			intersect_world(t_world w, t_ray r);
-t_rgb	shade_hit(t_world w, t_comp comps, t_light l, bool amb);
+t_rgb			shade_hit(t_world w, t_comp comps, t_light l, bool amb);
 t_rgb			color_at(t_world w, t_ray r);
 bool			is_shadowed(t_world w, t_point p, t_light l);
-t_rgb	diffuse(t_material m, t_light l, double light_dot_normal);
+t_rgb			diffuse(t_material m, t_light l, double light_dot_normal);
+int				get_color_at(t_image img, int x, int y);
+t_rgb			shade_hit_normal(t_world w, t_comp comps, t_light l);
+t_rgb			shade_hit_texture(t_world w,
+					t_comp comps,
+					t_light l,
+					t_intersection inter);
+t_rgb			shade_hit_checkerboard(t_point p, t_shape shape);
+t_vec			reflect(t_vec in, t_vec norm);
 
 typedef struct s_camera {
 	double		hsize;

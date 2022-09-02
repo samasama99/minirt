@@ -1,5 +1,17 @@
-#include "main.h"
-#include "parsing.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/01 18:59:13 by orahmoun          #+#    #+#             */
+/*   Updated: 2022/09/02 16:04:23 by orahmoun         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <main.h>
+#include <parsing.h>
 
 void	ft_exit(t_optional_string err, int err_status)
 {

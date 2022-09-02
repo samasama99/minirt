@@ -6,12 +6,12 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 20:41:23 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/23 21:22:44 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/01 18:59:32 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
-#include "libft.h"
+#include <parsing.h>
+#include <libft.h>
 
 void	parse(t_data *data, int fd, t_res res, t_optional_array lines)
 {
