@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:38:08 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/18 19:38:23 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/09/02 16:30:26 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include <main.h>
 
 static double	calc_half_width(const double aspect, const double half_view)
 {

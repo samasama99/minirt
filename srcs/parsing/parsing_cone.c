@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 15:59:45 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 15:59:46 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 17:48:01 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_optional_shape	parse_cone(const t_optional_array elems)
 	t_cone					co;
 	t_optional_cone_info	i;
 
-	if (elems.error || (elems.size != 6))
+	if (elems.error || (elems.size != 7))
 		return (error);
 	i.center = parse_position(elems.value[1]);
 	i.normal = parse_vector(elems.value[2]);

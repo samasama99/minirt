@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 16:16:40 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 16:27:42 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 17:33:15 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_rgb	color_at(t_world w, t_ray r)
 		else if (inter.shape.super.color_type == Checkerboard)
 			c = shade_hit_checkerboard(comps.over_point, inter.shape);
 		else if (inter.shape.super.color_type == Texture)
-			c = shade_hit_texture(w, comps, w.lights[index], inter);
+			c = shade_hit_texture(comps, w.lights[index], inter);
 		++index;
 	}
 	return (correct_ambient_over_calc(c, inter.shape, w));

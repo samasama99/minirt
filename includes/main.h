@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 16:18:22 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 17:33:34 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,7 @@ bool			is_shadowed(t_world w, t_point p, t_light l);
 t_rgb			diffuse(t_material m, t_light l, double light_dot_normal);
 int				get_color_at(t_image img, int x, int y);
 t_rgb			shade_hit_normal(t_world w, t_comp comps, t_light l);
-t_rgb			shade_hit_texture(t_world w,
+t_rgb			shade_hit_texture(
 					t_comp comps,
 					t_light l,
 					t_intersection inter);
@@ -298,7 +298,7 @@ typedef struct s_thread_data {
 	t_image		canvas;
 }	t_thread_data;
 
-void	render(const t_camera c, const t_world w, const t_image canvas);
+void			render(const t_camera c, const t_world w, const t_image canvas);
 
 // cylinder
 t_cylinder		make_cylinder(t_point point, t_norm norm,
@@ -316,9 +316,9 @@ t_cone			cone(void);
 // uv
 typedef struct s_uv
 {
-    double u;
-    double v;
-} t_uv;
+	double	u;
+	double	v;
+}	t_uv;
 
 
 t_rgb checkerboard(t_uv uv, t_rgb color1, t_rgb color2, t_pair ab);
@@ -329,15 +329,13 @@ t_uv uv_of_sphere(t_sphere sp, t_point p);
 t_uv uv_of_plane(t_plane pl, t_point p);
 t_uv uv_of_cylinder(t_cylinder cy, t_point p);
 t_fpair ij_of_map(t_res res, t_uv uv);
-t_rgb	shade_hit_bm_plane(t_comp comps, t_light l, t_plane s, t_world w);
 t_vec pu_sphere(t_point p);
 t_vec pv_sphere(t_point p, t_sphere sp);
 double calc_du_sphere(t_image img, t_sphere sp, t_point p);
 double calc_dv_sphere(t_image img, t_sphere sp, t_point p);
-t_vec	bm_normal_at(t_shape s, t_point p, t_image img);
-t_vec	bm_normal_at_sphere(t_sphere sp, t_point p, t_image img);
-t_rgb	shade_hit_bm_sphere(t_comp comps, t_light l, t_sphere s, t_world w);
-t_rgb	shade_hit_bm_cylinder(t_comp comps, t_light l, t_cylinder s, t_world w);
+t_rgb	shade_hit_bm_sphere(t_comp comps, t_light l, t_sphere s);
+t_rgb	shade_hit_bm_cylinder(t_comp comps, t_light l, t_cylinder s);
+t_rgb	shade_hit_bm_plane(t_comp comps, t_light l, t_plane s);
 int get_color_at(t_image img, int x, int y);
 double linear_interpolation(double i, double j, t_image img);
 #endif

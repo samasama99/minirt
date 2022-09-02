@@ -1,0 +1,12 @@
+A 0.2 255,255,255
+
+C -3,2,-12.5 0,0,0 60
+
+l 0,5,-20 0.6 255,255,255
+
+sp -2,0,0 1.5 textures/earth_col.xpm
+
+cy 2,0,0 0,1,0 1.5 3 textures/wall.xpm
+
+pl 5,0,7 0,0,1 textures/wall2.xpm
+pl 0,-2,5 0,1,0 textures/wall2.xpm

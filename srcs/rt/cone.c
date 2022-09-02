@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 18:36:04 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/15 12:56:05 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/09/02 16:29:50 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include <main.h>
 
 t_cone	make_cone(t_point point, t_norm norm,
 					t_fpair info, t_rgb color)
@@ -36,30 +36,10 @@ t_cone	make_cone(t_point point, t_norm norm,
 	});
 }
 
-// t_hit	check_height_cone(const t_cone co, const t_ray r, t_hit h)
-// {
-// 	const double	hi = co.center.y;
-// 	t_point p;
-// 	t_intersection inter;
-
-// 	if (h.intersections[0].t == h.intersections[1].t && h.intersections[0].t >= 0)
-// 		inter = h.intersections[0];
-// 	else if (h.intersections[0].t >= 0 && h.intersections[0].t <= h.intersections[1].t)
-// 		inter = h.intersections[0];
-// 	else if (h.intersections[1].t >= 0 && h.intersections[0].t >= h.intersections[1].t)
-// 		inter = h.intersections[1];
-// 	else
-// 		return no_intersection();
-// 	p = ray_position(r, inter.t);
-// 	if (fabs(p.y - hi) > co.height)
-// 		return (no_intersection());
-// 	return ((t_hit){.intersections[0] = inter, .count = 1});
-// }
-
 t_hit	check_height_cone(const t_cone cy, const t_ray r, t_hit h)
 {
-	if (h.intersections[0].t <= 0 &&  h.intersections[1].t <= 0)
-		return no_intersection();
+	if (h.intersections[0].t <= 0 && h.intersections[1].t <= 0)
+		return (no_intersection());
 	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
 		> cy.height  && fabs(ray_position(r, h.intersections[1].t).y
 			- cy.center.y) > cy.height)
@@ -76,8 +56,6 @@ t_hit	check_height_cone(const t_cone cy, const t_ray r, t_hit h)
 		return ((t_hit){.intersections[0] = h.intersections[1], .count = 1});
 	return (no_intersection());
 }
-
-
 
 t_hit	cone_roots(double a, double b, double discriminant, t_cone co)
 {

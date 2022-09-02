@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 16:03:35 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 16:03:52 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 17:37:55 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_optional_shape	parse_plane(const t_optional_array elems)
 	pl = make_plane(point(0, 0, 0), vector(0, 1, 0));
 	pl.material = material();
 	pl.material.color = color[0].value;
+	pl.material.specular = 0;
 	if (color[1].error == false)
 		pl = set_pattern(pl, color[0].value, color[1].value);
 	else if (image.error == false)

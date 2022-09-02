@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersection.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:38:24 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/15 12:59:20 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/09/02 16:28:57 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ t_intersection	hit(t_hit h)
 	min_positive = h.intersections[0];
 	while (i < h.count)
 	{
-		if (h.intersections[i].shape.type == Error) {
+		if (h.intersections[i].shape.type == Error)
+		{
 			i++;
-			continue;
+			continue ;
 		}
 		if (min_positive.t < 0 && h.intersections[i].t >= 0)
 			min_positive = h.intersections[i];

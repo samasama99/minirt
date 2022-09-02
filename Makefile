@@ -6,7 +6,7 @@
 #    By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/03 17:52:43 by orahmoun          #+#    #+#              #
-#    Updated: 2022/09/02 16:19:17 by orahmoun         ###   ########.fr        #
+#    Updated: 2022/09/02 16:38:42 by orahmoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRC 				=	srcs/rt/camera.c \
 						srcs/rt/sphere.c \
 						srcs/rt/world.c \
     					srcs/rt/bm_utils.c \
-    					srcs/rt/bm_sphere.c \
+    					srcs/rt/bm_texture.c \
     					srcs/rt/uv.c \
     					srcs/rt/checkerboard.c \
 						srcs/rt/cylinder.c \

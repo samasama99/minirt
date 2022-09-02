@@ -6,11 +6,11 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:58:58 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/23 21:08:24 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 16:28:24 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include <main.h>
 #include <pthread.h>
 
 void	*wait_dots(void *nothing)

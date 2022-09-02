@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 16:44:23 by zsarir            #+#    #+#             */
-/*   Updated: 2022/09/02 16:18:57 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 17:33:09 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ t_rgb	shade_hit_normal(t_world w, t_comp comps, t_light l)
 			reflect_dot_eye));
 }
 
-t_rgb	shade_hit_texture(t_world w,
+t_rgb	shade_hit_texture(
 						t_comp comps,
 						t_light l,
 						t_intersection inter)
 {
 	if (inter.shape.type == Sphere)
-		return (shade_hit_bm_sphere(comps, l, inter.shape.sphere, w));
+		return (shade_hit_bm_sphere(comps, l, inter.shape.sphere));
 	else if (inter.shape.type == Cylinder)
-		return (shade_hit_bm_cylinder(comps, l, inter.shape.cylinder, w));
+		return (shade_hit_bm_cylinder(comps, l, inter.shape.cylinder));
 	else if (inter.shape.type == Plane)
-		return (shade_hit_bm_plane(comps, l, inter.shape.plane, w));
+		return (shade_hit_bm_plane(comps, l, inter.shape.plane));
 	puts("shade_hit_texture unknown shape");
 	exit(1);
 	return (black());
