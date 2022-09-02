@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 16:44:23 by zsarir            #+#    #+#             */
-/*   Updated: 2022/09/02 17:33:09 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 18:02:43 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,28 @@ t_rgb	shade_hit_normal(t_world w, t_comp comps, t_light l)
 }
 
 t_rgb	shade_hit_texture(
+						t_world w,
 						t_comp comps,
 						t_light l,
 						t_intersection inter)
 {
 	if (inter.shape.type == Sphere)
-		return (shade_hit_bm_sphere(comps, l, inter.shape.sphere));
+		return (shade_hit_bm_sphere(comps, l, inter.shape.sphere, w));
 	else if (inter.shape.type == Cylinder)
-		return (shade_hit_bm_cylinder(comps, l, inter.shape.cylinder));
+		return (shade_hit_bm_cylinder(comps, l, inter.shape.cylinder, w));
 	else if (inter.shape.type == Plane)
-		return (shade_hit_bm_plane(comps, l, inter.shape.plane));
+		return (shade_hit_bm_plane(comps, l, inter.shape.plane, w));
 	puts("shade_hit_texture unknown shape");
 	exit(1);
 	return (black());
 }
 
-t_rgb	shade_hit_checkerboard(t_point p, t_shape shape)
+typedef struct s_pattern {
+	t_uv	uv;
+	t_pair	ab;
+}	t_pattern;
+
+t_pattern	uv_of_shape(t_shape shape, t_point p)
 {
 	t_uv	uv;
 	t_pair	ab;
@@ -86,13 +92,24 @@ t_rgb	shade_hit_checkerboard(t_point p, t_shape shape)
 	}
 	else
 		ft_exit(parse_string("uv : checkerboard : unknown type\n"), 1);
-	return (checkerboard(uv,
-			shape.super.checkerboard_color1,
-			shape.super.checkerboard_color2,
-			ab));
+	return ((t_pattern){.uv = uv, .ab = ab});
 }
 
-t_vec	reflect(t_vec in, t_vec norm)
+t_rgb	shade_hit_checkerboard(t_world w,
+						t_comp comps,
+						t_light l,
+						t_intersection inter)
 {
-	return (sub(in, scalar(norm, 2.0 * dot(in, norm))));
+	t_pattern	pattern;
+	const t_vec	lightv = normalize(
+			sub(l.position, comps.over_point));
+
+	if (is_shadowed(w, comps.over_point, l) == true
+		|| dot(lightv, comps.normalv) < 0)
+		return (ambient(inter.shape.sphere.material, l));
+	pattern = uv_of_shape(inter.shape, comps.over_point);
+	return (checkerboard(pattern.uv,
+			inter.shape.super.checkerboard_color1,
+			inter.shape.super.checkerboard_color2,
+			pattern.ab));
 }

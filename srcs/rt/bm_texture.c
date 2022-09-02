@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 16:31:30 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 17:50:43 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 17:52:02 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ t_rgb	shade_hit_bm_cylinder(t_comp comps, t_light l, t_cylinder s, t_world w)
 	const t_color	ucolor = (t_color)(int)get_color_at(s.img, ij.i, ij.j);
 	const t_vec		lightv = normalize(sub(l.position, comps.over_point));
 
+	if (is_shadowed(w, comps.over_point, l) == true
+		|| dot(lightv, comps.normalv) < 0)
+		return (ambient(s.material, l));
 	s.material.color = t_color_to_t_rgb(ucolor);
 	return (diffuse(s.material, l,
 			dot(lightv, comps.normalv)));
@@ -55,6 +58,9 @@ t_rgb	shade_hit_bm_plane(t_comp comps, t_light l, t_plane s, t_world w)
 	const t_color	ucolor = (t_color)(int)get_color_at(s.img, ij.i, ij.j);
 	const t_vec		lightv = normalize(sub(l.position, comps.over_point));
 
+	if (is_shadowed(w, comps.over_point, l) == true
+		|| dot(lightv, comps.normalv) < 0)
+		return (ambient(s.material, l));
 	s.material.color = t_color_to_t_rgb(ucolor);
 	return (diffuse(s.material, l,
 			dot(lightv, comps.normalv)));

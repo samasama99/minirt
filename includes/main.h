@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 17:33:34 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 18:00:05 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,10 +271,10 @@ t_rgb			diffuse(t_material m, t_light l, double light_dot_normal);
 int				get_color_at(t_image img, int x, int y);
 t_rgb			shade_hit_normal(t_world w, t_comp comps, t_light l);
 t_rgb			shade_hit_texture(
+					t_world w,
 					t_comp comps,
 					t_light l,
 					t_intersection inter);
-t_rgb			shade_hit_checkerboard(t_point p, t_shape shape);
 t_vec			reflect(t_vec in, t_vec norm);
 
 typedef struct s_camera {
@@ -329,13 +329,13 @@ t_uv uv_of_sphere(t_sphere sp, t_point p);
 t_uv uv_of_plane(t_plane pl, t_point p);
 t_uv uv_of_cylinder(t_cylinder cy, t_point p);
 t_fpair ij_of_map(t_res res, t_uv uv);
-t_vec pu_sphere(t_point p);
-t_vec pv_sphere(t_point p, t_sphere sp);
-double calc_du_sphere(t_image img, t_sphere sp, t_point p);
-double calc_dv_sphere(t_image img, t_sphere sp, t_point p);
-t_rgb	shade_hit_bm_sphere(t_comp comps, t_light l, t_sphere s);
-t_rgb	shade_hit_bm_cylinder(t_comp comps, t_light l, t_cylinder s);
-t_rgb	shade_hit_bm_plane(t_comp comps, t_light l, t_plane s);
+t_rgb	shade_hit_bm_sphere(t_comp comps, t_light l, t_sphere s, t_world w);
+t_rgb	shade_hit_bm_cylinder(t_comp comps, t_light l, t_cylinder s, t_world w);
+t_rgb	shade_hit_bm_plane(t_comp comps, t_light l, t_plane s, t_world w);
 int get_color_at(t_image img, int x, int y);
 double linear_interpolation(double i, double j, t_image img);
+t_rgb	shade_hit_checkerboard(t_world w,
+						t_comp comps,
+						t_light l,
+						t_intersection inter);
 #endif
