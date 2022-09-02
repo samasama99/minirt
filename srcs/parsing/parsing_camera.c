@@ -33,7 +33,7 @@ t_optional_camera	parse_camera(const t_optional_array elems, t_res res)
 	t_optional_double		fov;
 	static bool				already_parsed = false;
 
-	if (elems.error || already_parsed)
+	if (elems.error || elems.size != 4 || already_parsed)
 		return (error);
 	camera_view = get_camera_view(elems.value[1], elems.value[2]);
 	fov = parse_fov(elems.value[3]);

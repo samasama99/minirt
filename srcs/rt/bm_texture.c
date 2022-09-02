@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 16:31:30 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 17:52:02 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 18:07:19 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_rgb	shade_hit_bm_sphere(t_comp comps, t_light l, t_sphere s, t_world w)
 
 	if (is_shadowed(w, comps.over_point, l) == true
 		|| dot(lightv, comps.normalv) < 0)
-		return (ambient(s.material, l));
+		return (black());
 	s.material.color = t_color_to_t_rgb(ucolor);
 	return (diffuse(s.material, l,
 			dot(lightv, comps.normalv)));
@@ -45,7 +45,7 @@ t_rgb	shade_hit_bm_cylinder(t_comp comps, t_light l, t_cylinder s, t_world w)
 
 	if (is_shadowed(w, comps.over_point, l) == true
 		|| dot(lightv, comps.normalv) < 0)
-		return (ambient(s.material, l));
+		return (black());
 	s.material.color = t_color_to_t_rgb(ucolor);
 	return (diffuse(s.material, l,
 			dot(lightv, comps.normalv)));
@@ -60,7 +60,7 @@ t_rgb	shade_hit_bm_plane(t_comp comps, t_light l, t_plane s, t_world w)
 
 	if (is_shadowed(w, comps.over_point, l) == true
 		|| dot(lightv, comps.normalv) < 0)
-		return (ambient(s.material, l));
+		return (black());
 	s.material.color = t_color_to_t_rgb(ucolor);
 	return (diffuse(s.material, l,
 			dot(lightv, comps.normalv)));

@@ -59,7 +59,7 @@ int	main(int ac, char **av)
 	parse(&data, fd, res, split_string(read_file(fd), '\n'));
 	close(fd);
 	correct_ambient(data.w, data.ambient);
-	printf (" \033[0;32m----\033[0m :: The total amount of shapes %d\n",
+	printf (" \033[0;32m ----\033[0m :: The total amount of shapes %d\n",
 		data.w.amount_of_shapes);
 	printf (" \033[0;32m[MiniRT]\033[0m :: creating a canvas (%d, %d)\n",
 		res.width, res.height);
