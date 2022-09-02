@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 18:36:04 by zsarir            #+#    #+#             */
-/*   Updated: 2022/09/02 16:29:50 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 20:42:57 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ t_hit	check_height_cone(const t_cone cy, const t_ray r, t_hit h)
 	if (h.intersections[0].t <= 0 && h.intersections[1].t <= 0)
 		return (no_intersection());
 	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
-		> cy.height  && fabs(ray_position(r, h.intersections[1].t).y
+		> cy.height && fabs(ray_position(r, h.intersections[1].t).y
 			- cy.center.y) > cy.height)
 		return (no_intersection());
 	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
-		<= cy.height&& fabs(ray_position(r, h.intersections[1].t).y
+		<= cy.height && fabs(ray_position(r, h.intersections[1].t).y
 			- cy.center.y) <= cy.height)
 		return (h);
 	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)

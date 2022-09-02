@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linear_algebra.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 19:48:42 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/07/28 16:10:52 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/09/02 20:53:45 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,17 +152,12 @@ bool		vec_is_equal(t_vec v1, t_vec v2);
 bool		matrix_is_equal(t_matrix4 m, t_matrix4 n);
 
 // VEC OP //
-// t_vec	vec_min(t_vec a, t_vec b);
-// t_vec	vec_max(t_vec a, t_vec b);
-// t_vec	vec_clamp(t_vec x, t_vec a, t_vec b);
 t_vec		sum(t_vec a, t_vec b);
 t_vec		sub(t_vec a, t_vec b);
 t_vec		cross(t_vec a, t_vec b);
 t_vec		scalar(t_vec a, double k);
 t_vec		normalize(t_vec v);
 t_vec		opose(t_vec v);
-// t_vec	vec_mid(t_vec a, t_vec b);
-// t_vec	vec_centroid(t_vec a, t_vec b, t_vec c);
 
 double		distance(t_vec a, t_vec b);
 double		magnitude(t_vec a);
@@ -202,8 +197,6 @@ t_matrix4	identity(void);
 t_matrix4	rotation_x(t_rad deg);
 t_matrix4	rotation_y(t_rad deg);
 t_matrix4	rotation_z(t_rad deg);
-// t_matrix4 shearing(t_point x, t_point y, t_point z);
-// t_point transform(t_transform mat, t_point p);
 t_matrix4	transform(t_matrix4 r, t_matrix4 s, t_matrix4 t);
 t_point		apply(t_transform mat, t_point p);
 

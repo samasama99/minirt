@@ -6,7 +6,7 @@
 #    By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/03 17:52:43 by orahmoun          #+#    #+#              #
-#    Updated: 2022/09/02 16:38:42 by orahmoun         ###   ########.fr        #
+#    Updated: 2022/09/02 20:50:54 by orahmoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,6 +86,7 @@ SRC 				=	srcs/rt/camera.c \
 						srcs/mlx/mlx2.c \
 						srcs/mlx/mlx3.c \
 						srcs/mlx/mlx4.c \
+						srcs/mlx/mlx5.c \
 						main.c
 
 OBJDIR 			=	obj

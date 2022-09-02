@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_utils.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/02 20:51:59 by orahmoun          #+#    #+#             */
+/*   Updated: 2022/09/02 20:53:18 by orahmoun         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MLX_UTILS_H
 # define MLX_UTILS_H
-#include <linear_algebra.h>
+# include <linear_algebra.h>
 
-typedef struct s_rgb t_rgb;
-typedef void	*t_mlx_ptr;
-typedef void	*t_win_ptr;
-typedef void	*t_image_ptr;
+typedef struct s_rgb	t_rgb;
+typedef void			*t_mlx_ptr;
+typedef void			*t_win_ptr;
+typedef void			*t_image_ptr;
 
-typedef int		t_key;
-typedef bool	t_error;
+typedef int				t_key;
+typedef bool			t_error;
 
 
 typedef struct s_image_info {
@@ -56,5 +68,5 @@ void			destroy_window(void);
 void			destroy_image(t_image_ptr img);
 int				end_minirt_destroy(void);
 int				end_minirt(int key);
-t_image load_image(const char *path);
+t_image			load_image(const char *path);
 #endif

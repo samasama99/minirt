@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 16:15:25 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/21 14:43:17 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 20:51:44 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,3 @@ void	destroy_image(t_image_ptr img)
 
 	mlx_destroy_image(m.mlx, img);
 }
-
-t_image load_image(const char *path)
-{
-  const t_mlx_ptr mlx = get_mlx_info(NULL).mlx;
-  int x;
-  int y;
-  const t_image_ptr img = mlx_xpm_file_to_image(mlx, (char *)path, &x, &y);
-  if (img == NULL) {
-    printf (" [MiniRT] :: error in loading an xpm image\n");
-    exit(1);
-  }
-	t_image_info	info;
-	int *buffer = (int *)mlx_get_data_addr(img, &info.pixel_bits,
-			&info.line_bytes, &info.endian);
-
-  return (t_image) {.img = img, .buffer = buffer, .res = pair(x, y)};
-}
-
-

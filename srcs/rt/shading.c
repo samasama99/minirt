@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 16:44:23 by zsarir            #+#    #+#             */
-/*   Updated: 2022/09/02 18:02:43 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 20:39:38 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_pattern	uv_of_shape(t_shape shape, t_point p)
 	return ((t_pattern){.uv = uv, .ab = ab});
 }
 
-t_rgb	shade_hit_checkerboard(t_world w,
+t_rgb	shade_hit_cb(t_world w,
 						t_comp comps,
 						t_light l,
 						t_intersection inter)

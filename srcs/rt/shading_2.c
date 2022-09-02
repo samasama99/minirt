@@ -6,11 +6,11 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 16:16:40 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 18:12:19 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 21:00:14 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include <parsing.h>
 #include <main.h>
 
 bool	is_shadowed(t_world w, t_point p, t_light l)
@@ -53,10 +53,10 @@ t_rgb	color_at(t_world w, t_ray r)
 	while (index < w.amount_of_lights)
 	{
 		comps = prepare_computations(inter, r);
-		if (inter.shape.super.color_type == Normal) 
+		if (inter.shape.super.color_type == Normal)
 			c = rgb_sum(shade_hit_normal(w, comps, w.lights[index]), c);
 		else if (inter.shape.super.color_type == Checkerboard)
-			c = rgb_sum(shade_hit_checkerboard(w, comps, w.lights[index], inter), c);
+			c = rgb_sum(shade_hit_cb(w, comps, w.lights[index], inter), c);
 		else if (inter.shape.super.color_type == Texture)
 			c = rgb_sum(shade_hit_texture(w, comps, w.lights[index], inter), c);
 		++index;

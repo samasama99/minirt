@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:39:10 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/23 21:22:15 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 20:54:59 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ typedef enum e_line_type
 }	t_line_type;
 
 typedef struct s_optional_image {
-  bool error;
-  t_image value;
-}  t_optional_image;
+	bool		error;
+	t_image		value;
+}	t_optional_image;
 
 typedef struct s_optional_array
 {
@@ -169,8 +169,8 @@ t_optional_shape	parse_cone(const t_optional_array elems);
 t_optional_shape	parse_cylinder(const t_optional_array elems);
 t_optional_shape	parse_shape(const t_optional_array elems, t_line_type type);
 
-t_transform set_transform(t_point p, t_norm normal);
-t_optional_image parse_image_path(const char *path);
+t_transform			set_transform(t_point p, t_norm normal);
+t_optional_image	parse_image_path(const char *path);
 
 t_camera			unwrap_camera(t_optional_array array, t_res res);
 t_light				unwrap_light(t_optional_array array);
@@ -178,6 +178,7 @@ t_material			unwrap_ambient(t_optional_array array);
 t_shape				unwrap_shape(t_optional_array array, t_line_type type);
 
 t_camera			unwarp_camera(t_optional_array array, t_res res);
-void				parse(t_data *data, int fd, t_res res, t_optional_array clines);
+void				parse(t_data *data, int fd, t_res res,
+						t_optional_array clines);
 char				*read_file(int fd);
 #endif

@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 18:00:05 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/02 20:42:30 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,9 @@ typedef struct s_super_shape
 	t_transform		transform;
 	t_material		material;
 	t_color_type	color_type;
-  	t_image img;
-	t_rgb checkerboard_color1;
-	t_rgb checkerboard_color2;
+	t_image			img;
+	t_rgb			checkerboard_color1;
+	t_rgb			checkerboard_color2;
 }	t_super_shape;
 
 typedef struct s_sphere {
@@ -141,7 +141,7 @@ typedef struct s_sphere {
 	t_matrix4		t;
 	t_material		material;
 	t_color_type	color_type;
-  	t_image			img;
+	t_image			img;
 	t_rgb			checkerboard_color1;
 	t_rgb			checkerboard_color2;
 	t_point			center;
@@ -154,9 +154,9 @@ typedef struct s_cylinder {
 	t_matrix4		t;
 	t_material		material;
 	t_color_type	color_type;
-  	t_image img;
-	t_rgb checkerboard_color1;
-	t_rgb checkerboard_color2;
+	t_image			img;
+	t_rgb			checkerboard_color1;
+	t_rgb			checkerboard_color2;
 	t_point			center;
 	t_norm			normal;
 	double			radius;
@@ -169,9 +169,9 @@ typedef struct s_cone {
 	t_matrix4		t;
 	t_material		material;
 	t_color_type	color_type;
-  	t_image img;
-	t_rgb checkerboard_color1;
-	t_rgb checkerboard_color2;
+	t_image			img;
+	t_rgb			checkerboard_color1;
+	t_rgb			checkerboard_color2;
 	t_point			center;
 	t_norm			normal;
 	double			radius;
@@ -184,9 +184,9 @@ typedef struct s_plane {
 	t_transform		transform;
 	t_material		material;
 	t_color_type	color_type;
-  	t_image img;
-	t_rgb checkerboard_color1;
-	t_rgb checkerboard_color2;
+	t_image			img;
+	t_rgb			checkerboard_color1;
+	t_rgb			checkerboard_color2;
 	t_point			position;
 	t_norm			normal;
 }	t_plane;
@@ -321,21 +321,24 @@ typedef struct s_uv
 }	t_uv;
 
 
-t_rgb checkerboard(t_uv uv, t_rgb color1, t_rgb color2, t_pair ab);
+t_rgb			checkerboard(t_uv uv, t_rgb color1, t_rgb color2, t_pair ab);
 
-t_rad teta_sphere(t_sphere sp, t_point p);
-t_rad	phi_sphere(t_sphere sp, t_point p);
-t_uv uv_of_sphere(t_sphere sp, t_point p);
-t_uv uv_of_plane(t_plane pl, t_point p);
-t_uv uv_of_cylinder(t_cylinder cy, t_point p);
-t_fpair ij_of_map(t_res res, t_uv uv);
-t_rgb	shade_hit_bm_sphere(t_comp comps, t_light l, t_sphere s, t_world w);
-t_rgb	shade_hit_bm_cylinder(t_comp comps, t_light l, t_cylinder s, t_world w);
-t_rgb	shade_hit_bm_plane(t_comp comps, t_light l, t_plane s, t_world w);
-int get_color_at(t_image img, int x, int y);
-double linear_interpolation(double i, double j, t_image img);
-t_rgb	shade_hit_checkerboard(t_world w,
-						t_comp comps,
-						t_light l,
-						t_intersection inter);
+t_rad			teta_sphere(t_sphere sp, t_point p);
+t_rad			phi_sphere(t_sphere sp, t_point p);
+t_uv			uv_of_sphere(t_sphere sp, t_point p);
+t_uv			uv_of_plane(t_plane pl, t_point p);
+t_uv			uv_of_cylinder(t_cylinder cy, t_point p);
+t_fpair			ij_of_map(t_res res, t_uv uv);
+t_rgb			shade_hit_bm_sphere(t_comp comps, t_light l, t_sphere s,
+					t_world w);
+t_rgb			shade_hit_bm_cylinder(t_comp comps, t_light l, t_cylinder s,
+					t_world w);
+t_rgb			shade_hit_bm_plane(t_comp comps, t_light l, t_plane s,
+					t_world w);
+int				get_color_at(t_image img, int x, int y);
+double			linear_interpolation(double i, double j, t_image img);
+t_rgb			shade_hit_cb(t_world w,
+					t_comp comps,
+					t_light l,
+					t_intersection inter);
 #endif
