@@ -1,3 +1,3 @@
 CompileFlags:
-  Add: [-Wextra, -Wall, -I/Users/orahmoun/new/includes, -I/Users/orahmoun/new/libft]
+  Add: [-Wextra, -Wall, -I/Users/orahmoun/new/includes, -I/Users/orahmoun/new/libft, -I/usr/local/include]
   Compiler: cc
