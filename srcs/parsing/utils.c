@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 18:59:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/01 18:59:07 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/03 14:07:39 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*read_file(int fd)
 		b = read(fd, buffer, 1);
 		if (b == -1)
 		{
-			ft_perror(1); 
+			ft_perror(1);
 			close(fd);
 		}
 		if (b == 0)

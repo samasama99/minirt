@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 16:31:30 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 18:07:19 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/03 14:07:08 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,3 @@ t_rgb	shade_hit_bm_plane(t_comp comps, t_light l, t_plane s, t_world w)
 	return (diffuse(s.material, l,
 			dot(lightv, comps.normalv)));
 }
-
-

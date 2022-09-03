@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 20:51:59 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 20:53:18 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/03 14:17:41 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ typedef void			*t_image_ptr;
 
 typedef int				t_key;
 typedef bool			t_error;
-
 
 typedef struct s_image_info {
 	int			pixel_bits;

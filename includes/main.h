@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 20:42:30 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/03 15:47:49 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void			panic(bool con, const char *msg, const char *func);
 bool			is_equal_str(const char *s1, const char *s2);
 float			clamp(float n, float min, float max);
 long			time_now(void);
-void	ft_perror(int exit_status);
+void			ft_perror(int exit_status);
 
 /******* GAME_DATA *******/
 
@@ -251,7 +251,6 @@ t_vec			normal_at_sphere(t_sphere s, t_point local_point);
 t_hit			no_intersection(void);
 double			discriminant(double a, double b, double c);
 
-
 // THE WORLD
 typedef struct s_world {
 	volatile t_shape	*shapes;
@@ -319,7 +318,6 @@ typedef struct s_uv
 	double	u;
 	double	v;
 }	t_uv;
-
 
 t_rgb			checkerboard(t_uv uv, t_rgb color1, t_rgb color2, t_pair ab);
 

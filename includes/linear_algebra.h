@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 19:48:42 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 20:53:45 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/03 15:47:16 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ typedef union u_matrix4
 	double		m[4][4];
 }	t_matrix4;
 
-typedef t_vec t_vec4;
 typedef t_vec		t_point;
 typedef t_vec		t_tupil;
 typedef t_vec		t_norm;

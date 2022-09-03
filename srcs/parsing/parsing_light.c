@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 16:03:30 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 16:03:31 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/03 14:09:45 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,3 @@ t_optional_light	parse_light(const t_optional_array elems)
 		.error = false,
 	});
 }
-
-

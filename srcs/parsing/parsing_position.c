@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 16:03:55 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 16:03:56 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/03 14:08:40 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,3 @@ t_optional_vector	parse_vector(const char *target)
 		.error = false,
 	});
 }
-

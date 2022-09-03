@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_camera.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/03 14:10:05 by orahmoun          #+#    #+#             */
+/*   Updated: 2022/09/03 14:17:22 by orahmoun         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "main.h"
 #include "parsing.h"
 
@@ -47,5 +59,3 @@ t_optional_camera	parse_camera(const t_optional_array elems, t_res res)
 		.error = false,
 	});
 }
-
-

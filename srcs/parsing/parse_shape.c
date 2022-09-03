@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing7.c                                         :+:      :+:    :+:   */
+/*   parse_shape.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 21:38:40 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/30 17:26:21 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/09/03 14:16:57 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,3 @@ t_optional_shape	parse_shape(const t_optional_array elems, t_line_type type)
 		return ((t_optional_shape){.value = shape.value});
 	return ((t_optional_shape){.error = true});
 }
-
