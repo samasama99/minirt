@@ -88,7 +88,7 @@ t_pattern	uv_of_shape(t_shape shape, t_point p)
 	else if (shape.type == Cylinder)
 	{
 		uv = uv_of_cylinder(shape.cylinder, p);
-		ab = pair(5, 5);
+		ab = pair(10, 10);
 	}
 	else
 		ft_exit(parse_string("uv : checkerboard : unknown type\n"), 1);

@@ -21,16 +21,3 @@ t_fpair	ij_of_map(t_res res, t_uv uv)
 
 	return ((t_fpair){{u * res.width, v * res.height}});
 }
-
-double	linear_interpolation(double i, double j, t_image img)
-{
-	int	k;
-	int	l;
-
-	k = i;
-	l = j;
-	return ((1 - (i - k)) * (1 - (j - l)) * get_color_at(img, k, l)
-		+ (1 - (i - k)) * (j - l) * get_color_at(img, k, l + 1)
-		+ (i - k) * (1 - (j - l)) * get_color_at(img, k + 1, l)
-		+ (i - k) * (j - l) * get_color_at(img, k + 1, l + 1));
-}

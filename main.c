@@ -49,7 +49,7 @@ int	open_rt_file(int ac, char **av)
 int	main(int ac, char **av)
 {
 	const long		begin = time_now();
-	const t_res		res = pair(1000, 600);
+	const t_res		res = pair(2000, 1200);
 	const int		fd = open_rt_file(ac, av);
 	t_image			canvas;
 	t_data			data;
