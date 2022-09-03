@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 18:59:20 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/01 18:59:21 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:39:58 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,12 @@ t_material	unwrap_ambient(t_optional_array array)
 		.ambient_color = m.value.ambient_color,
 		.ambient_ratio = m.value.ambient_ratio,
 	});
+}
+
+t_image	unwrap_image(t_optional_image img)
+{
+	if (img.error)
+		ft_exit(parse_string(" [MiniRT] :: error in loading an xpm image\n"),
+					1);
+	return (img.value);
 }

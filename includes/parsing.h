@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:39:10 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/02 20:54:59 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:40:31 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ t_material			unwrap_ambient(t_optional_array array);
 t_shape				unwrap_shape(t_optional_array array, t_line_type type);
 
 t_camera			unwarp_camera(t_optional_array array, t_res res);
+t_image				unwrap_image(t_optional_image img);
 void				parse(t_data *data, int fd, t_res res,
 						t_optional_array clines);
 char				*read_file(int fd);

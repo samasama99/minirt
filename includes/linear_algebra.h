@@ -139,6 +139,7 @@ typedef union u_matrix4
 	double		m[4][4];
 }	t_matrix4;
 
+typedef t_vec t_vec4;
 typedef t_vec		t_point;
 typedef t_vec		t_tupil;
 typedef t_vec		t_norm;
@@ -190,14 +191,14 @@ bool		mat4_is_invertible(t_matrix4 m);
 t_matrix4	inverse(t_matrix4 m);
 
 // TRANSFORM
-t_matrix4	translation(double x, double y, double z);
-t_matrix4	scaling(double x, double y, double z);
+t_transform	translation(double x, double y, double z);
+t_transform	scaling(double x, double y, double z);
 t_rad		radians(t_deg deg);
-t_matrix4	identity(void);
-t_matrix4	rotation_x(t_rad deg);
-t_matrix4	rotation_y(t_rad deg);
-t_matrix4	rotation_z(t_rad deg);
-t_matrix4	transform(t_matrix4 r, t_matrix4 s, t_matrix4 t);
-t_point		apply(t_transform mat, t_point p);
+t_transform	identity(void);
+t_transform	rotation_x(t_rad deg);
+t_transform	rotation_y(t_rad deg);
+t_transform	rotation_z(t_rad deg);
+t_transform	transform(t_matrix4 r, t_matrix4 s, t_matrix4 t);
+t_point		apply(t_transform mat, t_tupil p);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/01 19:08:11 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/01 19:15:36 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/03 12:39:37 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ t_optional_shape	parse_sphere(const t_optional_array elems)
 	else if (color[1].error == false)
 		sp = set_pattern(sp, color[0].value, color[1].value);
 	else
-		sp = set_image(sp, image.value);
+		sp = set_image(sp, unwrap_image(image));
 	return ((t_optional_shape){.value = (t_shape)sp,});
 }

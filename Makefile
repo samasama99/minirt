@@ -93,11 +93,16 @@ OBJDIR 			=	obj
 
 OBJ 				=	$(addprefix ${OBJDIR}/, ${SRC:%.c=%.o})
 
+ARG				= big.rt
+
 # ---------------------------- #
 	
 # RULES
 
 all	: ${NAME} 
+
+run : all
+	@./minirt scenes/${ARG}
 
 ${LIBFT} :
 	@echo "${YEL}MAKING LIBFT ...${NC}"
