@@ -14,7 +14,7 @@
 #include <main.h>
 
 t_cone	make_cone(t_point point, t_norm norm,
-					t_fpair info, t_rgb color)
+					double height, t_rgb color)
 {
 	static int	id;
 	t_material	m;
@@ -25,8 +25,7 @@ t_cone	make_cone(t_point point, t_norm norm,
 		.type = Cone,
 		.id = ++id,
 		.center = point,
-		.radius = info.x,
-		.height = info.y,
+		.height = height,
 		.normal = norm,
 		.t = identity(),
 		.material = m,
@@ -37,22 +36,25 @@ t_cone	make_cone(t_point point, t_norm norm,
 	});
 }
 
-t_hit	check_height_cone(const t_cone co, const t_ray r, t_hit h)
+t_hit	check_height_cone(const t_cone cy, const t_ray r, t_hit h)
 {
-	const t_vec x = sub(r.origin, co.center);
-	const double m1 = dot(r.direction, scalar(co.normal, h.intersections[0].t)) + dot(x, co.normal);
-	const double m2 = dot(r.direction, scalar(co.normal, h.intersections[1].t)) + dot(x, co.normal);
-
-	if ((m1 > co.height && m2 > co.height) || (m1 < 0 && m2 < 0)) return no_intersection(); 
-	if (m1 != m2){
-		if (m2 >= 0 && m2 <= co.height && (m1 < 0 || m1 > co.height)) return (t_hit){.intersections[0] = h.intersections[1], .count = 1};
-		if (m1 >=0 && m1 <= co.height && (m2 < 0 || m2 > co.height)) return (t_hit){.intersections[0] = h.intersections[0], .count = 1};
-		if (m1 >= 0 && m2 >= 0 && m1 <= co.height && m2 <= co.height) return h;
-	}
-	else {
-	if (m1 >= 0 && m1 <= co.height ) return (t_hit){.intersections[0] = h.intersections[0], .count = 1};
-	}
-	return no_intersection();
+	if (h.intersections[0].t <= 0 && h.intersections[1].t <= 0)
+		return (no_intersection());
+	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
+		> cy.height && fabs(ray_position(r, h.intersections[1].t).y
+			- cy.center.y) > cy.height)
+		return (no_intersection());
+	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
+		<= cy.height && fabs(ray_position(r, h.intersections[1].t).y
+			- cy.center.y) <= cy.height)
+		return (h);
+	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
+		<= cy.height)
+		return ((t_hit){.intersections[0] = h.intersections[0], .count = 1});
+	if (fabs(ray_position(r, h.intersections[1].t).y - cy.center.y)
+		<= cy.height)
+		return ((t_hit){.intersections[0] = h.intersections[1], .count = 1});
+	return (no_intersection());
 }
 
 t_hit	cone_roots(double a, double b, double discriminant, t_cone co)
@@ -70,28 +72,23 @@ t_hit	cone_roots(double a, double b, double discriminant, t_cone co)
 
 t_hit	intersect_cone(const t_cone co, const t_ray r)
 {
-	const double	k = tan(radians(30));
-	const double	a = dot(r.direction, r.direction) - (1 + k * k) * pow(dot(r.direction, (co.normal)), 2);
-	const double	b = 2 * (dot(r.direction, sub(r.origin, co.center))
-						-  (1 + k * k) * dot(r.direction, (co.normal)) * dot(sub(r.origin, co.center), (co.normal)));
-	const double	c = dot(sub(r.origin, co.center), sub(r.origin, co.center))
-							- (1 + k * k) * pow(dot(sub(r.origin, co.center), (co.normal)), 2);
+	const double	a = r.direction.x * r.direction.x - r.direction.y * r.direction.y +r.direction.z * r.direction.z;
+	const double	b = 2 * (r.origin.x * r.direction.x - r.origin.y * r.direction.y + r.origin.z * r.direction.z);
+	const double	c = r.origin.x * r.origin.x - r.origin.y * r.origin.y + r.origin.z * r.origin.z;
 
 	if (discriminant(a, b, c) < 0)
 		return (no_intersection());
+	if (is_equal_double(a, 0))
+		return (t_hit) {.intersections[0] = intersection(-c / (2 * b), (t_shape)co), .count = 1};
 	return (check_height_cone(co, r,
-			cone_roots(a, b, discriminant(a, b, c), co)));
+		cone_roots(a, b, discriminant(a, b, c), co)));
 }
 
-t_vec	normal_at_cone(t_cone co, t_point p, const t_ray r)
+t_vec	normal_at_cone(t_point p)
 {
-	const t_vec x = sub(r.origin, co.center);
-	const double	k = tan(radians(30));
-	const double	t = sqrt((dot(p, p)- 2 * dot(p, r.origin) + dot(r.origin, r.origin)) / dot(r.direction, r.direction));
-	const double 	m = dot(r.direction, scalar(co.normal, t)) + dot(x, co.normal);
+	double y = sqrt(p.x * p.x + p.z * p.z);	
 	
-	const t_vec		p_sub_center = sub(p, co.center);
-	const t_vec		vm = scalar((co.normal), m);
-
-	return normalize(sub(p_sub_cente, r(scalar(vm, (k * k + 1)))));
+	if (p.y > 0)
+		y = -y;
+	return vector(p.x, y, p.z);
 }

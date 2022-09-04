@@ -26,7 +26,7 @@ t_comp	prepare_computations(t_intersection i, t_ray r)
 	comp.shape = i.shape;
 	comp.point = ray_position(r, comp.t);
 	comp.eyev = opose(r.direction);
-	comp.normalv = normal_at(comp.shape, comp.point, r);
+	comp.normalv = normal_at(comp.shape, comp.point);
 	if (is_inside_shape(comp.normalv, comp.eyev))
 	{
 		comp.inside = true;

@@ -174,7 +174,6 @@ typedef struct s_cone {
 	t_rgb			checkerboard_color2;
 	t_point			center;
 	t_norm			normal;
-	double			radius;
 	double			height;
 }	t_cone;
 
@@ -233,7 +232,7 @@ t_vec			normal_at_plane(t_plane p);
 t_intersection	hit(t_hit h);
 t_ray			ray_transform(t_ray ray, t_matrix4 m);
 bool			is_hit(const t_sphere sp, const t_ray r);
-t_vec			normal_at(t_shape shape, t_point world_point, t_ray r);
+t_vec	normal_at(t_shape shape, t_point world_point);
 t_vec			reflect(t_vec in, t_vec norm);
 t_light			point_light(t_point position, t_rgb color);
 t_rgb			lighting(t_material m, t_light l, double light_norm,
@@ -308,9 +307,9 @@ t_hit			intersect_cylinder(const t_cylinder cy, const t_ray r);
 t_vec			normal_at_cylinder(t_point local_point);
 //cone
 t_hit			intersect_cone(const t_cone co, const t_ray r);
-t_vec			normal_at_cone(t_cone co,t_point local_point, const t_ray r);
+t_vec   normal_at_cone(t_point p);
 t_cone			make_cone(t_point point, t_norm norm,
-					t_fpair info, t_rgb color);
+					double height, t_rgb color);
 
 t_cone			cone(void);
 // uv
