@@ -6,7 +6,7 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:49:06 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/09/03 15:47:49 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/04 17:08:25 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,7 @@ typedef struct s_comp {
 	t_vec	eyev;
 	t_vec	normalv;
 	bool	inside;
+	t_ray 	r;
 }	t_comp;
 
 t_ray			ray(t_point origin, t_vec direction);
@@ -232,7 +233,7 @@ t_vec			normal_at_plane(t_plane p);
 t_intersection	hit(t_hit h);
 t_ray			ray_transform(t_ray ray, t_matrix4 m);
 bool			is_hit(const t_sphere sp, const t_ray r);
-t_vec			normal_at(t_shape shape, t_point world_point);
+t_vec			normal_at(t_shape shape, t_point world_point, t_ray r);
 t_vec			reflect(t_vec in, t_vec norm);
 t_light			point_light(t_point position, t_rgb color);
 t_rgb			lighting(t_material m, t_light l, double light_norm,
@@ -307,7 +308,7 @@ t_hit			intersect_cylinder(const t_cylinder cy, const t_ray r);
 t_vec			normal_at_cylinder(t_point local_point);
 //cone
 t_hit			intersect_cone(const t_cone co, const t_ray r);
-t_vec			normal_at_cone(t_point local_point);
+t_vec			normal_at_cone(t_cone co,t_point local_point, const t_ray r);
 t_cone			make_cone(t_point point, t_norm norm,
 					t_fpair info, t_rgb color);
 

@@ -6,10 +6,11 @@
 /*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/26 18:36:04 by zsarir            #+#    #+#             */
-/*   Updated: 2022/09/02 20:42:57 by orahmoun         ###   ########.fr       */
+/*   Updated: 2022/09/04 17:10:20 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "linear_algebra.h"
 #include <main.h>
 
 t_cone	make_cone(t_point point, t_norm norm,
@@ -36,25 +37,22 @@ t_cone	make_cone(t_point point, t_norm norm,
 	});
 }
 
-t_hit	check_height_cone(const t_cone cy, const t_ray r, t_hit h)
+t_hit	check_height_cone(const t_cone co, const t_ray r, t_hit h)
 {
-	if (h.intersections[0].t <= 0 && h.intersections[1].t <= 0)
-		return (no_intersection());
-	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
-		> cy.height && fabs(ray_position(r, h.intersections[1].t).y
-			- cy.center.y) > cy.height)
-		return (no_intersection());
-	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
-		<= cy.height && fabs(ray_position(r, h.intersections[1].t).y
-			- cy.center.y) <= cy.height)
-		return (h);
-	if (fabs(ray_position(r, h.intersections[0].t).y - cy.center.y)
-		<= cy.height)
-		return ((t_hit){.intersections[0] = h.intersections[0], .count = 1});
-	if (fabs(ray_position(r, h.intersections[1].t).y - cy.center.y)
-		<= cy.height)
-		return ((t_hit){.intersections[0] = h.intersections[1], .count = 1});
-	return (no_intersection());
+	const t_vec x = sub(r.origin, co.center);
+	const double m1 = dot(r.direction, scalar(co.normal, h.intersections[0].t)) + dot(x, co.normal);
+	const double m2 = dot(r.direction, scalar(co.normal, h.intersections[1].t)) + dot(x, co.normal);
+
+	if ((m1 > co.height && m2 > co.height) || (m1 < 0 && m2 < 0)) return no_intersection(); 
+	if (m1 != m2){
+		if (m2 >= 0 && m2 <= co.height && (m1 < 0 || m1 > co.height)) return (t_hit){.intersections[0] = h.intersections[1], .count = 1};
+		if (m1 >=0 && m1 <= co.height && (m2 < 0 || m2 > co.height)) return (t_hit){.intersections[0] = h.intersections[0], .count = 1};
+		if (m1 >= 0 && m2 >= 0 && m1 <= co.height && m2 <= co.height) return h;
+	}
+	else {
+	if (m1 >= 0 && m1 <= co.height ) return (t_hit){.intersections[0] = h.intersections[0], .count = 1};
+	}
+	return no_intersection();
 }
 
 t_hit	cone_roots(double a, double b, double discriminant, t_cone co)
@@ -72,27 +70,28 @@ t_hit	cone_roots(double a, double b, double discriminant, t_cone co)
 
 t_hit	intersect_cone(const t_cone co, const t_ray r)
 {
-	const double	k = co.radius / co.height;
-	const double	a = pow(r.direction.x, 2) + pow(r.direction.z, 2)
-		- pow(k, 2) * pow(r.direction.y, 2);
-	const double	b = 2 * (r.origin.x * r.direction.x
-			+ r.origin.z * r.direction.z
-			- r.origin.y * r.direction.y * pow(k, 2)
-			- r.direction.x * co.center.x - r.direction.z * co.center.z
-			+ co.height * pow(k, 2) * r.direction.y);
-	const double	c = pow(r.origin.x, 2) + pow(r.origin.z, 2)
-		- pow(r.origin.y, 2) * pow(k, 2)
-		- 2 * (r.origin.x * co.center.x + r.origin.z * co.center.z)
-		- pow(co.height, 2) * pow(k, 2)
-		+ 2 * co.height * pow(k, 2) * r.origin.y;
+	const double	k = tan(radians(30));
+	const double	a = dot(r.direction, r.direction) - (1 + k * k) * pow(dot(r.direction, (co.normal)), 2);
+	const double	b = 2 * (dot(r.direction, sub(r.origin, co.center))
+						-  (1 + k * k) * dot(r.direction, (co.normal)) * dot(sub(r.origin, co.center), (co.normal)));
+	const double	c = dot(sub(r.origin, co.center), sub(r.origin, co.center))
+							- (1 + k * k) * pow(dot(sub(r.origin, co.center), (co.normal)), 2);
 
-	if (discriminant < 0)
+	if (discriminant(a, b, c) < 0)
 		return (no_intersection());
 	return (check_height_cone(co, r,
 			cone_roots(a, b, discriminant(a, b, c), co)));
 }
 
-t_vec	normal_at_cone(t_point local_point)
+t_vec	normal_at_cone(t_cone co, t_point p, const t_ray r)
 {
-	return (normalize(vector(local_point.x, 0, local_point.z)));
+	const t_vec x = sub(r.origin, co.center);
+	const double	k = tan(radians(30));
+	const double	t = sqrt((dot(p, p)- 2 * dot(p, r.origin) + dot(r.origin, r.origin)) / dot(r.direction, r.direction));
+	const double 	m = dot(r.direction, scalar(co.normal, t)) + dot(x, co.normal);
+	
+	const t_vec		p_sub_center = sub(p, co.center);
+	const t_vec		vm = scalar((co.normal), m);
+
+	return normalize(sub(p_sub_cente, r(scalar(vm, (k * k + 1)))));
 }

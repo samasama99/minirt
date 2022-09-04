@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:39:47 by orahmoun          #+#    #+#             */
-/*   Updated: 2022/08/15 13:04:05 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/09/04 14:12:38 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_ray	ray_transform(t_ray ray, t_matrix4 m)
 	});
 }
 
-t_vec	normal_at(t_shape shape, t_point world_point)
+t_vec	normal_at(t_shape shape, t_point world_point, t_ray r)
 {
 	t_vec				local_normal;
 	t_vec				world_normal;
@@ -48,7 +48,7 @@ t_vec	normal_at(t_shape shape, t_point world_point)
 	if (shape.type == Cylinder)
 		local_normal = normal_at_cylinder(local_point);
 	if (shape.type == Cone)
-		local_normal = normal_at_cone(local_point);
+		local_normal = normal_at_cone(shape.cone, local_point, r);
 	world_normal = apply(transpose(inverse(shape_transform)),
 			local_normal);
 	world_normal.w = 0;

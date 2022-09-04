@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zsarir <zsarir@student.42.fr>              +#+  +:+       +#+        */
+/*   By: orahmoun <orahmoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:56:25 by zsarir            #+#    #+#             */
-/*   Updated: 2022/08/18 22:15:40 by zsarir           ###   ########.fr       */
+/*   Updated: 2022/09/04 14:12:07 by orahmoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ t_comp	prepare_computations(t_intersection i, t_ray r)
 {
 	t_comp	comp;
 
+	comp.r = r;
 	comp.t = i.t;
 	comp.shape = i.shape;
 	comp.point = ray_position(r, comp.t);
 	comp.eyev = opose(r.direction);
-	comp.normalv = normal_at(comp.shape, comp.point);
+	comp.normalv = normal_at(comp.shape, comp.point, r);
 	if (is_inside_shape(comp.normalv, comp.eyev))
 	{
 		comp.inside = true;
