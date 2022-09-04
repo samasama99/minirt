@@ -46,6 +46,18 @@ int	open_rt_file(int ac, char **av)
 	return (fd);
 }
 
+void checkParsingError(t_data data)
+{
+	if (data.isParseAmbient == false)
+		ft_exit(parse_string("pls provide the ambient"), 1);
+	if (data.isParseCamera == false)
+		ft_exit(parse_string("pls provide the camera"), 1);
+	if (data.w.amount_of_lights == 0)
+		ft_exit(parse_string("pls provide at least one light"), 1);
+	if (data.w.amount_of_shapes == 0)
+		ft_exit(parse_string("pls provide at least one shape"), 1);
+}
+
 int	main(int ac, char **av)
 {
 	const long		begin = time_now();
@@ -55,9 +67,11 @@ int	main(int ac, char **av)
 	t_data			data;
 
 	init(res, "miniRt");
-	data = (t_data){.w = {0, 0, 0, 0}};
+	data = (t_data){.w = {0, 0, 0, 0},
+		.isParseCamera = false, .isParseAmbient = false};
 	parse(&data, fd, res, split_string(read_file(fd), '\n'));
 	close(fd);
+	checkParsingError(data);	
 	correct_ambient(data.w, data.ambient);
 	printf (" \033[0;32m ----\033[0m :: The total amount of shapes %d\n",
 		data.w.amount_of_shapes);

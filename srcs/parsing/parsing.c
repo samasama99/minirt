@@ -30,11 +30,17 @@ void	parse(t_data *data, int fd, t_res res, t_optional_array lines)
 		if (arr.error || type.error == true)
 			(close(fd), ft_exit(parse_string("parsing error"), 1));
 		if (type.value == e_camera)
+		{
 			data->c = unwarp_camera(arr, res);
+			data->isParseCamera = true;
+		}
 		if (type.value == e_light)
 			data->w = add_light(data->w, unwrap_light(arr));
 		if (type.value == e_ambient)
+		{
 			data->ambient = unwrap_ambient(arr);
+			data->isParseAmbient = true;
+		}
 		if (type.value == e_sphere || type.value == e_plane
 			|| type.value == e_cylinder || type.value == e_cone)
 			data->w = add_shape(data->w, unwrap_shape(arr, type.value));

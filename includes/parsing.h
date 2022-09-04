@@ -135,6 +135,8 @@ typedef struct s_data
 {
 	t_world				w;
 	t_camera			c;
+	bool				isParseCamera;
+	bool				isParseAmbient;
 	t_material			ambient;
 }	t_data;
 
